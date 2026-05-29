@@ -20,14 +20,14 @@ export const GET = withApiRoute(
       return { unlocked: false };
     }
 
-    const { data: phase2 } = await db.from("phases").select("id").eq("name", "phase_2").maybeSingle();
+    const { data: phase1 } = await db.from("phases").select("id").eq("name", "phase_1").maybeSingle();
 
     let submissionQuery = db
       .from("submissions")
       .select("repo_url, description")
       .eq("team_id", swap.assigned_team_id);
 
-    if (phase2?.id) submissionQuery = submissionQuery.eq("phase_id", phase2.id);
+    if (phase1?.id) submissionQuery = submissionQuery.eq("phase_id", phase1.id);
 
     const { data: submission } = await submissionQuery.maybeSingle();
 

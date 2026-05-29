@@ -1,7 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { ApiError, withApiRoute } from "@/lib/api-route";
 import { DEMO_MODE } from "@/lib/demo";
-import { getMembershipForUser } from "@/lib/participant-data";
+import { ensureLeaderTeamMembership, getMembershipForUser } from "@/lib/participant-data";
 import { isCanonicalTrackName } from "@/lib/tracks";
 import { isValidUuid, parseJsonBody, sanitizeText } from "@/lib/validate";
 
@@ -51,36 +51,58 @@ export const POST = withApiRoute(
       throw new ApiError("Select a valid event track", 400);
     }
 
-    const { data: team, error: teamErr } = await db
-      .from("teams")
-      .insert({ name, leader_id: session.user.id, track_id, registered: true })
-      .select("*")
-      .single();
-
-    if (teamErr) throw new ApiError(teamErr.message, 400);
-
-    const memberRows = [{ team_id: team.id, user_id: session.user.id }];
-
+    const memberIds = [];
     if (member_emails.length) {
       const { data: users } = await db.from("users").select("id, email").in("email", member_emails);
       for (const user of users || []) {
         if (user.id === session.user.id) continue;
-        memberRows.push({ team_id: team.id, user_id: user.id });
+        memberIds.push(user.id);
       }
     }
 
-    const { error: membersErr } = await db.from("team_members").upsert(memberRows, {
-      onConflict: "team_id,user_id",
-      ignoreDuplicates: false
+    let teamId = null;
+
+    const { data: rpcTeamId, error: rpcErr } = await db.rpc("register_team_with_members", {
+      p_name: name,
+      p_leader_id: session.user.id,
+      p_track_id: track_id,
+      p_member_user_ids: memberIds
     });
-    if (membersErr) {
-      await db.from("teams").delete().eq("id", team.id);
-      throw new ApiError(membersErr.message, 400);
+
+    if (!rpcErr && rpcTeamId) {
+      teamId = rpcTeamId;
+    } else {
+      const { data: team, error: teamErr } = await db
+        .from("teams")
+        .insert({ name, leader_id: session.user.id, track_id, registered: true })
+        .select("*")
+        .single();
+
+      if (teamErr) throw new ApiError(teamErr.message, 400);
+      teamId = team.id;
+
+      const memberRows = [{ team_id: teamId, user_id: session.user.id }];
+      for (const uid of memberIds) {
+        memberRows.push({ team_id: teamId, user_id: uid });
+      }
+
+      const { error: membersErr } = await db.from("team_members").upsert(memberRows, {
+        onConflict: "team_id,user_id",
+        ignoreDuplicates: false
+      });
+
+      if (membersErr) {
+        await db.from("teams").delete().eq("id", teamId);
+        throw new ApiError(membersErr.message, 400);
+      }
     }
 
-    const { data: track } = await db.from("tracks").select("name").eq("id", track_id).maybeSingle();
+    await ensureLeaderTeamMembership(db, session.user.id, teamId);
+
+    const { data: team } = await db.from("teams").select("*").eq("id", teamId).single();
+
     await db.from("activity_feed").insert({
-      message: `A new team joined ${track?.name ? `[${track.name}]` : "[track]"}`,
+      message: `A new team joined ${trackRow?.name ? `[${trackRow.name}]` : "[track]"}`,
       public: true
     });
 

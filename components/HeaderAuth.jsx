@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ROLE_DASHBOARDS } from "@/lib/roles";
+import { normalizeRoles, ROLE_DASHBOARDS } from "@/lib/roles";
 import LogoutButton from "@/components/LogoutButton";
 
 const ROLE_LABELS = {
@@ -15,7 +15,7 @@ export default function HeaderAuth({ user }) {
     return <Link href="/login">Login</Link>;
   }
 
-  const roles = user.roles?.length ? user.roles : user.role ? [user.role] : [];
+  const roles = normalizeRoles(user);
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">

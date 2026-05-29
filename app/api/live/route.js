@@ -19,10 +19,15 @@ export const GET = withApiRoute(
         .limit(50)
     ]);
 
-    return {
+    const body = {
+      ok: true,
       phases: filterEventPhases(phases),
       activity: activity || []
     };
+
+    const res = Response.json(body);
+    res.headers.set("Cache-Control", "public, s-maxage=8, stale-while-revalidate=30");
+    return res;
   },
   { auth: false, limit: 120 }
 );

@@ -1,4 +1,5 @@
 import { ApiError, withApiRoute } from "@/lib/api-route";
+import { writeAudit } from "@/lib/audit";
 import { applyPhaseAction } from "@/lib/phase-control";
 import { isValidPhase, parseJsonBody, PHASE_ACTIONS } from "@/lib/validate";
 
@@ -26,6 +27,13 @@ export const POST = withApiRoute(
     });
 
     if (result.error) throw new ApiError(result.error, result.status);
+
+    await writeAudit(db, {
+      actorId: session.user.id,
+      action: `phase.${action}`,
+      payload: { phase, action }
+    });
+
     return { phase: result.phase, action };
   },
   { role: "organizer", limit: 30 }

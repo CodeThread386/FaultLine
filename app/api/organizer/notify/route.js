@@ -1,4 +1,5 @@
 import { ApiError, withApiRoute } from "@/lib/api-route";
+import { writeAudit } from "@/lib/audit";
 import { parseJsonBody, sanitizeText } from "@/lib/validate";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +20,12 @@ export const POST = withApiRoute(
     await db.from("activity_feed").insert({
       message: `Organizer broadcast: ${message}`,
       public: true
+    });
+
+    await writeAudit(db, {
+      actorId: session.user.id,
+      action: "notify.broadcast",
+      payload: { message_preview: message.slice(0, 120) }
     });
 
     return {};

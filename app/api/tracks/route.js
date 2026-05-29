@@ -1,11 +1,17 @@
 import { withApiRoute } from "@/lib/api-route";
-import { loadCanonicalTracks } from "@/lib/tracks";
+import { ensureCanonicalTracks, sortCanonicalTracks } from "@/lib/tracks";
 
 export const dynamic = "force-dynamic";
 
 export const GET = withApiRoute(
   async ({ db }) => {
-    const tracks = await loadCanonicalTracks(db);
+    const { data, error } = await db.from("tracks").select("*");
+    if (error) throw new Error(error.message);
+
+    let tracks = sortCanonicalTracks(data || []);
+    if (tracks.length < 5) {
+      tracks = await ensureCanonicalTracks(db);
+    }
     return { tracks };
   },
   { limit: 60 }

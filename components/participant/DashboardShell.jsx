@@ -66,8 +66,10 @@ export default function DashboardShell({ children, team, user }) {
           FAULT<span className="text-fl-text">LINE</span>
         </Link>
         <div className="flex items-center gap-4">
-          <span className="hidden font-mono text-sm text-fl-muted sm:inline">
-            #{user?.loginNumber ?? "—"}
+          <span className="hidden text-sm text-fl-muted sm:inline">
+            {DEMO_MODE
+              ? `#${user?.loginNumber ?? "—"}`
+              : user?.name || user?.email || "Participant"}
           </span>
           <LogoutButton className="rounded-md border border-fl-border px-3 py-1.5 text-sm text-fl-text hover:bg-fl-bg3" />
         </div>

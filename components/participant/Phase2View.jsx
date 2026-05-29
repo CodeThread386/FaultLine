@@ -3,7 +3,7 @@
 import Countdown from "@/components/participant/Countdown";
 import PhaseSubmissionForm from "@/components/participant/PhaseSubmissionForm";
 import { useEventSync } from "@/components/providers/EventSyncProvider";
-import { areSubmissionsOpen } from "@/lib/phase-control";
+import { areSubmissionsOpen, formatPhaseScheduleLine } from "@/lib/phase-control";
 
 const RULES = [
   "You receive a GitHub repo and a one-paragraph brief — that's all the documentation you get",
@@ -31,7 +31,9 @@ export default function Phase2View({ submission, initialSwap }) {
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-fl-border px-10 py-8">
         <div>
           <h1 className="text-[28px] font-extrabold tracking-tight">Phase 2 — The Redemption Round</h1>
-          <p className="mt-1 text-sm text-fl-muted">2:00 PM to 5:45 PM · Unlocks after lunch</p>
+          <p className="mt-1 text-sm text-fl-muted">
+            {formatPhaseScheduleLine(phase, { fallback: "Unlocks after organizer assigns swaps" })}
+          </p>
         </div>
         {open && phase?.submission_deadline && (
           <Countdown deadline={phase.submission_deadline} label="Closes in" />

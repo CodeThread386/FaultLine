@@ -2,10 +2,8 @@
 /**
  * Verifies Supabase demo data matches lib/login-codes.js (team/logins sync).
  */
-import { readFileSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
 import { createClient } from "@supabase/supabase-js";
+import { loadEnvLocal } from "./load-env.mjs";
 import {
   demoEmail,
   DEMO_TEAM_COUNT,
@@ -16,26 +14,7 @@ import {
   teamRoster
 } from "../lib/login-codes.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, "..");
-
-function loadEnv() {
-  const raw = readFileSync(resolve(root, ".env.local"), "utf8");
-  for (const line of raw.split("\n")) {
-    const t = line.trim();
-    if (!t || t.startsWith("#")) continue;
-    const i = t.indexOf("=");
-    if (i === -1) continue;
-    const key = t.slice(0, i).trim();
-    let val = t.slice(i + 1).trim();
-    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
-      val = val.slice(1, -1);
-    }
-    if (!process.env[key]) process.env[key] = val;
-  }
-}
-
-loadEnv();
+loadEnvLocal();
 
 const db = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,

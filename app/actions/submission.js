@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { userHasRole } from "@/lib/roles";
 import { getSupabaseServerClient } from "@/lib/supabase";
 import { submitTeamPhase } from "@/lib/submissions";
 
@@ -11,6 +12,9 @@ export async function submitPhaseSubmission(phaseName, formData) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return { error: "Unauthorized" };
+  }
+  if (!userHasRole(session.user, "participant")) {
+    return { error: "Forbidden" };
   }
 
   const repo_url = formData.get("repo_url")?.toString() || "";
@@ -28,7 +32,5 @@ export async function submitPhaseSubmission(phaseName, formData) {
 
   revalidatePath("/dashboard");
   revalidatePath(phaseName === "phase_1" ? "/dashboard/phase-1" : "/dashboard/phase-2");
-  revalidatePath("/dashboard/live");
-
   return { ok: true, submission: result.submission };
 }

@@ -84,7 +84,6 @@ create table if not exists reviews (
   notes text,
   submitted_at timestamp default now(),
   locked boolean default true,
-  unique(judge_id, team_id, phase_id, round),
   unique(team_id, phase_id, round)
 );
 
@@ -102,8 +101,8 @@ create table if not exists notifications (
 );
 
 create table if not exists notification_reads (
-  notification_id uuid references notifications(id),
-  user_id uuid references users(id),
+  notification_id uuid references notifications(id) on delete cascade,
+  user_id uuid references users(id) on delete cascade,
   primary key (notification_id, user_id)
 );
 

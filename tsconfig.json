@@ -3,7 +3,7 @@
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "checkJs": false,
+    "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -21,9 +21,10 @@
   },
   "include": [
     "next-env.d.ts",
-    "lib/**/*.ts",
-    "lib/**/*.js",
+    "app/**/*.{js,jsx}",
+    "components/**/*.{js,jsx}",
+    "lib/**/*.{js,jsx,ts}",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules", ".next", "scripts"]
 }

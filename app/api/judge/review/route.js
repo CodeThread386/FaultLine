@@ -35,7 +35,10 @@ export const POST = withApiRoute(
       throw new ApiError("Select team and phase", 400);
     }
 
-    const teamGate = await assertJudgeCanScoreTeam(db, body.team_id);
+    const teamGate = await assertJudgeCanScoreTeam(db, body.team_id, {
+      judgeId: session.user.id,
+      round
+    });
     if (!teamGate.ok) throw new ApiError(teamGate.error, teamGate.status);
 
     const { data: phase } = await db.from("phases").select("name").eq("id", body.phase_id).single();
@@ -56,7 +59,10 @@ export const POST = withApiRoute(
       if (existing.judge_id === session.user.id) {
         throw new ApiError("You already scored this team for this round", 409);
       }
-      throw new ApiError("This team has already been judged for this round.", 409);
+      throw new ApiError(
+        "Another judge has already scored this team for this round. Pick a different team.",
+        409
+      );
     }
 
     const row = {
@@ -79,7 +85,10 @@ export const POST = withApiRoute(
     if (!inserted.ok) {
       const msg = inserted.error?.message || "Could not save review";
       if (inserted.duplicate || isDuplicateTeamRoundError(msg)) {
-        throw new ApiError("This team has already been judged for this round.", 409);
+        throw new ApiError(
+        "Another judge has already scored this team for this round. Pick a different team.",
+        409
+      );
       }
       if (isRoundConstraintError(msg)) {
         throw new ApiError(

@@ -11,7 +11,8 @@ function shortId(uuid) {
 export default function JudgeScoreForm({ phaseName }) {
   const [tracks, setTracks] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [trackId, setTrackId] = useState("all");
+  const [trackId, setTrackId] = useState("");
+  const [judgeTrackId, setJudgeTrackId] = useState(null);
   const [teamId, setTeamId] = useState("");
   const [phaseId, setPhaseId] = useState("");
   const [activeRound, setActiveRound] = useState("visit_1");
@@ -32,6 +33,10 @@ export default function JudgeScoreForm({ phaseName }) {
       if (!res.ok) return;
 
       setTracks(d.tracks || []);
+      if (d.judge_track_id) {
+        setJudgeTrackId(d.judge_track_id);
+        setTrackId((prev) => prev || d.judge_track_id);
+      }
       const round = d.active_round || "visit_1";
       setActiveRound(round);
       setScoringOpen(d.scoring_open !== false);
@@ -53,17 +58,24 @@ export default function JudgeScoreForm({ phaseName }) {
   useEffect(() => {
     if (!phaseId) return;
     const params = new URLSearchParams({
-      track_id: trackId && trackId !== "all" ? trackId : "all",
       phase_id: phaseId,
       round: activeRound
     });
+    const isFinals = activeRound === "final_pitch";
+    if (isFinals && trackId === "all") {
+      params.set("track_id", "all");
+    } else if (trackId) {
+      params.set("track_id", trackId);
+    } else if (judgeTrackId) {
+      params.set("track_id", judgeTrackId);
+    }
     fetch(`/api/judge/teams?${params}`)
       .then((r) => r.json())
       .then((d) => {
         setTeams(d.teams || []);
         setTeamId("");
       });
-  }, [trackId, phaseId, activeRound]);
+  }, [trackId, phaseId, activeRound, judgeTrackId]);
 
   useEffect(() => {
     const init = {};
@@ -124,14 +136,16 @@ export default function JudgeScoreForm({ phaseName }) {
       )}
 
       <label className="mb-1 block font-mono text-[10px] text-fl-muted">
-        Filter by track (optional)
+        {activeRound === "final_pitch" ? "Track filter (finals)" : "Your track"}
       </label>
       <select
         className="fl-input mb-3 w-full"
-        value={trackId}
+        value={activeRound === "final_pitch" && trackId === "all" ? "all" : trackId || judgeTrackId || ""}
         onChange={(e) => setTrackId(e.target.value)}
       >
-        <option value="all">All teams — every track</option>
+        {activeRound === "final_pitch" && (
+          <option value="all">All finalists — every track</option>
+        )}
         {tracks.map((t) => (
           <option key={t.id} value={t.id}>
             {t.name}

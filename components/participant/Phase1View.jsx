@@ -3,7 +3,7 @@
 import Countdown from "@/components/participant/Countdown";
 import PhaseSubmissionForm from "@/components/participant/PhaseSubmissionForm";
 import { useEventSync } from "@/components/providers/EventSyncProvider";
-import { areSubmissionsOpen } from "@/lib/phase-control";
+import { areSubmissionsOpen, formatPhaseScheduleLine } from "@/lib/phase-control";
 
 const RULES = [
   "The system must be functional — it must run and complete the core flow without crashing",
@@ -33,7 +33,9 @@ export default function Phase1View({ team, submission }) {
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-fl-border px-10 py-8">
         <div>
           <h1 className="text-[28px] font-extrabold tracking-tight">Phase 1 — Build the Worst System</h1>
-          <p className="mt-1 text-sm text-fl-muted">{trackName} · 9:15 AM to 12:45 PM</p>
+          <p className="mt-1 text-sm text-fl-muted">
+            {trackName} · {formatPhaseScheduleLine(phase, { fallback: "Phase 1 schedule TBA" })}
+          </p>
         </div>
         {open && phase?.submission_deadline && (
           <Countdown deadline={phase.submission_deadline} label="Closes in" />

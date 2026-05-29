@@ -1,16 +1,16 @@
 import { ApiError, withApiRoute } from "@/lib/api-route";
+import { writeAudit } from "@/lib/audit";
 import { assignCircularSwaps } from "@/lib/swap";
 
 export const dynamic = "force-dynamic";
 
 export const POST = withApiRoute(
-  async ({ db }) => {
+  async ({ session, db }) => {
     const { data: phase1 } = await db.from("phases").select("id").eq("name", "phase_1").single();
     if (!phase1) throw new ApiError("Phase 1 not found", 404);
 
-    await db.from("swaps").delete().eq("phase_id", phase1.id);
-
     const { data: tracks } = await db.from("tracks").select("id, name");
+    const allRows = [];
     const summary = [];
 
     for (const track of tracks || []) {
@@ -36,17 +36,39 @@ export const POST = withApiRoute(
       }
 
       const pairs = assignCircularSwaps(eligibleTeamIds);
-      const rows = pairs.map((p) => ({ ...p, phase_id: phase1.id, unlocked: false }));
-      if (rows.length) {
+      for (const p of pairs) {
+        allRows.push({
+          receiving_team_id: p.receiving_team_id,
+          assigned_team_id: p.assigned_team_id,
+          unlocked: false
+        });
+      }
+      summary.push({ track: track.name, count: pairs.length });
+    }
+
+    const { error: rpcError } = await db.rpc("replace_swaps_for_phase", {
+      p_phase_id: phase1.id,
+      p_rows: allRows
+    });
+
+    if (rpcError) {
+      await db.from("swaps").delete().eq("phase_id", phase1.id);
+      if (allRows.length) {
+        const rows = allRows.map((r) => ({ ...r, phase_id: phase1.id }));
         const { error } = await db.from("swaps").insert(rows);
         if (error) throw new ApiError(error.message, 400);
       }
-      summary.push({ track: track.name, count: rows.length });
     }
 
     await db.from("activity_feed").insert({
       message: "Swap assignments prepared for all tracks.",
       public: false
+    });
+
+    await writeAudit(db, {
+      actorId: session.user.id,
+      action: "swaps.assign",
+      payload: { summary }
     });
 
     return { summary };

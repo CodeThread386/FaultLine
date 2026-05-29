@@ -3,9 +3,7 @@
  * Full integration smoke test (requires dev server + seeded DB).
  * Usage: npm run smoke
  */
-import { readFileSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { loadEnvLocal } from "./load-env.mjs";
 import {
   DEMO_PARTICIPANT_COUNT,
   DEMO_TEAM_COUNT,
@@ -14,31 +12,9 @@ import {
   teamRoster
 } from "../lib/login-codes.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, "..");
 const BASE = process.env.SMOKE_BASE_URL || "http://localhost:3000";
 
-function loadEnv() {
-  try {
-    const raw = readFileSync(resolve(root, ".env.local"), "utf8");
-    for (const line of raw.split("\n")) {
-      const t = line.trim();
-      if (!t || t.startsWith("#")) continue;
-      const i = t.indexOf("=");
-      if (i === -1) continue;
-      const key = t.slice(0, i).trim();
-      let val = t.slice(i + 1).trim();
-      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
-        val = val.slice(1, -1);
-      }
-      if (!process.env[key]) process.env[key] = val;
-    }
-  } catch {
-    /* optional */
-  }
-}
-
-loadEnv();
+loadEnvLocal();
 
 const results = [];
 
@@ -118,6 +94,14 @@ async function expectLoginFails(n) {
 async function main() {
   console.log(`FaultLine full smoke → ${BASE}\n`);
 
+  const providers = await fetch(`${BASE}/api/auth/providers`).then((r) => r.json()).catch(() => ({}));
+  if (!providers["login-number"]) {
+    console.error(
+      "Demo login provider missing. Set NEXT_PUBLIC_DEMO_LOGIN=true in .env.local and restart the dev server."
+    );
+    process.exit(1);
+  }
+
   // —— Public ——
   for (const path of ["/", "/login", "/live", "/login?loggedOut=1"]) {
     const res = await fetch(`${BASE}${path}`);
@@ -129,6 +113,11 @@ async function main() {
   const publicLiveData = await publicLive.json();
   if (publicLive.ok && Array.isArray(publicLiveData.phases)) pass("GET /api/live (public)");
   else fail("GET /api/live public", JSON.stringify(publicLiveData));
+
+  const healthRes = await fetch(`${BASE}/api/health`);
+  const healthData = await healthRes.json().catch(() => ({}));
+  if (healthRes.ok && healthData.ok) pass("GET /api/health");
+  else fail("GET /api/health", JSON.stringify(healthData));
 
   // —— Auth matrix ——
   for (const n of [1, 7, 18]) {
@@ -238,9 +227,12 @@ async function main() {
     else fail(`Organizer GET ${path}`, JSON.stringify(r.data));
   }
 
-  const judgeCtrl = await api(org.jar, "/api/organizer/judge-control");
-  if (judgeCtrl.data.judge_scoring_open !== false) pass("Organizer judge scoring open");
-  else fail("judge_scoring_open", String(judgeCtrl.data.judge_scoring_open));
+  const openScoring = await api(org.jar, "/api/organizer/judge-control", {
+    method: "POST",
+    body: JSON.stringify({ judge_scoring_open: true })
+  });
+  if (openScoring.data.judge_scoring_open) pass("Organizer opened judge scoring");
+  else fail("Open judge scoring", JSON.stringify(openScoring.data));
 
   const setRound = await api(org.jar, "/api/organizer/judge-control", {
     method: "POST",
@@ -258,34 +250,43 @@ async function main() {
   if (trackId) pass("Judge #20 has judge_track_id");
   else fail("judge_track_id missing", JSON.stringify(ctx.data));
 
-  const allTeams = await api(judge.jar, "/api/judge/teams?track_id=all");
-  if (allTeams.data.teams?.length === DEMO_TEAM_COUNT) {
-    pass(`Judge sees all ${DEMO_TEAM_COUNT} teams`);
-  } else fail("Judge all teams", String(allTeams.data.teams?.length));
+  const finalsTeams = await api(judge.jar, "/api/judge/teams?track_id=all&round=final_pitch");
+  if (finalsTeams.data.teams?.length === DEMO_TEAM_COUNT) {
+    pass(`Judge sees all ${DEMO_TEAM_COUNT} teams in final_pitch round`);
+  } else fail("Judge finals teams", String(finalsTeams.data.teams?.length));
 
   const judgeTeams = await api(judge.jar, `/api/judge/teams?track_id=${trackId}`);
   if (judgeTeams.data.teams?.length >= 1) pass("Judge can filter teams by track");
   else fail("Judge track filter", JSON.stringify(judgeTeams.data));
 
   const phase1Id = ctx.data.phases?.find((p) => p.name === "phase_1")?.id;
-  const bankingTeam = allTeams.data.teams?.[0];
+  const bankingTeam = judgeTeams.data.teams?.[0];
 
   if (bankingTeam && phase1Id) {
-    const judge21 = await loginAs(21);
-    const blocked = await api(judge21.jar, "/api/judge/review", {
+    const scorePayload = {
+      team_id: bankingTeam.id,
+      phase_id: phase1Id,
+      round: "visit_1",
+      scores: { functional: 5, creative_chaos: 5, architecture: 5, progress: 5 }
+    };
+
+    const first = await api(judge.jar, "/api/judge/review", {
       method: "POST",
-      body: JSON.stringify({
-        team_id: bankingTeam.id,
-        phase_id: phase1Id,
-        round: "visit_1",
-        scores: { functional: 5, creative_chaos: 5, architecture: 5, progress: 5 }
-      })
+      body: JSON.stringify(scorePayload)
+    });
+    if (first.res.ok || first.res.status === 409) {
+      pass("Judge can score visit_1 (or already scored from prior run)");
+    } else fail("Judge visit_1 save", JSON.stringify(first.data));
+
+    const blocked = await api(judge.jar, "/api/judge/review", {
+      method: "POST",
+      body: JSON.stringify(scorePayload)
     });
     if (blocked.res.status === 409) {
-      pass("Second judge cannot score already-judged team");
-    } else fail("One-judge-per-team", JSON.stringify(blocked.data));
+      pass("Judge cannot score same team+round twice");
+    } else fail("Duplicate round guard", JSON.stringify(blocked.data));
 
-    const visit2 = await api(judge21.jar, "/api/judge/review", {
+    const visit2 = await api(judge.jar, "/api/judge/review", {
       method: "POST",
       body: JSON.stringify({
         team_id: bankingTeam.id,

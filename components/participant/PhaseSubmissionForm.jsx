@@ -15,6 +15,7 @@ export default function PhaseSubmissionForm({
   const [repoUrl, setRepoUrl] = useState(initialSubmission?.repo_url || "");
   const [description, setDescription] = useState(initialSubmission?.description || "");
   const [result, setResult] = useState("");
+  const [submitOk, setSubmitOk] = useState(false);
   const [pending, startTransition] = useTransition();
 
   const open = areSubmissionsOpen(phase) && !disabled;
@@ -23,14 +24,20 @@ export default function PhaseSubmissionForm({
   const onSubmit = (e) => {
     e.preventDefault();
     setResult("");
+    setSubmitOk(false);
     const fd = new FormData();
     fd.set("repo_url", repoUrl);
     fd.set("description", description);
 
     startTransition(async () => {
       const res = await submitPhaseSubmission(phaseName, fd);
-      if (res.error) setResult(res.error);
-      else setResult("Submitted successfully.");
+      if (res.error) {
+        setSubmitOk(false);
+        setResult(res.error);
+      } else {
+        setSubmitOk(true);
+        setResult("Submitted successfully.");
+      }
     });
   };
 
@@ -85,7 +92,7 @@ export default function PhaseSubmissionForm({
         </p>
       )}
       {result && (
-        <p className={`mt-3 text-sm ${result.includes("success") ? "text-fl-green" : "text-fl-red"}`}>
+        <p className={`mt-3 text-sm ${submitOk ? "text-fl-green" : "text-fl-red"}`}>
           {result}
         </p>
       )}

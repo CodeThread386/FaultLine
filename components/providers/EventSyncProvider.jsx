@@ -57,7 +57,10 @@ export function EventSyncProvider({
           (payload) => setActivity((prev) => [payload.new, ...prev].slice(0, 50))
         )
         .subscribe();
-      return () => supabase.removeChannel(channel);
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     } catch {
       return undefined;
     }

@@ -1,4 +1,5 @@
 import { ApiError, withApiRoute } from "@/lib/api-route";
+import { writeAudit } from "@/lib/audit";
 import { getEventSettings, setEventSetting } from "@/lib/event-settings";
 import { JUDGE_ROUNDS, normalizeJudgeRound } from "@/lib/judge-rubric";
 import { parseJsonBody } from "@/lib/validate";
@@ -41,6 +42,15 @@ export const POST = withApiRoute(
       const { error } = await setEventSetting(db, "judge_scoring_open", Boolean(body.judge_scoring_open));
       if (error) throw new ApiError(error.message || String(error), 400);
     }
+
+    await writeAudit(db, {
+      actorId: session.user.id,
+      action: "judge.control",
+      payload: {
+        judge_round: body.judge_round,
+        judge_scoring_open: body.judge_scoring_open
+      }
+    });
 
     return await getEventSettings(db);
   },
