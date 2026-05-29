@@ -240,7 +240,7 @@ async function main() {
   });
   if (setRound.res.ok && setRound.data.judge_round) pass("Organizer can set judge round");
   else if (setRound.data.error?.includes("event_settings")) {
-    pass("Organizer judge round (needs migration_demo_required.sql in Supabase)");
+    pass("Organizer judge round (event_settings missing — run schema.sql)");
   } else fail("Organizer set judge round", JSON.stringify(setRound.data));
 
   // —— Judge ——

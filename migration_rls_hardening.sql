@@ -23,3 +23,5 @@ create policy "participants_update_own_submissions" on submissions
   for update using (
     team_id in (select team_id from team_members where user_id = auth.uid())
   );
+
+alter table audit_log enable row level security;

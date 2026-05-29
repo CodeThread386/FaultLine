@@ -92,7 +92,7 @@ export const POST = withApiRoute(
       }
       if (isRoundConstraintError(msg)) {
         throw new ApiError(
-          "Database round constraint is outdated. Run migration_judge_rounds_v2.sql in Supabase SQL editor, then try again.",
+          "Database round constraint is outdated. Re-apply schema.sql reviews.round check in Supabase, then try again.",
           400
         );
       }

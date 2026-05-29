@@ -49,7 +49,7 @@ create table if not exists team_members (
 
 create table if not exists phases (
   id uuid primary key default gen_random_uuid(),
-  name text unique check (name in ('phase_1', 'phase_2', 'finals')),
+  name text unique check (name in ('phase_1', 'phase_2')),
   status text check (status in ('locked', 'active', 'closed')) default 'locked',
   submission_deadline timestamp
 );
@@ -113,13 +113,22 @@ create table if not exists activity_feed (
   created_at timestamp default now()
 );
 
+create table if not exists audit_log (
+  id uuid primary key default gen_random_uuid(),
+  actor_id uuid references users(id) on delete set null,
+  action text not null,
+  payload jsonb default '{}'::jsonb,
+  created_at timestamptz default now()
+);
+
+create index if not exists idx_audit_log_created on audit_log(created_at desc);
+create index if not exists idx_audit_log_action on audit_log(action);
+
 insert into phases (name, status, submission_deadline)
 values
   ('phase_1', 'locked', null),
   ('phase_2', 'locked', null)
 on conflict (name) do nothing;
-
--- Legacy row ignored by app; safe to delete in Supabase: delete from phases where name = 'finals';
 
 insert into event_settings (key, value)
 values

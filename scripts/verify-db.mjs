@@ -53,7 +53,7 @@ async function main() {
   const { data: settings, error: settingsErr } = await db.from("event_settings").select("key, value");
   if (settingsErr?.message?.includes("event_settings")) {
     schemaIssues += 1;
-    console.log("  ⚠ event_settings table MISSING — run migration_demo_required.sql in Supabase");
+    console.log("  ⚠ event_settings table MISSING — run schema.sql in Supabase");
   } else ok("event_settings table exists");
   const { data: reviews } = await db.from("reviews").select("round").limit(500);
 
@@ -149,7 +149,7 @@ async function main() {
   if (badReviewRounds.length) {
     bad(`unknown review rounds: ${[...new Set(badReviewRounds.map((r) => r.round))].join(", ")}`);
   } else if ((reviews || []).some((r) => legacyRoundNames.has(r.round))) {
-    console.log("  ⚠ reviews use legacy round names — run migration_judge_rounds_v2.sql (app still works via fallback)");
+    console.log("  ⚠ reviews use legacy round names (app maps them; optional: normalize in Supabase)");
   } else if ((reviews || []).length) ok("review rounds use canonical names");
 
   const legacyEmails = (users || []).filter(
@@ -163,11 +163,11 @@ async function main() {
 
   console.log(`\n${failures.length ? failures.length + " data issue(s)" : "DB in sync with login-codes.js"}`);
   if (schemaIssues && strictSchema) {
-    console.log("Schema check failed (--strict-schema). Run migration_demo_required.sql");
+    console.log("Schema check failed (--strict-schema). Run schema.sql");
     process.exit(1);
   }
   if (schemaIssues) {
-    console.log("Schema warning: run migration_demo_required.sql for full organizer/judge controls.");
+    console.log("Schema warning: run schema.sql for full organizer/judge controls.");
   }
   if (failures.length) process.exit(1);
 }

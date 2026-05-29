@@ -46,5 +46,5 @@ Monitor: `https://<your-app>/api/health`
 
 ## Never in production
 
-- `npm run db:seed` / `db:seed:legacy`
+- `npm run db:seed`
 - `NEXT_PUBLIC_DEMO_LOGIN=true` (unless intentional dress rehearsal on prod URL)

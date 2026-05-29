@@ -100,7 +100,7 @@ export default function RegisterTeamPage() {
           )}
           {!tracksLoading && tracks.length === 0 && (
             <p className="text-sm text-fl-red">
-              No tracks available. Ask organizers to run seed.sql or update_tracks.sql in Supabase.
+              No tracks available. Ask organizers to run schema.sql in Supabase.
             </p>
           )}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">

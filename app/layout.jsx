@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SiteChrome from "@/components/SiteChrome";
 import Providers from "@/components/Providers";
-import DevHmrRecovery from "@/components/DevHmrRecovery";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -34,7 +33,6 @@ export default async function RootLayout({ children }) {
         className={`${syne.className} m-0 min-h-full w-full overflow-x-hidden bg-fl-bg text-fl-text antialiased`}
         suppressHydrationWarning
       >
-        <DevHmrRecovery />
         <Providers session={session}>
           <SiteChrome user={session?.user}>{children}</SiteChrome>
         </Providers>

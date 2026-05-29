@@ -1,44 +1,43 @@
 # FaultLine
 
-End-to-end event platform built with Next.js 14, NextAuth, Supabase Postgres, polling dashboards, and Realtime live feed.
+One-day hackathon platform: build the worst system → swap codebases → redemption round. Next.js 14, NextAuth, Supabase.
 
-## Demo mode (rehearsal — numeric login)
+## Quick start (rehearsal)
 
 1. `npm install`
-2. Configure `.env.local` (Supabase + `NEXTAUTH_SECRET` + `NEXTAUTH_URL`)
-3. Run `schema.sql`, `rls.sql`, `schema_indexes.sql` in Supabase
-4. Optional: `migration_login_number.sql` in Supabase
-5. Seed demo data (wipes old users/teams):
-   - `npm run db:seed`
-6. `npm run dev` → open `/login`
+2. Copy `.env.example` → `.env.local` (Supabase, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `NEXT_PUBLIC_DEMO_LOGIN=true`)
+3. Run SQL per [docs/DEPLOY_DB.md](docs/DEPLOY_DB.md)
+4. `npm run db:seed`
+5. `npm run dev` → `/login`
 
-| Role | Login numbers |
-|------|----------------|
+| Role | Demo login numbers |
+|------|-------------------|
 | Participants | `1`–`18` (6 teams × 3) |
 | Judges | `20`, `21`, `22` |
 | Organizer | `25` |
 
-No password — enter your assigned number only. Google login is disabled in demo mode. Team self-registration is off; teams are pre-seeded.
+## Production
 
-To restore email/Google login later, set `NEXT_PUBLIC_DEMO_LOGIN=false` and reconfigure `lib/auth.js`.
+See [docs/DEPLOY_VERCEL.md](docs/DEPLOY_VERCEL.md), [docs/EVENT_DAY.md](docs/EVENT_DAY.md), [docs/SECURITY_MODEL.md](docs/SECURITY_MODEL.md).
 
-## Quick Start (legacy email seed)
+- `NEXT_PUBLIC_DEMO_LOGIN` unset/false → Google OAuth (`@vitstudent.ac.in`)
+- Upstash Redis required in production
+- Never run `db:seed` on production
 
-If your database was already created before multi-role support, run `migration_multirole.sql` once before seeding.
+## Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm test` | Unit tests |
+| `npm run verify` | DB vs demo seed |
+| `npm run smoke` | Integration smoke (dev server required) |
+| `npm run check` | test + verify + smoke |
 
 ## Routes
 
 - Public: `/`, `/login`, `/live`
-- Participant: `/dashboard`, `/dashboard/register`, `/dashboard/phase-1`, `/dashboard/phase-2`, `/dashboard/notifications`
-- Judge: `/judge`
+- Participant: `/dashboard`, `/dashboard/phase-1`, `/dashboard/phase-2`, `/dashboard/notifications`
+- Judge: `/judge/phase-1`, `/judge/phase-2`
 - Organizer: `/organizer`
-
-## API
-
-All API routes are under `app/api/**` and follow role checks via NextAuth session in server handlers.
-
-## Notes
-
-- Participant APIs only return data for the signed-in user’s team (`requireRegisteredTeam`).
-- Judges can only score teams on their assigned track.
-- Re-seed anytime: `npm run db:seed` (destructive to users/teams/submissions).

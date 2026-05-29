@@ -26,7 +26,8 @@ export default function ParticipantNotificationsPanel({
   const [clearingAll, setClearingAll] = useState(false);
 
   const fetchNotifications = useCallback(async () => {
-    const res = await fetch(apiUrl, { cache: "no-store" });
+    const url = refreshKey ? `${apiUrl}?r=${refreshKey}` : apiUrl;
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Could not load notifications");
     return res.json();
   }, [apiUrl, refreshKey]);

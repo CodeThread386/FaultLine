@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "dev:webpack": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,8 +13,7 @@
     "smoke": "node scripts/smoke-test.mjs",
     "verify": "node scripts/verify-db.mjs",
     "check": "npm test && npm run verify && npm run smoke",
-    "check:schema": "node scripts/verify-db.mjs --strict-schema",
-    "db:seed:legacy": "node scripts/seed-db.mjs"
+    "check:schema": "node scripts/verify-db.mjs --strict-schema"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",

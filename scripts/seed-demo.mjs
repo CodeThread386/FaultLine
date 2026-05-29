@@ -78,14 +78,6 @@ if (!url || !key) {
 
 const db = createClient(url, key, { auth: { persistSession: false } });
 
-async function ensureLoginNumberColumn() {
-  // Best-effort: column may already exist from migration_login_number.sql
-  const { error } = await db.rpc("exec_sql", { sql: "select 1" });
-  if (error) {
-    console.log("→ Ensure migration_login_number.sql is applied in Supabase if login fails.");
-  }
-}
-
 async function wipeEventData() {
   console.log("→ Clearing old event data (including legacy email users)…");
   const steps = [
@@ -304,7 +296,6 @@ async function seedDummySubmissions(teams, phases) {
 
 async function main() {
   console.log("FaultLine DEMO seed\n");
-  await ensureLoginNumberColumn();
   await wipeEventData();
   const trackIds = await upsertTracks();
   const { teams } = await seedParticipants(trackIds);
