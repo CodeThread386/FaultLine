@@ -18,8 +18,6 @@ Set in Vercel → Project → Settings → Environment Variables.
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Public anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Yes | **Server only** — never expose to client |
-| `GOOGLE_CLIENT_ID` | Prod | When `NEXT_PUBLIC_DEMO_LOGIN` is not `true` |
-| `GOOGLE_CLIENT_SECRET` | Prod | Google Cloud OAuth client |
 | `NEXT_PUBLIC_DEMO_LOGIN` | Staging | Set `true` for rehearsal; omit or `false` for production |
 | `UPSTASH_REDIS_REST_URL` | Prod | Required in production (non-demo) |
 | `UPSTASH_REDIS_REST_TOKEN` | Prod | Pair with URL above |

@@ -96,9 +96,7 @@ async function main() {
 
   const providers = await fetch(`${BASE}/api/auth/providers`).then((r) => r.json()).catch(() => ({}));
   if (!providers["login-number"]) {
-    console.error(
-      "Demo login provider missing. Set NEXT_PUBLIC_DEMO_LOGIN=true in .env.local and restart the dev server."
-    );
+    console.error("Login-number provider missing. Restart the dev server after pulling latest auth changes.");
     process.exit(1);
   }
 

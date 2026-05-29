@@ -11,7 +11,7 @@
 
 ## Authentication
 
-- **Production:** Google OAuth; email must end with `@vitstudent.ac.in` (override via `AUTH_ALLOWED_EMAIL_DOMAIN`).
+- **Current:** Numeric login only (pre-provisioned users in DB). Google OAuth is disabled.
 - **Rehearsal:** `NEXT_PUBLIC_DEMO_LOGIN=true` enables numeric login provider.
 - Login endpoints rate-limited: 20 requests/minute/IP (`middleware.js` on `/api/auth/*`).
 - Logout: `POST /api/auth/force-logout` requires active session.

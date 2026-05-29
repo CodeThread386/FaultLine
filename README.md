@@ -20,7 +20,7 @@ One-day hackathon platform: build the worst system → swap codebases → redemp
 
 See [docs/DEPLOY_VERCEL.md](docs/DEPLOY_VERCEL.md), [docs/EVENT_DAY.md](docs/EVENT_DAY.md), [docs/SECURITY_MODEL.md](docs/SECURITY_MODEL.md).
 
-- `NEXT_PUBLIC_DEMO_LOGIN` unset/false → Google OAuth (`@vitstudent.ac.in`)
+- Auth is numeric login only (assigned numbers); Google OAuth removed for now
 - Upstash Redis required in production
 - Never run `db:seed` on production
 
