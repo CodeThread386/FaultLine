@@ -1,0 +1,7 @@
+-- Legacy email seed removed. Use demo seed instead:
+--
+--   1. Run migration_demo_required.sql in Supabase SQL editor (once, required)
+--   2. Run migration_login_number.sql (optional)
+--   3. npm run db:seed
+--
+-- Logins: 18 participants (6 teams × 3), judges 20–22, organizer 25. See /login.

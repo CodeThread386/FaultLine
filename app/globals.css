@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fl-red: #e24b4a;
+  --fl-bg: #0a0a0a;
+  --fl-bg2: #111111;
+  --fl-border: #2a2a2a;
+  --fl-muted: #888888;
+  --fl-text: #f0f0f0;
+}
+
+@layer base {
+  html {
+    @apply min-h-full w-full;
+  }
+
+  body {
+    @apply m-0 min-h-full w-full overflow-x-hidden bg-fl-bg font-syne text-fl-text antialiased;
+  }
+}
+
+@layer components {
+  .fl-label {
+    @apply font-mono text-[11px] uppercase tracking-[0.2em] text-fl-red;
+  }
+
+  .fl-block-title {
+    @apply mb-4 border-b border-fl-border pb-2 font-mono text-[13px] uppercase tracking-[0.15em] text-fl-muted;
+  }
+
+  .fl-card {
+    @apply rounded-[10px] border border-fl-border bg-fl-bg2;
+  }
+
+  .fl-input {
+    @apply mb-4 w-full rounded-md border border-fl-border bg-fl-bg3 px-3 py-2.5 font-mono text-xs text-fl-text outline-none transition focus:border-fl-red;
+  }
+
+  .fl-textarea {
+    @apply mb-4 w-full resize-y rounded-md border border-fl-border bg-fl-bg3 px-3 py-2.5 font-syne text-sm text-fl-text outline-none transition focus:border-fl-red;
+    min-height: 80px;
+  }
+
+  .fl-btn-primary {
+    @apply w-full rounded-lg bg-fl-red px-4 py-3 font-syne text-sm font-bold text-white transition hover:bg-fl-red-dark disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .fl-btn-ghost {
+    @apply rounded-lg border border-fl-border px-4 py-2 text-sm font-semibold text-fl-text transition hover:border-fl-muted hover:bg-fl-bg3;
+  }
+
+  .fl-fade-in {
+    animation: fl-fade-in 0.35s ease-out both;
+  }
+}
+
+@keyframes fl-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
