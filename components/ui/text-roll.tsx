@@ -103,6 +103,7 @@ const TextRoll: React.FC<{
       onHoverEnd={onHoverEnd}
       className={cn('relative block', className)}
       style={{
+        position: 'relative',
         lineHeight: 1,
         whiteSpace: 'nowrap',
         /**
@@ -179,18 +180,21 @@ const TextRoll: React.FC<{
       >
         {chars.map((l, i) => (
           <motion.span
-            key={i}
-            animate={enterControls}
-            initial="idle"
-            variants={{
-              idle:  { y: '120%' },
-              enter: { y: 0 },
-            }}
-            transition={{ ease: 'easeInOut', delay: getDelay(i) }}
-            style={charStyle}
-          >
-            {l === ' ' ? '\u00A0' : l}
-          </motion.span>
+          key={i}
+          animate={enterControls}
+          initial="idle"
+          variants={{
+            idle: { y: '120%' },
+            enter: { y: 0 },
+          }}
+          transition={{
+            ease: 'easeInOut',
+            delay: getDelay(i),
+          }}
+          style={charStyle}
+        >
+          {l === ' ' ? '\u00A0' : l}
+        </motion.span>
         ))}
       </div>
     </motion.span>
