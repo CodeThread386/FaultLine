@@ -1,40 +1,52 @@
 import "./globals.css";
-import { Syne, Space_Mono } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import SiteChrome from "@/components/SiteChrome";
 import Providers from "@/components/Providers";
 
-const syne = Syne({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-syne",
-  display: "swap"
-});
+import { Space_Mono, DM_Sans } from "next/font/google";
 
 const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
-  variable: "--font-mono",
-  display: "swap"
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata = {
-  title: "FaultLine",
-  description: "FaultLine technical challenge platform"
+  title: "FaultLine — Build Broken. Fix Brilliant.",
+  description:
+    "FaultLine is the reverse hackathon where teams intentionally build the worst software possible, then swap and fix each other's disasters. Two phases. Zero mercy.",
+  keywords: [
+    "hackathon",
+    "engineering",
+    "reverse hackathon",
+    "faultline",
+    "coding competition",
+  ],
 };
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className={`${syne.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${spaceMono.variable} ${dmSans.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body
-        className={`${syne.className} m-0 min-h-full w-full overflow-x-hidden bg-fl-bg text-fl-text antialiased`}
+        className="min-h-full flex flex-col"
         suppressHydrationWarning
       >
         <Providers session={session}>
-          <SiteChrome user={session?.user}>{children}</SiteChrome>
+          {children}
         </Providers>
       </body>
     </html>

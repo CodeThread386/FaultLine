@@ -6,6 +6,7 @@
     "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "ignoreDeprecations": "6.0",
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -14,17 +15,33 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
+    "baseUrl": ".",
+
     "paths": {
       "@/*": ["./*"]
     },
-    "plugins": [{ "name": "next" }]
+
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
+
   "include": [
     "next-env.d.ts",
-    "app/**/*.{js,jsx}",
-    "components/**/*.{js,jsx}",
-    "lib/**/*.{js,jsx,ts}",
+
+    "app/**/*.{js,jsx,ts,tsx}",
+    "components/**/*.{js,jsx,ts,tsx}",
+    "lib/**/*.{js,jsx,ts,tsx}",
+
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next", "scripts"]
+
+  "exclude": [
+    "node_modules",
+    ".next",
+    "scripts"
+  ]
 }
