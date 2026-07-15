@@ -20,14 +20,14 @@ create table if not exists users (
   email text unique not null,
   login_number integer unique,
   name text,
-  role text check (role in ('participant', 'judge', 'organizer')) default 'participant',
+  role text check (role in ('participant', 'organizer')) default 'participant',
   track_id uuid references tracks(id),
   created_at timestamp default now()
 );
 
 create table if not exists user_roles (
   user_id uuid references users(id) on delete cascade,
-  role text check (role in ('participant', 'judge', 'organizer')) not null,
+  role text check (role in ('participant', 'organizer')) not null,
   created_at timestamp default now(),
   primary key (user_id, role)
 );

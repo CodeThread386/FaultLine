@@ -1,9 +1,17 @@
 import "./globals.css";
-import { Syne, Space_Mono } from "next/font/google";
+import { Instrument_Serif, Syne, Space_Mono } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SiteChrome from "@/components/SiteChrome";
 import Providers from "@/components/Providers";
+
+const display = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap"
+});
 
 const syne = Syne({
   subsets: ["latin"],
@@ -28,7 +36,11 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className={`${syne.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${display.variable} ${syne.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
+    >
       <body
         className={`${syne.className} m-0 min-h-full w-full overflow-x-hidden bg-fl-bg text-fl-text antialiased`}
         suppressHydrationWarning

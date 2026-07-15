@@ -30,7 +30,7 @@ Set in Vercel → Project → Settings → Environment Variables.
 3. Set all env vars for Production and Preview.
 4. Deploy; confirm `GET /api/health` returns `{ "ok": true }`.
 5. Staging: `NEXT_PUBLIC_DEMO_LOGIN=true`, run `npm run db:seed` locally against staging DB (service role in `.env.local`).
-6. Production: pre-provision organizer/judge rows; **do not** run seed.
+6. Production: pre-provision organizer rows; **do not** run seed.
 
 ## CI
 

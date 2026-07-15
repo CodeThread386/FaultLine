@@ -127,16 +127,7 @@ async function main() {
     }
   }
 
-  for (const n of STAFF_LOGIN_NUMBERS.judges) {
-    try {
-      const { session } = await loginAs(n);
-      if (session.user.role === "judge" || session.user.roles?.includes("judge")) {
-        pass(`Judge login #${n}`);
-      } else fail(`Judge login #${n}`, `role=${session.user.role}`);
-    } catch (e) {
-      fail(`Judge login #${n}`, e.message);
-    }
-  }
+
 
   try {
     const { session } = await loginAs(STAFF_LOGIN_NUMBERS.organizer);
@@ -200,9 +191,6 @@ async function main() {
   if (p1Organizer.res.status === 403) pass("Participant blocked from organizer API");
   else fail("Organizer guard", String(p1Organizer.res.status));
 
-  const p1Judge = await api(p1.jar, "/api/judge/context");
-  if (p1Judge.res.status === 403) pass("Participant blocked from judge API");
-  else fail("Judge guard", String(p1Judge.res.status));
 
   // —— Organizer ——
   const org = await loginAs(25);
@@ -241,62 +229,7 @@ async function main() {
     pass("Organizer judge round (event_settings missing — run schema.sql)");
   } else fail("Organizer set judge round", JSON.stringify(setRound.data));
 
-  // —— Judge ——
-  const judge = await loginAs(20);
-  const ctx = await api(judge.jar, "/api/judge/context");
-  const trackId = ctx.data.judge_track_id;
-  if (trackId) pass("Judge #20 has judge_track_id");
-  else fail("judge_track_id missing", JSON.stringify(ctx.data));
 
-  const finalsTeams = await api(judge.jar, "/api/judge/teams?track_id=all&round=final_pitch");
-  if (finalsTeams.data.teams?.length === DEMO_TEAM_COUNT) {
-    pass(`Judge sees all ${DEMO_TEAM_COUNT} teams in final_pitch round`);
-  } else fail("Judge finals teams", String(finalsTeams.data.teams?.length));
-
-  const judgeTeams = await api(judge.jar, `/api/judge/teams?track_id=${trackId}`);
-  if (judgeTeams.data.teams?.length >= 1) pass("Judge can filter teams by track");
-  else fail("Judge track filter", JSON.stringify(judgeTeams.data));
-
-  const phase1Id = ctx.data.phases?.find((p) => p.name === "phase_1")?.id;
-  const bankingTeam = judgeTeams.data.teams?.[0];
-
-  if (bankingTeam && phase1Id) {
-    const scorePayload = {
-      team_id: bankingTeam.id,
-      phase_id: phase1Id,
-      round: "visit_1",
-      scores: { functional: 5, creative_chaos: 5, architecture: 5, progress: 5 }
-    };
-
-    const first = await api(judge.jar, "/api/judge/review", {
-      method: "POST",
-      body: JSON.stringify(scorePayload)
-    });
-    if (first.res.ok || first.res.status === 409) {
-      pass("Judge can score visit_1 (or already scored from prior run)");
-    } else fail("Judge visit_1 save", JSON.stringify(first.data));
-
-    const blocked = await api(judge.jar, "/api/judge/review", {
-      method: "POST",
-      body: JSON.stringify(scorePayload)
-    });
-    if (blocked.res.status === 409) {
-      pass("Judge cannot score same team+round twice");
-    } else fail("Duplicate round guard", JSON.stringify(blocked.data));
-
-    const visit2 = await api(judge.jar, "/api/judge/review", {
-      method: "POST",
-      body: JSON.stringify({
-        team_id: bankingTeam.id,
-        phase_id: phase1Id,
-        round: "visit_2",
-        scores: { functional: 7, creative_chaos: 7, architecture: 7, progress: 7 }
-      })
-    });
-    if (visit2.res.ok) pass("Same team can be judged in a different round");
-    else if (visit2.res.status === 409) pass("Visit 2 already scored for team");
-    else fail("Judge visit_2 save", JSON.stringify(visit2.data));
-  }
 
   // —— Demo registration off ——
   const reg = await api(p1.jar, "/api/team", {

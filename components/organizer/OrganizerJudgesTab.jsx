@@ -53,7 +53,7 @@ export default function OrganizerJudgesTab({ judgeCtrl, busy, act, setJudgeRound
               onClick={() => setJudgeRound(r.value)}
               className={`rounded-lg py-4 text-sm font-bold transition ${
                 activeRound === r.value
-                  ? "bg-fl-red text-white"
+                  ? "fl-pill-active"
                   : "border border-fl-border bg-fl-bg2 hover:border-fl-muted"
               }`}
             >
@@ -82,7 +82,7 @@ export default function OrganizerJudgesTab({ judgeCtrl, busy, act, setJudgeRound
                   {j.tracks?.name ? (
                     <span className="ml-2 text-fl-muted">({j.tracks.name})</span>
                   ) : (
-                    <span className="ml-2 text-amber-400">(no track)</span>
+                    <span className="ml-2 text-fl-warn">(no track)</span>
                   )}
                 </span>
                 <select
@@ -111,7 +111,7 @@ export default function OrganizerJudgesTab({ judgeCtrl, busy, act, setJudgeRound
             type="button"
             disabled={!!busy}
             onClick={() => act("Scoring open", "/api/organizer/judge-control", { judge_scoring_open: true })}
-            className="rounded-lg bg-fl-green/20 py-3 text-sm font-bold text-fl-green"
+            className="fl-btn-primary py-3"
           >
             Allow scoring
           </button>
@@ -119,7 +119,7 @@ export default function OrganizerJudgesTab({ judgeCtrl, busy, act, setJudgeRound
             type="button"
             disabled={!!busy}
             onClick={() => act("Scoring closed", "/api/organizer/judge-control", { judge_scoring_open: false })}
-            className="rounded-lg bg-fl-red/20 py-3 text-sm font-bold text-fl-red"
+            className="fl-btn-ghost py-3"
           >
             Pause scoring
           </button>

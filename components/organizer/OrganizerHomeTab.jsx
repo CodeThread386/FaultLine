@@ -1,14 +1,12 @@
 "use client";
 
 import { formatDeadline, getPhaseDisplayStatus } from "@/lib/phase-control";
-import { JUDGE_ROUNDS, normalizeJudgeRound } from "@/lib/judge-rubric";
 import { MAX_PHASE_SCORE, MAX_TOTAL_SCORE } from "@/lib/team-scoring";
 import { PHASE_ORDER, PHASE_UI } from "@/components/organizer/useOrganizerConsole";
 
-export default function OrganizerHomeTab({ overview, judgeCtrl, scoreFilter, setScoreFilter }) {
+export default function OrganizerHomeTab({ overview, scoreFilter, setScoreFilter }) {
   const stats = overview?.stats;
   const phases = overview?.phases || [];
-  const activeRound = normalizeJudgeRound(judgeCtrl?.judge_round || "visit_1");
 
   const scoreKey =
     scoreFilter === "phase_1" ? "phase_1_marks" : scoreFilter === "phase_2" ? "phase_2_marks" : "total_marks";
@@ -21,7 +19,7 @@ export default function OrganizerHomeTab({ overview, judgeCtrl, scoreFilter, set
       {stats && (
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="fl-card p-4 text-center">
-            <div className="text-3xl font-extrabold text-fl-red">{stats.registered_count}</div>
+            <div className="fl-display text-3xl text-fl-accent">{stats.registered_count}</div>
             <div className="text-xs text-fl-muted">Teams registered</div>
           </div>
           <div className="fl-card p-4 text-center">
@@ -54,11 +52,11 @@ export default function OrganizerHomeTab({ overview, judgeCtrl, scoreFilter, set
                   </div>
                 </div>
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-bold ${
+                  className={`rounded-sm px-3 py-1 font-mono text-[10px] uppercase tracking-caption ${
                     display.code === "open"
-                      ? "bg-fl-green/15 text-fl-green"
+                      ? "fl-status-open"
                       : display.code === "stopped" || display.code === "deadline"
-                        ? "bg-fl-red/15 text-fl-red"
+                        ? "fl-status-closed"
                         : "bg-fl-bg3 text-fl-muted"
                   }`}
                 >
@@ -72,11 +70,10 @@ export default function OrganizerHomeTab({ overview, judgeCtrl, scoreFilter, set
       </div>
 
       <div className="fl-card p-4">
-        <div className="fl-block-title mb-2">Active judge round</div>
-        <p className="text-sm font-bold text-fl-red">
-          {JUDGE_ROUNDS.find((r) => r.value === activeRound)?.label || activeRound}
+        <div className="fl-block-title mb-2">Scoring</div>
+        <p className="text-sm text-fl-muted">
+          Enter marks under the Marks tab — 3 rounds per phase (visit 1, visit 2, final pitch).
         </p>
-        <p className="mt-1 text-xs text-fl-muted">3 rounds per phase · change under Judges tab</p>
       </div>
 
       <div className="fl-card p-4">
@@ -92,7 +89,7 @@ export default function OrganizerHomeTab({ overview, judgeCtrl, scoreFilter, set
               type="button"
               onClick={() => setScoreFilter(f.id)}
               className={`flex-1 rounded-lg py-2 text-xs font-bold transition ${
-                scoreFilter === f.id ? "bg-fl-red text-white" : "bg-fl-bg3 text-fl-muted"
+                scoreFilter === f.id ? "fl-pill-active" : "bg-fl-bg3 text-fl-muted"
               }`}
             >
               {f.label}

@@ -64,16 +64,11 @@ async function main() {
   }
 
   const participantUsers = (users || []).filter((u) => roleByUser.get(u.id)?.includes("participant"));
-  const judgeUsers = (users || []).filter((u) => roleByUser.get(u.id)?.includes("judge"));
   const orgUsers = (users || []).filter((u) => roleByUser.get(u.id)?.includes("organizer"));
 
   if (participantUsers.length === DEMO_PARTICIPANT_COUNT) {
     ok(`${DEMO_PARTICIPANT_COUNT} participant users`);
   } else bad(`expected ${DEMO_PARTICIPANT_COUNT} participants, got ${participantUsers.length}`);
-
-  if (judgeUsers.length === STAFF_LOGIN_NUMBERS.judges.length) {
-    ok(`${judgeUsers.length} judges`);
-  } else bad(`expected ${STAFF_LOGIN_NUMBERS.judges.length} judges`);
 
   if (orgUsers.length === 1) ok("1 organizer");
   else bad(`expected 1 organizer, got ${orgUsers.length}`);
@@ -167,7 +162,7 @@ async function main() {
     process.exit(1);
   }
   if (schemaIssues) {
-    console.log("Schema warning: run schema.sql for full organizer/judge controls.");
+    console.log("Schema warning: run schema.sql for full organizer controls.");
   }
   if (failures.length) process.exit(1);
 }

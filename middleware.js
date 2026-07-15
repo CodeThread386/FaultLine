@@ -38,8 +38,11 @@ export async function middleware(req) {
     return redirectToDashboard(req, roles);
   }
 
-  if (pathname === "/post-login" && token && roles.length > 1) {
-    return NextResponse.redirect(new URL("/choose-role", req.url));
+  if (pathname === "/post-login" && token) {
+    if (roles.length > 1) {
+      return NextResponse.redirect(new URL("/choose-role", req.url));
+    }
+    return redirectToDashboard(req, roles);
   }
 
   if (pathname.startsWith("/dashboard") && !hasRole("participant")) {
@@ -47,14 +50,6 @@ export async function middleware(req) {
     return redirectToDashboard(req, roles);
   }
 
-  if (pathname === "/judge" && hasRole("judge")) {
-    return NextResponse.redirect(new URL("/judge/phase-1", req.url));
-  }
-
-  if (pathname.startsWith("/judge") && !hasRole("judge")) {
-    if (!token) return NextResponse.redirect(new URL("/login", req.url));
-    return redirectToDashboard(req, roles);
-  }
 
   if (pathname.startsWith("/organizer") && !hasRole("organizer")) {
     if (!token) return NextResponse.redirect(new URL("/login", req.url));
@@ -76,7 +71,6 @@ export const config = {
   matcher: [
     "/api/auth/:path*",
     "/dashboard/:path*",
-    "/judge/:path*",
     "/organizer/:path*",
     "/login",
     "/choose-role",

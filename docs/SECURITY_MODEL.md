@@ -18,9 +18,9 @@
 
 ## Authorization
 
-- Middleware enforces role → route (`participant`, `judge`, `organizer`).
+- Middleware enforces role → route (`participant`, `organizer`).
 - API routes use `withApiRoute({ role })` where required.
-- Judges: track enforced server-side on team list and scoring (except `final_pitch` = all teams).
+- Organizer: track enforced server-side on team list and scoring.
 - Participants: team-scoped via `team_members` / `requireRegisteredTeam`.
 
 ## Database

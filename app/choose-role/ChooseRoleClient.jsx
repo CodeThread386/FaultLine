@@ -10,20 +10,23 @@ const LABELS = {
 
 export default function ChooseRoleClient({ roles, email }) {
   return (
-    <section className="mx-auto max-w-lg space-y-4 rounded border border-slate-800 p-6">
-      <h1 className="text-2xl font-semibold">Choose your panel</h1>
-      <p className="text-sm text-slate-300">
-        Signed in as <span className="text-slate-100">{email}</span>. You have multiple roles.
-      </p>
-      <div className="grid gap-3">
+    <section className="fl-fade-up fl-glass space-y-8 rounded-sm border border-fl-border p-8 md:p-10">
+      <div>
+        <p className="fl-label mb-3">Multiple roles</p>
+        <h1 className="fl-display text-4xl">Choose your panel</h1>
+        <p className="mt-3 text-sm text-fl-muted">
+          Signed in as <span className="text-fl-text">{email}</span>. Select where to go.
+        </p>
+      </div>
+      <div className="grid gap-px border border-fl-border bg-fl-border">
         {roles.map((role) => (
           <a
             key={role}
             href={ROLE_DASHBOARDS[role]}
-            className="rounded border border-slate-700 bg-slate-900 px-4 py-3 hover:border-cyan-500"
+            className="fl-hover-lift block bg-fl-bg2 px-6 py-5 transition hover:bg-fl-bg3"
           >
-            <p className="font-medium text-cyan-300">{LABELS[role] || role}</p>
-            <p className="text-xs text-slate-400">{ROLE_DASHBOARDS[role]}</p>
+            <p className="font-semibold text-fl-text">{LABELS[role] || role}</p>
+            <p className="mt-1 font-mono text-[11px] text-fl-muted">{ROLE_DASHBOARDS[role]}</p>
           </a>
         ))}
       </div>

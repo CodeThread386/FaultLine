@@ -28,13 +28,13 @@ export default function Countdown({ deadline, label = "Closes in", className = "
   }, [deadline]);
 
   if (compact) {
-    return <span className={`font-mono text-2xl font-bold text-fl-red ${className}`}>{remaining}</span>;
+    return <span className={`font-mono text-2xl font-bold text-fl-accent ${className}`}>{remaining}</span>;
   }
 
   return (
     <div className={`fl-card px-6 py-4 text-center ${className}`}>
       {label ? <div className="fl-label mb-2">{label}</div> : null}
-      <div className="font-mono text-3xl font-bold text-fl-red">{remaining}</div>
+      <div className="font-mono text-3xl font-bold text-fl-accent">{remaining}</div>
     </div>
   );
 }

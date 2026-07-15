@@ -33,12 +33,12 @@ export default function LiveScheduleView() {
   return (
     <>
       <div className="border-b border-fl-border px-10 py-8">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-fl-red/30 bg-fl-red/10 px-3 py-1 font-mono text-xs text-fl-red">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-fl-red" />
+        <div className="mb-3 inline-flex items-center gap-2 rounded-sm border border-fl-border bg-fl-bg3 px-3 py-1 font-mono text-[10px] uppercase tracking-caption text-fl-accent">
+          <span className="fl-live-dot" />
           LIVE
           {activePhase ? ` — ${PHASE_LABELS[activePhase.name] || activePhase.name}` : ""}
         </div>
-        <h1 className="text-[28px] font-extrabold tracking-tight">Schedule + Live View</h1>
+        <h1 className="fl-display text-[clamp(1.75rem,4vw,2.25rem)]">Schedule + Live View</h1>
         <p className="mt-1 text-sm text-fl-muted">Real-time phase status and activity feed</p>
       </div>
 
@@ -50,10 +50,10 @@ export default function LiveScheduleView() {
               <div key={item.time} className="relative mb-8">
                 <div
                   className={`absolute -left-[31px] top-1 h-2.5 w-2.5 rounded-full border-2 ${
-                    i === 0 && activePhase ? "border-fl-red bg-fl-red" : "border-fl-border bg-fl-bg2"
+                    i === 0 && activePhase ? "border-fl-accent bg-fl-accent" : "border-fl-border bg-fl-bg2"
                   }`}
                 />
-                <div className="font-mono text-[11px] text-fl-red">{item.time}</div>
+                <div className="font-mono text-[10px] uppercase tracking-caption text-fl-muted">{item.time}</div>
                 <div className="font-semibold">{item.title}</div>
                 <div className="text-sm text-fl-muted">{item.desc}</div>
               </div>
@@ -66,11 +66,11 @@ export default function LiveScheduleView() {
               <div key={phase.id} className="flex items-center justify-between fl-card px-4 py-3">
                 <span className="font-semibold text-sm">{PHASE_LABELS[phase.name] || phase.name}</span>
                 <span
-                  className={`rounded px-2 py-0.5 font-mono text-[10px] uppercase ${
+                  className={`rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-caption ${
                     phase.status === "active"
-                      ? "bg-fl-green/10 text-fl-green"
+                      ? "fl-status-open"
                       : phase.status === "closed"
-                        ? "bg-fl-red/10 text-fl-red"
+                        ? "fl-status-closed"
                         : "bg-fl-bg3 text-fl-muted"
                   }`}
                 >

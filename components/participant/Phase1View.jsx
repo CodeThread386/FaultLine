@@ -32,7 +32,7 @@ export default function Phase1View({ team, submission }) {
     <>
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-fl-border px-10 py-8">
         <div>
-          <h1 className="text-[28px] font-extrabold tracking-tight">Phase 1 — Build the Worst System</h1>
+          <h1 className="fl-display text-[clamp(1.75rem,4vw,2.25rem)]">Phase 1 — Build the Worst System</h1>
           <p className="mt-1 text-sm text-fl-muted">
             {trackName} · {formatPhaseScheduleLine(phase, { fallback: "Phase 1 schedule TBA" })}
           </p>
@@ -46,7 +46,7 @@ export default function Phase1View({ team, submission }) {
         <div>
           <section className="mb-8">
             <div className="fl-block-title">Track Spec</div>
-            <div className="rounded-lg border border-fl-border border-l-[3px] border-l-fl-red bg-fl-bg2 p-5">
+            <div className="fl-card fl-accent-bar p-5">
               <p className="text-sm leading-relaxed text-fl-muted">
                 Your system must meet the <strong className="text-fl-text">minimum functional requirements</strong>{" "}
                 for {trackName}. Everything else — how broken, confusing, or architecturally cursed it is — is
@@ -63,7 +63,7 @@ export default function Phase1View({ team, submission }) {
             <div className="space-y-3">
               {RULES.map((rule, i) => (
                 <div key={rule} className="flex gap-3 text-sm leading-relaxed">
-                  <span className="shrink-0 font-mono text-[11px] text-fl-red">
+                  <span className="shrink-0 font-mono text-[10px] text-fl-muted">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>{rule}</span>

@@ -19,7 +19,7 @@ export default function LogoutButton({ className = "" }) {
       disabled={loading}
       className={
         className ||
-        "rounded border border-slate-700 px-3 py-1.5 text-slate-200 transition hover:bg-slate-800 disabled:opacity-60"
+        "rounded-sm border border-fl-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-caption text-fl-muted transition hover:border-fl-muted hover:bg-fl-bg3 hover:text-fl-text disabled:opacity-60"
       }
     >
       {loading ? "Logging out..." : "Logout"}

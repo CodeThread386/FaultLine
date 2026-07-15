@@ -70,7 +70,7 @@ export default function ParticipantNotificationsPanel({
     <div className={embedded ? "border-b border-fl-border px-4 py-5" : "border-b border-fl-border px-10 py-8"}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className={embedded ? "text-lg font-extrabold tracking-tight" : "text-2xl font-extrabold tracking-tight"}>
+          <h2 className={embedded ? "fl-display text-lg" : "fl-display text-2xl"}>
             Notifications
           </h2>
           <p className="mt-1 text-sm text-fl-muted">
@@ -92,7 +92,7 @@ export default function ParticipantNotificationsPanel({
             type="button"
             disabled={clearingAll || !!deletingId}
             onClick={removeAll}
-            className="shrink-0 rounded-md border border-fl-red/40 px-3 py-1.5 text-xs font-bold text-fl-red hover:bg-fl-red/10 disabled:opacity-50"
+            className="shrink-0 rounded-sm border border-fl-border px-3 py-1.5 text-xs font-bold text-fl-accent hover:bg-fl-bg3 disabled:opacity-50"
           >
             {clearingAll ? "Clearing…" : "Clear all"}
           </button>
@@ -117,7 +117,7 @@ export default function ParticipantNotificationsPanel({
             className="flex gap-4 border-b border-fl-border py-5 last:border-0"
           >
             <div
-              className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${n.read ? "bg-fl-border" : "bg-fl-red"}`}
+              className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${n.read ? "bg-fl-border" : "bg-fl-accent"}`}
             />
             <div className="min-w-[80px] shrink-0 font-mono text-[11px] text-fl-muted">
               {formatTime(n.created_at)}
@@ -130,7 +130,7 @@ export default function ParticipantNotificationsPanel({
                 type="button"
                 disabled={deletingId === n.id || clearingAll}
                 onClick={() => removeOne(n.id)}
-                className="shrink-0 self-start rounded px-2 py-1 text-xs font-semibold text-fl-muted hover:bg-fl-bg3 hover:text-fl-red disabled:opacity-50"
+                className="shrink-0 self-start rounded px-2 py-1 text-xs font-semibold text-fl-muted hover:bg-fl-bg3 hover:text-fl-accent disabled:opacity-50"
                 title="Remove for all participants"
               >
                 {deletingId === n.id ? "…" : "Remove"}

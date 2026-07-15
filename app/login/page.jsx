@@ -5,9 +5,10 @@ export const dynamic = "force-dynamic";
 
 function LoginFallback() {
   return (
-    <section className="mx-auto max-w-lg space-y-6 rounded border border-slate-800 p-6">
-      <h1 className="text-2xl font-semibold">FaultLine</h1>
-      <p className="text-sm text-slate-400">Loading…</p>
+    <section className="fl-glass space-y-6 rounded-sm border border-fl-border p-8">
+      <p className="fl-label">Authentication</p>
+      <h1 className="fl-display text-4xl">Sign in</h1>
+      <p className="text-sm text-fl-muted">Loading…</p>
     </section>
   );
 }

@@ -121,7 +121,7 @@ export default function OrganizerParticipantsTab({
               <span className="text-fl-muted">{t.tracks?.name || "—"}</span>
               <span className="font-mono text-xs text-fl-muted">
                 P1 {t.phase_1_marks ?? 0}/{MAX_PHASE_SCORE} + P2 {t.phase_2_marks ?? 0}/{MAX_PHASE_SCORE} ={" "}
-                <span className="text-fl-red">
+                <span className="text-fl-accent">
                   {t.total_marks ?? 0}/{MAX_TOTAL_SCORE}
                 </span>
               </span>

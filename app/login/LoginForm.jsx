@@ -49,66 +49,88 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="mx-auto max-w-lg space-y-6 rounded border border-slate-800 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold">FaultLine</h1>
-        <p className="mt-2 text-sm text-slate-300">
-          Enter your assigned login number to continue.
-        </p>
-      </div>
+    <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden bg-black text-white fl-dot-grid">
+      <div className="fl-scanline"></div>
+      
+      {/* Target Reticles */}
+      <svg className="absolute top-10 left-10 w-32 h-32 opacity-30 animate-spin-slow pointer-events-none" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="2" strokeDasharray="10,5"/>
+        <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="1"/>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="1"/>
+      </svg>
 
-      {loggedOut && (
-        <p className="rounded bg-emerald-950/70 p-2 text-sm text-emerald-300">Logged out.</p>
-      )}
-      {(error || message) && (
-        <p className="rounded bg-red-950/70 p-2 text-sm text-red-300">
-          {message || decodeURIComponent(error)}
-        </p>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="loginNumber" className="mb-1 block text-sm text-slate-400">
-            Login number
-          </label>
-          <input
-            id="loginNumber"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            autoComplete="off"
-            className="w-full rounded border border-slate-700 bg-slate-900 px-3 py-3 text-center font-mono text-2xl tracking-widest text-white"
-            placeholder="e.g. 7"
-            value={loginNumber}
-            onChange={(e) => setLoginNumber(e.target.value.replace(/\D/g, ""))}
-            required
-          />
+      <svg className="absolute bottom-10 right-10 w-48 h-48 opacity-20 pointer-events-none mix-blend-difference" viewBox="0 0 100 100">
+        <rect x="10" y="10" width="80" height="80" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,20" className="animate-spin-slow"/>
+        <rect x="20" y="20" width="60" height="60" fill="none" stroke="white" strokeWidth="1"/>
+      </svg>
+      
+      <section className="w-full relative z-10 flex flex-col items-center">
+        <div className="mb-16 relative w-full flex justify-center group perspective-1000">
+          <h1 className="fl-display text-[8rem] md:text-[14rem] tracking-tighter text-white mix-blend-difference leading-[0.7] transform group-hover:-rotate-6 transition-transform duration-500 relative z-20" style={{ letterSpacing: "-0.1em" }}>
+            <span className="block transform -translate-x-12 animate-jitter opacity-90">LOG</span>
+            <span className="block text-transparent transform translate-x-12 -translate-y-8" style={{ WebkitTextStroke: "4px white" }}>
+              IN
+            </span>
+          </h1>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[5vh] bg-white mix-blend-difference rotate-12 animate-shake z-10 pointer-events-none"></div>
         </div>
-        <button
-          type="submit"
-          disabled={loading || !loginNumber}
-          className="w-full rounded bg-cyan-500 px-3 py-2 font-medium text-slate-950 disabled:opacity-50"
-        >
-          {loading ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
 
-      <div className="space-y-3 border-t border-slate-800 pt-4 text-xs text-slate-400">
-        <p>
-          <span className="font-semibold text-slate-300">
-            Participants ({DEMO_PARTICIPANT_COUNT}):
-          </span>{" "}
-          {participantNums[0]}–{participantNums[participantNums.length - 1]} — {DEMO_TEAM_COUNT}{" "}
-          teams, {MEMBERS_PER_TEAM} members each (e.g. {roster[0]?.logins.join(", ")} = team 1).
-        </p>
-        <p>
-          <span className="font-semibold text-slate-300">Judges:</span>{" "}
-          {STAFF_LOGIN_NUMBERS.judges.join(", ")}
-        </p>
-        <p>
-          <span className="font-semibold text-slate-300">Organizer:</span>{" "}
-          {STAFF_LOGIN_NUMBERS.organizer}
-        </p>
-      </div>
-    </section>
+        <div className="fl-card p-12 md:p-16 w-[95vw] md:w-full md:px-32 transform -rotate-2 hover:rotate-1 transition-transform relative z-30 bg-black border-[12px] border-white">
+          {loggedOut && (
+            <p className="mb-8 border-l-8 border-white pl-4 py-2 text-xl font-display uppercase font-black text-white animate-jitter">
+              SESSION DESTROYED.
+            </p>
+          )}
+          {(error || message) && (
+            <p className="mb-8 border-l-8 border-white bg-white text-black pl-4 py-2 text-xl font-display uppercase font-black animate-shake shadow-[8px_8px_0_0_#ffffff]">
+              {message || decodeURIComponent(error)}
+            </p>
+          )}
+
+          <form className="w-full" onSubmit={handleSubmit}>
+            <div className="mb-12 relative group">
+              <label htmlFor="loginNumber" className="block text-3xl font-display uppercase font-black text-white mix-blend-difference mb-4 transform -skew-x-12">
+                CLEARANCE CODE
+              </label>
+              <input
+                id="loginNumber"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                autoComplete="off"
+                className="w-full bg-transparent border-b-8 border-white py-6 text-left text-[5rem] font-display font-black text-white placeholder:text-white/20 focus:outline-none focus:bg-white focus:text-black transition-colors leading-none"
+                placeholder="000"
+                value={loginNumber}
+                onChange={(e) => setLoginNumber(e.target.value.replace(/\D/g, ""))}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="fl-btn-primary w-full transform rotate-1 hover:-rotate-1 text-4xl py-8"
+            >
+              {loading ? <span className="animate-jitter inline-block">{"///"}</span> : <>EXECUTE {"//"} LOGIN</>}
+            </button>
+          </form>
+
+          <div className="mt-16 pt-8 text-sm font-display uppercase tracking-widest text-white/50 w-full relative">
+            <div className="absolute top-0 left-[-2rem] right-[-2rem] border-t-4 border-dashed border-white/50"></div>
+            <p className="mb-4">
+              <span className="text-white font-black text-lg bg-white/20 px-2">&gt; PARTICIPANTS ({DEMO_PARTICIPANT_COUNT})</span>
+              <br /><br />
+              {participantNums[0]}–{participantNums[participantNums.length - 1]} {"//"} {DEMO_TEAM_COUNT}{" "}
+              TEAMS, {MEMBERS_PER_TEAM} MEMBERS (e.g. {roster[0]?.logins.join(", ")} = TEAM 1).
+            </p>
+
+            <p>
+              <span className="text-white font-black text-lg bg-white/20 px-2">&gt; ROOT_ACCESS</span>
+              <br /><br />
+              {STAFF_LOGIN_NUMBERS.organizer}
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

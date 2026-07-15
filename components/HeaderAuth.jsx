@@ -12,14 +12,24 @@ const ROLE_LABELS = {
 
 export default function HeaderAuth({ user }) {
   if (!user) {
-    return <Link href="/login">Login</Link>;
+    return (
+      <Link
+        href="/login"
+        className="font-mono text-[11px] uppercase tracking-caption text-fl-text transition hover:text-fl-accent"
+      >
+        Login
+      </Link>
+    );
   }
 
   const roles = normalizeRoles(user);
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-      <span className="hidden font-mono max-w-[180px] truncate sm:inline" title={user.email}>
+      <span
+        className="hidden max-w-[180px] truncate font-mono text-[11px] text-fl-muted sm:inline"
+        title={user.email}
+      >
         {user.loginNumber != null ? `#${user.loginNumber}` : user.email}
       </span>
       {roles.length > 1 ? (
@@ -28,7 +38,7 @@ export default function HeaderAuth({ user }) {
             <Link
               key={role}
               href={ROLE_DASHBOARDS[role]}
-              className="rounded bg-slate-800 px-2 py-0.5 text-xs text-cyan-300 hover:bg-slate-700"
+              className="rounded-sm border border-fl-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-caption text-fl-text transition hover:border-fl-muted hover:bg-fl-bg3"
             >
               {ROLE_LABELS[role] || role}
             </Link>
@@ -36,7 +46,7 @@ export default function HeaderAuth({ user }) {
         </div>
       ) : (
         roles.length > 0 && (
-          <span className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400">
+          <span className="rounded-sm border border-fl-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-caption text-fl-muted">
             {roles.join(", ")}
           </span>
         )

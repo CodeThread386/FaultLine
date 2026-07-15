@@ -60,10 +60,11 @@ export default function DashboardShell({ children, team, user }) {
   const meta = getTrackMeta(track?.name || "");
 
   return (
-    <div className="flex min-h-screen flex-col bg-fl-bg">
-      <header className="flex h-14 shrink-0 items-center justify-between border-b border-fl-border bg-fl-bg/95 px-6 backdrop-blur-md">
-        <Link href="/dashboard" className="text-xl font-extrabold tracking-tight text-fl-red">
-          FAULT<span className="text-fl-text">LINE</span>
+    <div className="fl-page-bg flex min-h-screen flex-col">
+      <header className="flex h-14 shrink-0 items-center justify-between border-b border-fl-border bg-fl-bg/80 px-6 backdrop-blur-xl">
+        <Link href="/dashboard" className="fl-wordmark">
+          <span className="fl-wordmark-accent">Fault</span>
+          <span className="text-fl-muted">Line</span>
         </Link>
         <div className="flex items-center gap-4">
           <span className="hidden text-sm text-fl-muted sm:inline">
@@ -76,11 +77,11 @@ export default function DashboardShell({ children, team, user }) {
       </header>
 
       <div className="flex min-h-0 flex-1">
-        <aside className="w-[220px] shrink-0 border-r border-fl-border bg-fl-bg2 p-4">
+        <aside className="w-[220px] shrink-0 border-r border-fl-border bg-fl-bg2/90 p-4 backdrop-blur-sm">
           {team ? (
-            <div className="mb-6 rounded-lg bg-fl-bg3 p-4">
+            <div className="mb-6 fl-glass rounded-sm p-4">
               <div className="text-sm font-bold">{team.name}</div>
-              <div className="mt-1 font-mono text-[11px] text-fl-red">
+              <div className="mt-1 font-mono text-[11px] text-fl-accent">
                 {meta.icon} {track?.name || "Track"}
               </div>
             </div>
@@ -109,7 +110,7 @@ export default function DashboardShell({ children, team, user }) {
                   <NavIcon type={item.icon} />
                   {item.label}
                   {showBadge && (
-                    <span className="ml-auto rounded-full bg-fl-red px-1.5 font-mono text-[10px] text-white">
+                    <span className="ml-auto rounded-full bg-fl-text px-1.5 font-mono text-[10px] text-fl-bg">
                       {unreadCount}
                     </span>
                   )}
@@ -120,7 +121,7 @@ export default function DashboardShell({ children, team, user }) {
             {!DEMO_MODE && !team?.registered && (
               <Link
                 href="/dashboard/register"
-                className={`mt-2 flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-semibold text-fl-red transition hover:bg-fl-bg3 ${
+                className={`mt-2 flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-semibold text-fl-accent transition hover:bg-fl-bg3 ${
                   pathname === "/dashboard/register" ? "bg-fl-bg3" : ""
                 }`}
               >

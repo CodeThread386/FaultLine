@@ -44,10 +44,10 @@ export default function PhaseSubmissionForm({
   return (
     <form onSubmit={onSubmit} className={`fl-card p-6 fl-fade-in ${closed ? "opacity-60" : ""}`}>
       <div
-        className={`mb-4 inline-flex items-center gap-1.5 rounded px-2.5 py-1 font-mono text-[11px] ${
+        className={`mb-4 inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 font-mono text-[10px] uppercase tracking-caption ${
           initialSubmission?.repo_url || repoUrl
-            ? "border border-fl-green/30 bg-fl-green/10 text-fl-green"
-            : "border border-fl-amber/30 bg-fl-amber/10 text-fl-amber"
+            ? "fl-status-open"
+            : "fl-status-pending"
         }`}
       >
         {initialSubmission?.repo_url || repoUrl ? "● Submitted" : "● Not submitted"}
@@ -92,7 +92,7 @@ export default function PhaseSubmissionForm({
         </p>
       )}
       {result && (
-        <p className={`mt-3 text-sm ${submitOk ? "text-fl-green" : "text-fl-red"}`}>
+        <p className={`mt-3 text-sm ${submitOk ? "text-fl-success" : "text-fl-accent"}`}>
           {result}
         </p>
       )}

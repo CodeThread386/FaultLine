@@ -26,7 +26,7 @@ npm run verify         # demo data (staging only, after seed)
 
 | Environment | Command |
 |-------------|---------|
-| **Production** | Never run `npm run db:seed`. Pre-create users/judges in Supabase. |
+| **Production** | Never run `npm run db:seed`. Pre-create users/organizers in Supabase. |
 | **Staging / rehearsal** | `NEXT_PUBLIC_DEMO_LOGIN=true` then `npm run db:seed` once |
 
 ## Repair

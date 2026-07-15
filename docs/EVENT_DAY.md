@@ -6,7 +6,7 @@
 - [ ] Vercel production env set (`NEXT_PUBLIC_DEMO_LOGIN` **not** `true`)
 - [ ] `UPSTASH_REDIS_*` configured
 - [ ] `GET /api/health` returns `{ "ok": true }`
-- [ ] Pre-create organizer + judge users in Supabase with `user_roles` and judge `track_id`
+- [ ] Pre-create organizer user in Supabase with `user_roles`
 - [ ] **Do not** run `npm run db:seed` on production
 
 ## T-1 hour
@@ -14,7 +14,7 @@
 - [ ] Staging smoke: `SMOKE_BASE_URL=https://staging... npm run smoke`
 - [ ] Set Phase 1 deadline in organizer panel
 - [ ] Start Phase 1 (organizer → Participants → Phase control)
-- [ ] Set active judge round to **In-person visit 1**
+- [ ] Set active scoring round to **In-person visit 1**
 - [ ] Confirm scoring gate: **Allow scoring**
 
 ## During Phase 1
@@ -32,7 +32,7 @@
 
 ## Phase 2 + finals round
 
-- Same judging pattern; `final_pitch` round shows all teams to judges
+- Same scoring pattern; `final_pitch` round shows all teams to organizer
 - Stop Phase 2 at cutoff
 
 ## Rollback
@@ -59,6 +59,6 @@ curl -s https://<staging>/api/health | jq .
 Manual paths:
 
 - [ ] Participant login → dashboard → Phase 1 submit
-- [ ] Judge login → score one team → blocked on second judge same round
+- [ ] Organizer login → score one team
 - [ ] Organizer → broadcast → appears on participant notifications
 - [ ] Organizer → phase start/stop

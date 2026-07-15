@@ -13,7 +13,7 @@ export const PHASE_UI = {
 export const ORGANIZER_TABS = [
   { id: "home", label: "Home" },
   { id: "participants", label: "Participants" },
-  { id: "judges", label: "Judges" }
+  { id: "marks", label: "Marks" }
 ];
 
 export function toLocalInput(iso) {
@@ -26,7 +26,6 @@ export function toLocalInput(iso) {
 export function useOrganizerConsole() {
   const [tab, setTab] = useState("home");
   const [overview, setOverview] = useState(null);
-  const [judgeCtrl, setJudgeCtrl] = useState(null);
   const [notifRefresh, setNotifRefresh] = useState(0);
   const [msg, setMsg] = useState("");
   const [toast, setToast] = useState("");
@@ -36,10 +35,7 @@ export function useOrganizerConsole() {
 
   const load = useCallback(async () => {
     try {
-      const [ov, jc] = await Promise.all([
-        apiFetch("/api/organizer/overview"),
-        apiFetch("/api/organizer/judge-control")
-      ]);
+      const ov = await apiFetch("/api/organizer/overview");
       setOverview(ov);
       const dl = {};
       for (const name of PHASE_ORDER) {
@@ -47,7 +43,6 @@ export function useOrganizerConsole() {
         if (p) dl[name] = toLocalInput(p.submission_deadline);
       }
       setDeadlines((prev) => ({ ...prev, ...dl }));
-      setJudgeCtrl(jc);
     } catch {
       /* keep last state */
     }
@@ -108,14 +103,10 @@ export function useOrganizerConsole() {
     }
   };
 
-  const setJudgeRound = (round) =>
-    act(`Round: ${round}`, "/api/organizer/judge-control", { judge_round: round });
-
   return {
     tab,
     setTab,
     overview,
-    judgeCtrl,
     notifRefresh,
     msg,
     setMsg,
@@ -129,6 +120,6 @@ export function useOrganizerConsole() {
     startPhase,
     stopPhase,
     saveDeadline,
-    setJudgeRound
+    reload: load
   };
 }

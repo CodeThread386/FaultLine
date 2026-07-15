@@ -73,10 +73,10 @@ export default function RegisterTeamPage() {
   return (
     <div className="max-w-2xl px-10 py-10">
       <p className="fl-label mb-2">Registration</p>
-      <h1 className="text-[28px] font-extrabold tracking-tight">Register Your Team</h1>
+      <h1 className="fl-display text-[clamp(1.75rem,4vw,2.25rem)]">Register Your Team</h1>
       <p className="mt-2 text-sm text-fl-muted">Team leader only · 3–5 members · VIT emails</p>
 
-      <div className="mt-6 rounded-lg border border-fl-border border-l-[3px] border-l-fl-red bg-fl-bg2 p-5 text-sm leading-relaxed text-fl-muted">
+      <div className="mt-6 fl-card fl-accent-bar p-5 text-sm leading-relaxed text-fl-muted">
         One-time setup. Add teammate emails now or they can join after their first login. You can
         remove a row if you added it by mistake.
       </div>
@@ -114,7 +114,7 @@ export default function RegisterTeamPage() {
                   onClick={() => setTrackId(track.id)}
                   className={`rounded-lg border p-4 text-center transition ${
                     selected
-                      ? "border-fl-red bg-fl-red/5"
+                      ? "border-fl-accent bg-fl-bg3"
                       : "border-fl-border bg-fl-bg2 hover:border-fl-muted"
                   }`}
                 >
@@ -142,7 +142,7 @@ export default function RegisterTeamPage() {
                 type="button"
                 onClick={() => removeMember(i)}
                 disabled={memberRows.length <= 1}
-                className="shrink-0 rounded-md border border-fl-border px-3 text-sm text-fl-muted transition hover:border-fl-red hover:text-fl-red disabled:cursor-not-allowed disabled:opacity-30"
+                className="shrink-0 rounded-sm border border-fl-border px-3 text-sm text-fl-muted transition hover:border-fl-accent hover:text-fl-accent disabled:cursor-not-allowed disabled:opacity-30"
                 title="Remove teammate"
               >
                 ✕
@@ -152,7 +152,7 @@ export default function RegisterTeamPage() {
           <button
             type="button"
             onClick={addMember}
-            className="w-full rounded-md border border-dashed border-fl-border py-2.5 text-sm text-fl-muted transition hover:border-fl-red hover:text-fl-red"
+            className="w-full rounded-sm border border-dashed border-fl-border py-2.5 text-sm text-fl-muted transition hover:border-fl-accent hover:text-fl-accent"
           >
             + Add teammate
           </button>

@@ -3,63 +3,192 @@
 @tailwind utilities;
 
 :root {
-  --fl-red: #e24b4a;
-  --fl-bg: #0a0a0a;
-  --fl-bg2: #111111;
-  --fl-border: #2a2a2a;
-  --fl-muted: #888888;
-  --fl-text: #f0f0f0;
+  --fl-accent: #ffffff;
+  --fl-accent-dark: #cccccc;
+  --fl-bg: #000000;
+  --fl-bg2: #0a0a0a;
+  --fl-bg3: #141414;
+  --fl-border: #333333;
+  --fl-muted: #666666;
+  --fl-text: #ffffff;
+  --fl-invert: #ffffff;
+  --fl-text-invert: #000000;
 }
 
 @layer base {
   html {
-    @apply min-h-full w-full;
+    @apply min-h-full w-full scroll-smooth;
   }
 
   body {
-    @apply m-0 min-h-full w-full overflow-x-hidden bg-fl-bg font-syne text-fl-text antialiased;
+    @apply m-0 min-h-full w-full overflow-x-hidden bg-fl-bg font-mono text-fl-text antialiased;
+  }
+
+  ::selection {
+    @apply bg-fl-text text-fl-bg;
   }
 }
 
 @layer components {
+  .fl-wordmark {
+    @apply font-display text-xl font-normal tracking-display;
+  }
+
+  .fl-wordmark-accent {
+    @apply text-fl-accent;
+  }
+
   .fl-label {
-    @apply font-mono text-[11px] uppercase tracking-[0.2em] text-fl-red;
+    @apply font-mono text-[10px] font-normal uppercase tracking-label text-fl-muted;
   }
 
   .fl-block-title {
-    @apply mb-4 border-b border-fl-border pb-2 font-mono text-[13px] uppercase tracking-[0.15em] text-fl-muted;
+    @apply mb-4 border-b border-fl-border pb-2 font-mono text-[11px] uppercase tracking-caption text-fl-muted;
+  }
+
+  .fl-display {
+    @apply font-display font-black uppercase tracking-tighter text-white;
+    line-height: 0.85;
+  }
+  
+  .fl-serif {
+    @apply font-serif font-normal italic tracking-normal;
+  }
+
+  .fl-blend-diff {
+    mix-blend-mode: difference;
+    color: white;
   }
 
   .fl-card {
-    @apply rounded-[10px] border border-fl-border bg-fl-bg2;
+    @apply border-2 border-white bg-black;
+    box-shadow: 15px 15px 0px 0px white;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .fl-card:hover {
+    transform: translate(5px, 5px);
+    box-shadow: 10px 10px 0px 0px white;
+  }
+
+  .fl-glass {
+    @apply border border-white bg-white/10;
+    backdrop-filter: blur(5px);
   }
 
   .fl-input {
-    @apply mb-4 w-full rounded-md border border-fl-border bg-fl-bg3 px-3 py-2.5 font-mono text-xs text-fl-text outline-none transition focus:border-fl-red;
+    @apply mb-4 w-full border-b-4 border-white bg-transparent px-4 py-6 font-display text-4xl text-white outline-none transition-all placeholder:text-white/20 focus:bg-white focus:text-black;
   }
 
   .fl-textarea {
-    @apply mb-4 w-full resize-y rounded-md border border-fl-border bg-fl-bg3 px-3 py-2.5 font-syne text-sm text-fl-text outline-none transition focus:border-fl-red;
-    min-height: 80px;
+    @apply mb-4 w-full resize-y border-b-4 border-white bg-transparent px-4 py-6 font-display text-2xl text-white outline-none transition-all focus:bg-white focus:text-black;
+    min-height: 120px;
   }
 
   .fl-btn-primary {
-    @apply w-full rounded-lg bg-fl-red px-4 py-3 font-syne text-sm font-bold text-white transition hover:bg-fl-red-dark disabled:cursor-not-allowed disabled:opacity-40;
+    @apply w-full border-4 border-white bg-white px-8 py-4 font-display uppercase text-2xl font-black text-black transition-all hover:bg-black hover:text-white hover:translate-x-2 hover:-translate-y-2 hover:shadow-[-8px_8px_0_0_#ffffff] disabled:cursor-not-allowed disabled:opacity-40;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
   }
 
   .fl-btn-ghost {
-    @apply rounded-lg border border-fl-border px-4 py-2 text-sm font-semibold text-fl-text transition hover:border-fl-muted hover:bg-fl-bg3;
+    @apply border-4 border-white px-8 py-4 font-display uppercase text-2xl font-black text-white transition-all hover:bg-white hover:text-black hover:translate-x-2 hover:-translate-y-2 hover:shadow-[-8px_8px_0_0_#ffffff];
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  }
+
+  .fl-btn-invert {
+    @apply border-4 border-white bg-white px-8 py-4 font-display uppercase text-2xl font-black text-black transition-all hover:bg-transparent hover:text-white;
+  }
+
+  .fl-pill-active {
+    @apply bg-white text-black;
+  }
+
+  .fl-section-invert {
+    @apply bg-white text-black;
+  }
+
+  .fl-dot-grid {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 2px, transparent 2px);
+    background-size: 60px 60px;
+    background-position: 0 0;
+  }
+
+  .fl-tech-grid {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px;
+    background-position: center center;
+  }
+
+  .fl-scanline {
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    opacity: 0.5;
+    animation: scanline 8s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+
+  .fl-divider-dashed {
+    @apply border-t border-dashed border-fl-border;
+  }
+
+  .fl-accent-bar {
+    @apply border-l-[2px] border-l-fl-accent;
   }
 
   .fl-fade-in {
-    animation: fl-fade-in 0.35s ease-out both;
+    animation: fl-fade-in 0.45s ease-out both;
+  }
+
+  .fl-fade-up {
+    animation: fl-fade-up 0.6s ease-out both;
+  }
+
+  .fl-marquee-track {
+    @apply flex w-max animate-marquee;
+  }
+
+  .fl-hover-lift {
+    @apply transition duration-300 hover:-translate-y-0.5;
+  }
+
+  .fl-status-open {
+    @apply border border-fl-border bg-fl-bg3 font-mono text-[10px] uppercase tracking-caption text-fl-success;
+  }
+
+  .fl-status-closed {
+    @apply border border-fl-border bg-fl-bg3 font-mono text-[10px] uppercase tracking-caption text-fl-accent;
+  }
+
+  .fl-status-pending {
+    @apply border border-fl-border bg-fl-bg3 font-mono text-[10px] uppercase tracking-caption text-fl-warn;
+  }
+
+  .fl-live-dot {
+    @apply h-1.5 w-1.5 animate-pulse rounded-full bg-white;
   }
 }
 
 @keyframes fl-fade-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
   }
   to {
     opacity: 1;

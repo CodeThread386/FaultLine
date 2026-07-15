@@ -3,10 +3,10 @@
 import { formatDeadline, getPhaseDisplayStatus } from "@/lib/phase-control";
 
 const STATUS_STYLES = {
-  open: "bg-fl-green/15 text-fl-green",
-  stopped: "bg-fl-red/15 text-fl-red",
-  deadline: "bg-fl-amber/15 text-fl-amber",
-  locked: "bg-fl-bg3 text-fl-muted"
+  open: "fl-status-open px-3 py-1 rounded-sm",
+  stopped: "fl-status-closed px-3 py-1 rounded-sm",
+  deadline: "fl-status-pending px-3 py-1 rounded-sm",
+  locked: "bg-fl-bg3 text-fl-muted px-3 py-1 rounded-sm font-mono text-[10px] uppercase tracking-caption"
 };
 
 export default function PhaseControlCard({
@@ -32,7 +32,7 @@ export default function PhaseControlCard({
           <h3 className="text-lg font-bold">{title}</h3>
           <p className="text-xs text-fl-muted">{subtitle}</p>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-bold ${statusClass}`}>{display.label}</span>
+        <span className={`font-bold ${statusClass}`}>{display.label}</span>
       </div>
 
       <div className="mb-4 rounded-lg border border-fl-border bg-fl-bg2 px-4 py-3 text-sm">
@@ -68,7 +68,7 @@ export default function PhaseControlCard({
           type="button"
           disabled={!!busy || isOpen}
           onClick={() => onStart(phaseName)}
-          className="rounded-lg bg-fl-green py-3 text-sm font-bold text-white hover:bg-fl-green/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="fl-btn-primary py-3 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Start phase
         </button>
@@ -76,7 +76,7 @@ export default function PhaseControlCard({
           type="button"
           disabled={!!busy || !isOpen}
           onClick={() => onStop(phaseName)}
-          className="rounded-lg bg-fl-red py-3 text-sm font-bold text-white hover:bg-fl-red/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="fl-btn-ghost py-3 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Stop phase
         </button>

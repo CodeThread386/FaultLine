@@ -186,18 +186,7 @@ async function seedParticipants(trackIds) {
 }
 
 async function seedStaff(trackIds) {
-  console.log("→ Judges (20, 21, 22) and organizer (25)…");
-
-  const judgeTracks = ["Banking", "E-Commerce", "Food Delivery"];
-  for (let i = 0; i < STAFF_LOGIN_NUMBERS.judges.length; i += 1) {
-    const loginNumber = STAFF_LOGIN_NUMBERS.judges[i];
-    await createUser({
-      loginNumber,
-      name: `Judge ${loginNumber}`,
-      role: "judge",
-      trackId: trackIds[judgeTracks[i]]
-    });
-  }
+  console.log("→ Organizer (25)…");
 
   await createUser({
     loginNumber: STAFF_LOGIN_NUMBERS.organizer,
@@ -258,14 +247,14 @@ async function seedDummySubmissions(teams, phases) {
     );
   }
 
-  const judgeEmails = STAFF_LOGIN_NUMBERS.judges.map(demoEmail);
-  const { data: judges } = await db
+  const orgEmail = demoEmail(STAFF_LOGIN_NUMBERS.organizer);
+  const { data: orgs } = await db
     .from("users")
-    .select("id, email, track_id")
-    .in("email", judgeEmails);
+    .select("id, email")
+    .eq("email", orgEmail);
 
   const scoredTeams = teams;
-  const seedJudge = judges?.[0];
+  const seedJudge = orgs?.[0];
   if (seedJudge) {
     for (const team of scoredTeams) {
       const score = 55 + (team.id.charCodeAt(0) % 30);
@@ -305,7 +294,7 @@ async function main() {
 
   console.log("\n✓ Done\n");
   console.log("Participants: login numbers", participantLoginNumbers().join(", "));
-  console.log("Judges: 20, 21, 22  |  Organizer: 25");
+  console.log("Organizer: 25");
   console.log("\nSign in at /login with your number only (no password).");
 }
 
