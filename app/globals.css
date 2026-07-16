@@ -24,6 +24,38 @@
     @apply m-0 min-h-full w-full overflow-x-hidden bg-fl-bg font-mono text-fl-text antialiased;
   }
 
+  /* Force hide native cursor for custom cursor sections */
+  .hide-native-cursor,
+  .hide-native-cursor * {
+    cursor: none !important;
+  }
+
+  /* Custom Brutalist Scrollbar */
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #000000;
+    border-left: 2px solid #333333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border: 4px solid #000000;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #cccccc;
+  }
+
+  /* Firefox Custom Scrollbar */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #ffffff #000000;
+  }
+
   ::selection {
     @apply bg-fl-text text-fl-bg;
   }

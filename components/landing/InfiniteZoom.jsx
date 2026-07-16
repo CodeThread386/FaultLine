@@ -9,13 +9,17 @@ export default function InfiniteZoom() {
     offset: ["start start", "end end"]
   });
 
-  // Scale aggressively from 1 to 150
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 150]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
+  // Scale from 1 to 30 over the first 33% of the scroll
+  const scale = useTransform(scrollYProgress, [0, 0.33], [1, 30]);
+  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.33], [1, 1, 0]);
+  
+  // Flashbang hits exactly when the O completely engulfs the camera at 33%
+  // It then stays on screen for the entire remaining 66% of the scroll
+  const flashbangOpacity = useTransform(scrollYProgress, [0.33, 0.35, 1], [0, 1, 1]);
 
   return (
-    <div ref={containerRef} className="h-[300vh] relative bg-black">
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+    <div ref={containerRef} className="h-[500vh] relative bg-black">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="fl-display tracking-tighter text-white mix-blend-difference flex flex-col items-center justify-center"
           style={{ scale, opacity }}
@@ -36,6 +40,21 @@ export default function InfiniteZoom() {
             rotateZ: useTransform(scrollYProgress, [0, 1], [0, 90])
           }}
         />
+
+        {/* Literal Flashbang Grenade */}
+        <motion.div 
+          className="absolute inset-0 bg-white pointer-events-none z-[100] flex items-center justify-center overflow-hidden"
+          style={{ opacity: flashbangOpacity }}
+        >
+          <motion.div 
+            className="font-sans font-thin text-[8vw] md:text-[6vw] text-black tracking-[0.2em] uppercase whitespace-nowrap opacity-80"
+            style={{ 
+              scale: useTransform(scrollYProgress, [0.33, 1], [0.9, 1.1]),
+            }}
+          >
+            SHBAAANNGGG
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

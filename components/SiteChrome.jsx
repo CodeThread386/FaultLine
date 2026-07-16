@@ -29,7 +29,7 @@ export default function SiteChrome({ children, user }) {
           <HeaderAuth user={user} />
         </nav>
       </header>
-      <main className={`mx-auto ${isLanding ? "max-w-5xl" : "max-w-lg"} px-4 pb-12 pt-20 md:px-8`}>
+      <main className={isLanding ? "w-full" : "mx-auto max-w-lg px-4 pb-12 pt-20 md:px-8"}>
         {children}
       </main>
     </div>

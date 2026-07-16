@@ -11,7 +11,7 @@ export default function HorizontalScroll({ children }) {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[400vh] bg-black">
+    <section ref={targetRef} className="relative h-[400vh] bg-black w-full">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden border-t-[12px] border-b-[12px] border-white bg-black">
         {/* Background SVG Watermark */}
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 z-0" viewBox="0 0 100 100" preserveAspectRatio="none">

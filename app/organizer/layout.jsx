@@ -21,7 +21,7 @@ export default async function OrganizerLayout({ children }) {
         <text x="50" y="50" dominantBaseline="middle" textAnchor="middle" fontSize="40" fontWeight="900" transform="rotate(45 50 50)" fill="white">ORG_ROOT</text>
       </svg>
       
-      <header className="flex h-32 shrink-0 items-center w-[110vw] justify-between border-b-[12px] border-white bg-black px-12 z-50 sticky top-0 transform -skew-y-1 -ml-8">
+      <header className="flex h-32 shrink-0 items-center w-full justify-between border-b-[12px] border-white bg-black px-4 md:px-12 z-50 sticky top-0 transform -skew-y-1">
         <Link href="/organizer" className="fl-display text-5xl md:text-6xl tracking-tighter hover:rotate-2 transition-transform text-white mix-blend-difference flex items-baseline ml-8">
           <span className="animate-jitter inline-block">FAULT</span>
           <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>LINE</span>

@@ -35,9 +35,9 @@ export default function VelocityMarquee({ text, baseVelocity = 2 }) {
   });
 
   return (
-    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap leading-none m-0 py-8 border-y-[16px] border-white bg-black">
+    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap leading-none m-0">
       <motion.div
-        className="flex whitespace-nowrap gap-16 fl-display text-[12rem] tracking-tighter text-white uppercase mix-blend-difference"
+        className="flex whitespace-nowrap gap-16 fl-display text-[6rem] md:text-[8rem] tracking-tighter text-white uppercase mix-blend-difference"
         style={{ x, skewX: skew }}
       >
         <span className="block">{text}</span>

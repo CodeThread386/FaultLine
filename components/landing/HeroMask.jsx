@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -12,10 +12,14 @@ export default function HeroMask() {
   const mouseXSpring = useSpring(cursorX, springConfig);
   const mouseYSpring = useSpring(cursorY, springConfig);
 
+  const containerRef = useRef(null);
+
   useEffect(() => {
     const moveCursor = (e) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      cursorX.set(e.clientX - rect.left);
+      cursorY.set(e.clientY - rect.top);
     };
     window.addEventListener("mousemove", moveCursor);
     return () => window.removeEventListener("mousemove", moveCursor);
@@ -29,7 +33,7 @@ export default function HeroMask() {
   const maskImageTemplate = useMotionTemplate`circle(${isHovered ? 400 : 40}px at ${mouseXSpring}px ${mouseYSpring}px)`;
 
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-black relative overflow-hidden cursor-none">
+    <div ref={containerRef} className="h-screen w-full flex items-center justify-center bg-black relative overflow-hidden hide-native-cursor">
       
       {/* MASK LAYER (Inverted, revealed by mouse) */}
       <motion.div
@@ -43,8 +47,8 @@ export default function HeroMask() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <h1 className="fl-display text-[15vw] leading-none tracking-tighter text-black uppercase animate-jitter">
-            FAULTLINE
+          <h1 className="fl-display text-[clamp(4rem,11vw,8rem)] leading-none tracking-tighter text-black uppercase animate-jitter whitespace-nowrap px-4">
+            <span className="text-[#ff0000]">FAULT</span>LINE
           </h1>
           <p className="text-2xl font-display font-black uppercase tracking-widest mt-8 px-4 bg-black text-white">
             SYSTEM COMPROMISED // ERROR CODE: 0xDEADBEEF
@@ -56,27 +60,18 @@ export default function HeroMask() {
       <div 
         className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-10 fl-tech-grid"
       >
-        <div className="absolute top-10 left-10 w-32 h-32 border-t-8 border-l-8 border-white"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 border-b-8 border-r-8 border-white"></div>
+        <div className="absolute top-24 left-12 md:left-24 w-32 h-32 border-t-8 border-l-8 border-white"></div>
+        <div className="absolute bottom-24 right-12 md:right-24 w-32 h-32 border-b-8 border-r-8 border-white"></div>
         
-        <h1 className="fl-display text-[15vw] leading-none tracking-tighter text-transparent uppercase" style={{ WebkitTextStroke: "2px white" }}>
-          FAULTLINE
+        <h1 className="fl-display text-[clamp(4rem,11vw,8rem)] leading-none tracking-tighter uppercase whitespace-nowrap px-4" style={{ WebkitTextStroke: "2px white" }}>
+          <span className="text-[#ff0000]" style={{ WebkitTextStroke: "0px" }}>FAULT</span>
+          <span className="text-transparent">LINE</span>
         </h1>
         <p className="text-2xl font-display font-bold uppercase tracking-widest mt-8 text-white/50 border border-white/20 p-4">
-          HOVER TO EXPOSE TERMINAL
+          SEEK TRUTH IN THE VOID
         </p>
       </div>
       
-      {/* Custom Cursor Dot */}
-      <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
-        style={{
-          x: mouseXSpring,
-          y: mouseYSpring,
-          translateX: "-50%",
-          translateY: "-50%"
-        }}
-      />
     </div>
   );
 }

@@ -24,7 +24,8 @@ export default function TesseractSvg() {
           rotateY,
           rotateZ,
           scale,
-          skew,
+          skewX: skew,
+          skewY: skew,
         }}
         className="w-[100vw] h-[100vw] md:w-[60vw] md:h-[60vw] opacity-10 mix-blend-difference"
       >
