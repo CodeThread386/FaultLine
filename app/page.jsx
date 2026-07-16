@@ -80,8 +80,8 @@ export default function Home() {
 
         {FEATURES.map((feature, i) => (
           <div key={i} className={`w-[80vw] md:w-[60vw] h-[60vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-6' : '-skew-x-6'}`}>
-            <div className="absolute inset-0 bg-white transform translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0"></div>
-            <div className="border-[16px] border-white p-12 w-full h-full flex flex-col justify-between relative z-10 bg-black group-hover:bg-transparent transition-colors duration-500 hover:rotate-3">
+            <div className="absolute inset-0 bg-white transform translate-y-[100%] z-0"></div>
+            <div className="border-[16px] border-white p-12 w-full h-full flex flex-col justify-between relative z-10 bg-black">
               <div className="text-[10rem] font-display font-black text-white mix-blend-difference opacity-50 absolute top-[-5rem] left-[-2rem] pointer-events-none transform -rotate-12">
                 0{i + 1}
               </div>
