@@ -20,9 +20,11 @@ module.exports = {
           "border-light": "#444444",
           success: "#ffffff",
           warn: "#cccccc",
-          // Legacy aliases
-          red: "#ffffff",
-          "red-dark": "#e5e5e5",
+          // Retro accents — restored to real colors (previously aliased to white/gray)
+          red: "#ff2b2b",
+          "red-dark": "#cc1f1f",
+          blue: "#2f6bff",
+          "blue-dark": "#1f4fd1",
           green: "#ffffff",
           amber: "#cccccc"
         }
@@ -37,6 +39,11 @@ module.exports = {
         label: "0.15em",
         caption: "0.05em"
       },
+      borderRadius: {
+        "fl-sm": "6px",
+        "fl-md": "14px",
+        "fl-lg": "24px"
+      },
       animation: {
         "fade-up": "fl-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
         "fade-in": "fl-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both",
@@ -44,6 +51,8 @@ module.exports = {
         "chaos-marquee": "fl-chaos-marquee 12s linear infinite",
         "jitter": "fl-jitter 0.3s infinite",
         "shake": "fl-shake 5s cubic-bezier(.36,.07,.19,.97) infinite",
+        "spin-slow": "spin 8s linear infinite",
+        "sunburst-spin": "fl-sunburst-spin 20s linear infinite"
       },
       keyframes: {
         "fl-fade-up": {
@@ -80,6 +89,10 @@ module.exports = {
         "scanline": {
           "0%": { transform: "translateY(-100vh)" },
           "100%": { transform: "translateY(100vh)" }
+        },
+        "fl-sunburst-spin": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" }
         }
       },
       backgroundImage: {

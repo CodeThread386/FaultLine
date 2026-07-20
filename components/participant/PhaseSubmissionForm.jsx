@@ -4,6 +4,17 @@ import { useState, useTransition } from "react";
 import { submitPhaseSubmission } from "@/app/actions/submission";
 import { areSubmissionsOpen } from "@/lib/phase-control";
 
+function BracketCorners() {
+  return (
+    <>
+      <span className="pointer-events-none absolute -left-1 -top-1 h-4 w-4 border-l border-t border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -right-1 -top-1 h-4 w-4 border-r border-t border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -bottom-1 -left-1 h-4 w-4 border-b border-l border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -bottom-1 -right-1 h-4 w-4 border-b border-r border-[#F5F5F0]" />
+    </>
+  );
+}
+
 export default function PhaseSubmissionForm({
   phaseName,
   phase,
@@ -13,7 +24,9 @@ export default function PhaseSubmissionForm({
   submitLabel
 }) {
   const [repoUrl, setRepoUrl] = useState(initialSubmission?.repo_url || "");
-  const [description, setDescription] = useState(initialSubmission?.description || "");
+  const [description, setDescription] = useState(
+    initialSubmission?.description || ""
+  );
   const [result, setResult] = useState("");
   const [submitOk, setSubmitOk] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -23,14 +36,17 @@ export default function PhaseSubmissionForm({
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     setResult("");
     setSubmitOk(false);
+
     const fd = new FormData();
     fd.set("repo_url", repoUrl);
     fd.set("description", description);
 
     startTransition(async () => {
       const res = await submitPhaseSubmission(phaseName, fd);
+
       if (res.error) {
         setSubmitOk(false);
         setResult(res.error);
@@ -42,17 +58,28 @@ export default function PhaseSubmissionForm({
   };
 
   return (
-    <form onSubmit={onSubmit} className={`fl-card p-6 fl-fade-in ${closed ? "opacity-60" : ""}`}>
+    <form
+      onSubmit={onSubmit}
+      className={`relative fl-fade-in p-6 ${closed ? "opacity-60" : ""}`}
+    >
+      <BracketCorners />
+
       <div
-        className={`mb-4 inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 font-mono text-[10px] uppercase tracking-caption ${
+        className={`mb-6 inline-flex items-center border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] ${
           initialSubmission?.repo_url || repoUrl
-            ? "fl-status-open"
-            : "fl-status-pending"
+            ? "border-[#FF2318] text-[#FF2318]"
+            : "border-[#F5F5F0] text-[#F5F5F0]"
         }`}
       >
-        {initialSubmission?.repo_url || repoUrl ? "● Submitted" : "● Not submitted"}
+        {initialSubmission?.repo_url || repoUrl
+          ? "SUBMITTED"
+          : "NOT SUBMITTED"}
       </div>
-      <label className="mb-1.5 block font-mono text-xs text-fl-muted">GitHub Repo URL</label>
+
+      <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-[#8A8A84]">
+        GitHub Repo URL
+      </label>
+
       <input
         className="fl-input"
         type="url"
@@ -63,9 +90,13 @@ export default function PhaseSubmissionForm({
         value={repoUrl}
         onChange={(e) => setRepoUrl(e.target.value)}
       />
-      <label className="mb-1.5 block font-mono text-xs text-fl-muted">
-        {phaseName === "phase_2" ? "Architecture notes" : "System Description (1 paragraph)"}
+
+      <label className="mb-2 mt-6 block font-mono text-[10px] uppercase tracking-[0.3em] text-[#8A8A84]">
+        {phaseName === "phase_2"
+          ? "Architecture Notes"
+          : "System Description"}
       </label>
+
       <textarea
         className="fl-textarea"
         name="description"
@@ -78,11 +109,17 @@ export default function PhaseSubmissionForm({
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button type="submit" className="fl-btn-primary transition active:scale-[0.98]" disabled={closed || pending}>
+
+      <button
+        type="submit"
+        className="fl-btn-primary mt-6 w-full"
+        disabled={closed || pending}
+      >
         {pending ? "Submitting..." : submitLabel}
       </button>
+
       {closed && (
-        <p className="mt-2 text-xs text-fl-amber">
+        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[#FF2318]">
           {disabledMessage ||
             (phase?.status === "active"
               ? "Submission deadline has passed."
@@ -91,8 +128,13 @@ export default function PhaseSubmissionForm({
                 : "This phase has not started yet.")}
         </p>
       )}
+
       {result && (
-        <p className={`mt-3 text-sm ${submitOk ? "text-fl-success" : "text-fl-accent"}`}>
+        <p
+          className={`mt-4 font-mono text-[10px] uppercase tracking-[0.2em] ${
+            submitOk ? "text-[#F5F5F0]" : "text-[#FF2318]"
+          }`}
+        >
           {result}
         </p>
       )}
