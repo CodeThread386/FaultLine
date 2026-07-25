@@ -52,22 +52,7 @@ export default function Home() {
         <VelocityMarquee text="ERROR • REBUILD • EXPLOIT • " baseVelocity={3} />
       </section>
 
-      {/* SECTION 3: PARALLAX CRASH */}
-      <section className="relative z-10 mb-16 w-full overflow-hidden">
-        <ParallaxCrash />
-      </section>
-
-      {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
-        <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
-      </section>
-
-      {/* SECTION 4: INFINITE ZOOM */}
-      <section className="relative z-10 w-full">
-        <InfiniteZoom />
-      </section>
-
-      {/* SECTION 5: HORIZONTAL PIPELINE */}
+      {/* SECTION 3: HORIZONTAL PIPELINE */}
       <HorizontalScroll>
         <div className="w-[100vw] h-full flex flex-col justify-center px-12 md:px-32 shrink-0">
           <h2 className="fl-display text-[15vw] tracking-tighter mix-blend-difference z-10 animate-shake" style={{ WebkitTextStroke: "4px white", color: "transparent" }}>
@@ -97,6 +82,20 @@ export default function Home() {
           </div>
         ))}
       </HorizontalScroll>
+      {/* SECTION 3: PARALLAX CRASH */}
+      {/* <section className="relative z-10 mb-16 w-full overflow-hidden">
+        <ParallaxCrash />
+      </section> */}
+
+      {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
+      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
+        <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
+      </section>
+
+      {/* SECTION : INFINITE ZOOM */}
+      <section className="relative z-10 w-full">
+        <InfiniteZoom />
+      </section>
 
       {/* SECTION 5.5: THE DIRECTIVE & TRACKS */}
       <section className="relative z-10 w-full bg-black py-32 border-t-[16px] border-white">
