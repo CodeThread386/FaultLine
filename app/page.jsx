@@ -12,12 +12,12 @@ const FEATURES = [
   {
     title: "PHASE 1: BUILD",
     desc: "Intentionally build a broken, chaotic system. Pitch it to the judges as a revolutionary startup.",
-    offset: "translate-y-[-10vh]"
+    offset: "translate-y-6vh]"
   },
   {
     title: "THE BLIND SWAP",
     desc: "At lunch, your disaster is taken away. You inherit another team's cursed codebase from your track.",
-    offset: "translate-y-[15vh]"
+    offset: "translate-y-[-5vh]"
   },
   {
     title: "PHASE 2: REDEMPTION",
@@ -27,7 +27,7 @@ const FEATURES = [
   {
     title: "THE JUDGEMENT",
     desc: "Present your full arc. Phase 1 and Phase 2 are independent competitions—everyone has a shot.",
-    offset: "translate-y-[10vh]"
+    offset: "translate-y-[-6vh]"
   }
 ];
 
@@ -64,7 +64,7 @@ export default function Home() {
 
         {FEATURES.map((feature, i) => (
           <div key={i} className={`w-[80vw] md:w-[60vw] h-[60vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-6' : '-skew-x-6'}`}>
-            <div className="absolute inset-0 bg-white transform translate-y-[100%] z-0"></div>
+            <div className="bg-white transform translate-y-[100%] z-0"></div>
             <div className="border-[16px] border-white p-12 w-full h-full flex flex-col justify-between relative z-10 bg-black">
               <div className="text-[10rem] font-display font-black text-white mix-blend-difference opacity-50 absolute top-[-5rem] left-[-2rem] pointer-events-none transform -rotate-12">
                 0{i + 1}
@@ -85,16 +85,6 @@ export default function Home() {
       {/* <section className="relative z-10 mb-16 w-full overflow-hidden">
         <ParallaxCrash />
       </section> */}
-
-      {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
-        <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
-      </section>
-
-      {/* SECTION : INFINITE ZOOM */}
-      <section className="relative z-10 w-full">
-        <InfiniteZoom />
-      </section>
 
       {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
       <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">

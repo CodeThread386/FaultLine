@@ -19,12 +19,12 @@ export default function SiteChrome({ children, user }) {
   return (
     <div className="fl-page-bg min-h-screen">
       <header className="fixed left-0 right-0 top-0 z-[100] flex h-14 items-center justify-between border-b border-fl-border bg-fl-bg/80 px-6 backdrop-blur-xl md:px-10">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-6">
           <Image
             src="/ieeevit.png"
             alt="IEEE VIT"
-            width={60}
-            height={60}
+            width={80}
+            height={80}
             className="object-contain"
             priority
           />
