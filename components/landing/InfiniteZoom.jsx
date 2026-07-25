@@ -28,7 +28,7 @@ export default function InfiniteZoom() {
             GRAVITAS
           </div>
           <div className="text-[20vw] leading-none transform -mt-16">
-            '27
+            '26
           </div>
         </motion.div>
         

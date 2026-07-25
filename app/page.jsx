@@ -81,6 +81,20 @@ export default function Home() {
           </div>
         ))}
       </HorizontalScroll>
+      {/* SECTION 3: PARALLAX CRASH */}
+      {/* <section className="relative z-10 mb-16 w-full overflow-hidden">
+        <ParallaxCrash />
+      </section> */}
+
+      {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
+      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
+        <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
+      </section>
+
+      {/* SECTION : INFINITE ZOOM */}
+      <section className="relative z-10 w-full">
+        <InfiniteZoom />
+      </section>
 
       {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
       <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
