@@ -1,0 +1,77 @@
+.shell {
+  --participant-bg: #0a0a0a;
+  --participant-text: #f5f5f0;
+  --participant-red: #ff2318;
+  --participant-cyan: #00e0ff;
+}
+
+.shell :global(.fl-display) {
+  color: var(--participant-text);
+  font-family: "Bodoni Moda", "Libre Bodoni", Georgia, serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.shell :global(.fl-glitch) {
+  position: relative;
+  color: var(--participant-text);
+  text-shadow: -2px 2px 0 var(--participant-red), 2px -2px 0 var(--participant-cyan);
+}
+
+.shell :global(.fl-block-title) {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgb(245 245 240 / 12%);
+  color: var(--participant-red);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+}
+
+.shell :global(.fl-bracket-panel) {
+  position: relative;
+  padding: 1.5rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.shell :global(.fl-bracket-panel)::before,
+.shell :global(.fl-bracket-panel)::after {
+  position: absolute;
+  top: -4px;
+  width: 14px;
+  height: 14px;
+  content: "";
+  border-top: 1px solid var(--participant-text);
+}
+
+.shell :global(.fl-bracket-panel)::before { left: -4px; border-left: 1px solid var(--participant-text); }
+.shell :global(.fl-bracket-panel)::after { right: -4px; border-right: 1px solid var(--participant-text); }
+
+.shell :global(.fl-input),
+.shell :global(.fl-textarea) {
+  border: 0;
+  border-bottom: 2px solid var(--participant-text);
+  border-radius: 0;
+  background: transparent;
+  color: var(--participant-text);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+}
+
+.shell :global(.fl-input):focus,
+.shell :global(.fl-textarea):focus { border-color: var(--participant-cyan); }
+
+.shell :global(.fl-btn-primary) {
+  border: 1px solid var(--participant-text);
+  border-radius: 0;
+  background: var(--participant-text);
+  color: var(--participant-bg);
+  box-shadow: 4px 4px 0 var(--participant-red);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+}
+
+.shell :global(.fl-btn-primary):hover { box-shadow: 4px 4px 0 var(--participant-cyan); }
