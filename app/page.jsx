@@ -37,7 +37,7 @@ const FEATURES = [
     title: "PHASE 2: REDEMPTION",
     tag: "SYSTEM REBUILD",
     desc: "Diagnose their mess, debug their traps, and rebuild the system from the ground up cleanly.",
-    offset: "translate-y-[-5vh]",
+    offset: "translate-y-[6vh]",
     color: "#ff0000",
     shadow: "shadow-[16px_16px_0_0_#ff0000]",
     badgeBg: "bg-[#ff0000] text-black",
@@ -84,7 +84,7 @@ export default function Home() {
           <h2 className="fl-display text-[15vw] tracking-tighter z-10 animate-shake relative">
             <span className="text-[#ff0000]">THE </span>
             <br />
-              PIPELINE
+            PIPELINE
           </h2>
 
           <p className="text-base md:text-lg font-display font-black uppercase max-w-4xl mt-12 border-l-[16px] border-[#00f0ff] pl-8 text-white bg-black/60 backdrop-blur-md p-6 border-y border-r border-[#00f0ff]/30">
@@ -93,7 +93,7 @@ export default function Home() {
         </div>
 
         {FEATURES.map((feature, i) => (
-          <div key={i} className={`w-[80vw] md:w-[60vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-3' : '-skew-x-3'} transition-transform duration-300 hover:scale-[1.02]`}>
+          <div key={i} className={`w-[95vw] md:w-[75vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-3' : '-skew-x-3'} transition-transform duration-300 hover:scale-[1.02]`}>
             <div className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-black/90 backdrop-blur-md overflow-hidden`}>
               {/* Tag / Badge Header */}
               <div className="flex justify-between items-center z-10">
@@ -243,7 +243,7 @@ export default function Home() {
           </h2>
           <Link href="/login">
             <MagneticButton className="border-[12px] border-white px-24 py-12 fl-display text-6xl tracking-tighter bg-black flex items-center gap-8 shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
-              INITIALIZE <MoveRight size={80} className="animate-pulse" />
+              LOGIN <MoveRight size={80} className="animate-pulse" />
             </MagneticButton>
           </Link>
         </div>

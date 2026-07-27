@@ -65,8 +65,8 @@ export default function LoginForm() {
       </svg>
       
       <section className="w-full relative z-10 flex flex-col items-center">
-        <div className="mb-16 relative w-full flex justify-center group perspective-1000">
-          <h1 className="fl-display text-[8rem] md:text-[14rem] tracking-tighter text-white mix-blend-difference leading-[0.7] transform group-hover:-rotate-6 transition-transform duration-500 relative z-20" style={{ letterSpacing: "-0.1em" }}>
+        <div className="mb-16 relative w-full flex justify-center pt-16 group perspective-1000">
+          <h1 className="fl-display text-[8rem] md:text-[14rem] tracking-tighter text-white mix-blend-difference leading-[0.7] transform group-hover:-rotate-6 transition-transform duration-500 relative z-10" style={{ letterSpacing: "-0.1em" }}>
             <span className="block transform -translate-x-12 animate-jitter opacity-90">LOG</span>
             <span className="block text-transparent transform translate-x-12 -translate-y-8" style={{ WebkitTextStroke: "4px white" }}>
               IN
@@ -75,7 +75,7 @@ export default function LoginForm() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[5vh] bg-white mix-blend-difference rotate-12 animate-shake z-10 pointer-events-none"></div>
         </div>
 
-        <div className="fl-card p-12 md:p-16 w-[95vw] md:w-full md:px-32 transform -rotate-2 hover:rotate-1 transition-transform relative z-30 bg-black border-[12px] border-white">
+        <div className="fl-card p-12 md:p-16 w-[95vw] md:w-full md:px-32 transform -rotate-2 hover:rotate-1 transition-transform relative z-30 bg-black border-[12px] border-white -mt-8">
           {loggedOut && (
             <p className="mb-8 border-l-8 border-white pl-4 py-2 text-xl font-display uppercase font-black text-white animate-jitter">
               SESSION DESTROYED.
@@ -108,7 +108,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="fl-btn-primary w-full transform rotate-1 hover:-rotate-1 text-4xl py-8"
+              className="fl-btn-primary w-full flex items-center justify-center transform rotate-1 hover:-rotate-1 text-4xl py-8"
             >
               {loading ? <span className="animate-jitter inline-block">{"///"}</span> : <>EXECUTE {"//"} LOGIN</>}
             </button>
