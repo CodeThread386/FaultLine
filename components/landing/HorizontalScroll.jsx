@@ -8,7 +8,7 @@ export default function HorizontalScroll({ children }) {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%","-50%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%","-75%"]);
 
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-black w-full overflow-clip">

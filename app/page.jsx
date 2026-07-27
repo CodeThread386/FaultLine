@@ -66,7 +66,6 @@ export default function Home() {
       <TesseractSvg />
 
       {/* Global CSS overlays */}
-      <div className="fl-scanline"></div>
       <div className="absolute inset-0 fl-dot-grid pointer-events-none opacity-20"></div>
 
       {/* SECTION 1: HERO MASK */}
