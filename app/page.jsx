@@ -74,7 +74,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: TOP VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 mt-40 overflow-hidden">
+      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 mt-40 overflow-hidden">
         <VelocityMarquee text="ERROR • REBUILD • EXPLOIT • " baseVelocity={3} />
       </section>
 
@@ -87,14 +87,14 @@ export default function Home() {
             PIPELINE
           </h2>
 
-          <p className="text-base md:text-lg font-display font-black uppercase max-w-4xl mt-12 border-l-[16px] border-[#00f0ff] pl-8 text-white bg-black/60 backdrop-blur-md p-6 border-y border-r border-[#00f0ff]/30">
+          <p className="text-base md:text-lg font-display font-black uppercase max-w-4xl mt-12 border-l-[16px] border-[#00f0ff] pl-8 text-white bg-transparent/60 backdrop-blur-md p-6 border-y border-r border-[#00f0ff]/30">
             Two phases. <span className="text-[#ff0000]">Complete architectural handover.</span> <span className="text-[#00f0ff]">No mercy.</span>
           </p>
         </div>
 
         {FEATURES.map((feature, i) => (
           <div key={i} className={`w-[95vw] md:w-[75vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-3' : '-skew-x-3'} transition-transform duration-300 hover:scale-[1.02]`}>
-            <div className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-black/90 backdrop-blur-md overflow-hidden`}>
+            <div className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-transparent/90 backdrop-blur-md overflow-hidden`}>
               {/* Tag / Badge Header */}
               <div className="flex justify-between items-center z-10">
                 <span className={`${feature.badgeBg} font-mono font-black text-xs md:text-sm px-4 py-1.5 uppercase tracking-widest border border-black shadow-[4px_4px_0_0_#ffffff]`}>
@@ -140,7 +140,7 @@ export default function Home() {
       </section> */}
 
       {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-black transform -skew-y-3 overflow-hidden">
+      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 overflow-hidden">
         <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
       </section>
 
@@ -150,7 +150,7 @@ export default function Home() {
       </section> */}
 
       {/* The Directive & Tracks block is not part of the requested landing sequence. */}
-      <section className="relative z-10 w-full bg-black py-32 border-t-[16px] border-white">
+      <section className="relative z-10 w-full bg-transparent py-32 border-t-[16px] border-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
 
           <div className="flex flex-col xl:flex-row gap-16 xl:gap-32">
@@ -230,7 +230,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 6: CTA / MAGNETIC BUTTON */}
-      <section className="h-[80vh] w-[110vw] ml-[-5vw] flex items-center justify-center relative z-10 bg-black border-t-[32px] border-white transform skew-y-3 mt-32 overflow-hidden">
+      <section className="h-[80vh] w-[110vw] ml-[-5vw] flex items-center justify-center relative z-10 bg-transparent border-t-[32px] border-white transform skew-y-3 mt-32 overflow-hidden">
 
         <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none mix-blend-difference" viewBox="0 0 100 100" preserveAspectRatio="none">
           <path d="M0,100 L100,0" stroke="white" strokeWidth="4" strokeDasharray="5,20" className="animate-jitter" />
@@ -242,7 +242,7 @@ export default function Home() {
             SYSTEM READY
           </h2>
           <Link href="/login">
-            <MagneticButton className="border-[12px] border-white px-24 py-12 fl-display text-6xl tracking-tighter bg-black flex items-center gap-8 shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
+            <MagneticButton className="border-[12px] border-white px-24 py-12 fl-display text-6xl tracking-tighter bg-transparent flex items-center gap-8 shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
               LOGIN <MoveRight size={80} className="animate-pulse" />
             </MagneticButton>
           </Link>
