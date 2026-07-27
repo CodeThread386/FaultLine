@@ -92,9 +92,9 @@ export default function Home() {
       </section>
 
       {/* SECTION 5: GRAVITAS */}
-      <section className="relative z-10 w-full">
+      {/*<section className="relative z-10 w-full">
         <InfiniteZoom />
-      </section>
+      </section>*/}
 
       {/* The Directive & Tracks block is not part of the requested landing sequence. */}
       {false && <section className="relative z-10 w-full bg-black py-32 border-t-[16px] border-white">
