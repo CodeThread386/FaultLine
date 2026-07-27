@@ -51,7 +51,7 @@ export default function HeroMask() {
             <span className="text-[#ff0000]">FAULT</span>LINE
           </h1>
           <p className="text-2xl font-display font-black uppercase tracking-widest mt-8 px-4 bg-black text-white">
-            SYSTEM COMPROMISED // ERROR CODE: 0xDEADBEEF
+            SYSTEM COMPROMISED // ERROR CODE: 0x6767
           </p>
         </div>
       </motion.div>
