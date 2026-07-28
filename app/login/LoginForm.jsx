@@ -12,6 +12,21 @@ import {
   teamRoster
 } from "@/lib/login-codes";
 
+const RED = "#ff2318";
+const CYAN = "#00e0ff";
+const TEXT = "#f5f5f0";
+
+function Corners() {
+  return (
+    <>
+      <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-[#f5f5f0]" />
+      <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-[#f5f5f0]" />
+      <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-[#f5f5f0]" />
+      <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-[#f5f5f0]" />
+    </>
+  );
+}
+
 export default function LoginForm() {
   const params = useSearchParams();
   const router = useRouter();
@@ -49,55 +64,91 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden bg-black text-white fl-dot-grid">
-      <div className="fl-scanline"></div>
-      
-      {/* Target Reticles */}
-      <svg className="absolute top-10 left-10 w-32 h-32 opacity-30 animate-spin-slow pointer-events-none" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="2" strokeDasharray="10,5"/>
-        <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="1"/>
-        <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="1"/>
+    <div
+      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-[#0a0a0a] text-[#f5f5f0]"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, rgb(245 245 240 / 18%) 1px, transparent 1px), repeating-radial-gradient(circle at center, transparent 0, transparent 120px, rgb(245 245 240 / 5.5%) 121px, transparent 122px)",
+        backgroundSize: "32px 32px, 100% 100%",
+        fontFamily: "'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif"
+      }}
+    >
+      {/* Faint static reticles */}
+      <svg className="absolute top-10 left-10 w-28 h-28 opacity-[0.06] pointer-events-none" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="1" strokeDasharray="8,6" />
+        <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="1" />
+        <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="1" />
+      </svg>
+      <svg className="absolute bottom-10 right-10 w-40 h-40 opacity-[0.05] pointer-events-none" viewBox="0 0 100 100">
+        <rect x="10" y="10" width="80" height="80" fill="none" stroke="white" strokeWidth="1" strokeDasharray="4,16" />
+        <rect x="20" y="20" width="60" height="60" fill="none" stroke="white" strokeWidth="1" />
       </svg>
 
-      <svg className="absolute bottom-10 right-10 w-48 h-48 opacity-20 pointer-events-none mix-blend-difference" viewBox="0 0 100 100">
-        <rect x="10" y="10" width="80" height="80" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,20" className="animate-spin-slow"/>
-        <rect x="20" y="20" width="60" height="60" fill="none" stroke="white" strokeWidth="1"/>
-      </svg>
-      
-      <section className="w-full relative z-10 flex flex-col items-center">
-        <div className="mb-16 relative w-full flex justify-center pt-16 group perspective-1000">
-          <h1 className="fl-display text-[8rem] md:text-[14rem] tracking-tighter text-white mix-blend-difference leading-[0.7] transform group-hover:-rotate-6 transition-transform duration-500 relative z-10" style={{ letterSpacing: "-0.1em" }}>
-            <span className="block transform -translate-x-12 animate-jitter opacity-90">LOG</span>
-            <span className="block text-transparent transform translate-x-12 -translate-y-8" style={{ WebkitTextStroke: "4px white" }}>
-              IN
+      <section className="w-full max-w-xl relative z-10 flex flex-col items-center">
+
+        {/* Headline */}
+        <div className="mb-12 w-full text-center">
+          <p
+            className="mb-4 text-xs tracking-[0.3em] uppercase text-white/60"
+            style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+          >
+            Authentication
+          </p>
+          <h1
+            className="text-[clamp(3.5rem,10vw,6.5rem)] italic uppercase leading-[0.9]"
+            style={{ fontFamily: "'Bodoni Moda', 'Libre Bodoni', Georgia, serif", fontWeight: 700 }}
+          >
+            Log{" "}
+            <span className="relative inline-block isolate">
+              <span aria-hidden className="absolute inset-0 -z-10" style={{ color: RED, transform: "translate(-3px, 2px)" }}>In</span>
+              <span aria-hidden className="absolute inset-0 -z-10" style={{ color: CYAN, transform: "translate(3px, -2px)" }}>In</span>
+              In
             </span>
           </h1>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[5vh] bg-white mix-blend-difference rotate-12 animate-shake z-10 pointer-events-none"></div>
         </div>
 
-        <div className="fl-card p-12 md:p-16 w-[95vw] md:w-full md:px-32 transform -rotate-2 hover:rotate-1 transition-transform relative z-30 bg-black border-[12px] border-white -mt-8">
+        {/* Card */}
+        <div className="relative w-full p-10 md:p-14 border border-white/10 bg-transparent">
+          <Corners />
+
           {loggedOut && (
-            <p className="mb-8 border-l-8 border-white pl-4 py-2 text-xl font-display uppercase font-black text-white animate-jitter">
-              SESSION DESTROYED.
+            <p
+              className="mb-6 border-l-[3px] border-[#f5f5f0] pl-4 py-3 text-sm tracking-wide uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+            >
+              Session destroyed.
             </p>
           )}
           {(error || message) && (
-            <p className="mb-8 border-l-8 border-white bg-white text-black pl-4 py-2 text-xl font-display uppercase font-black animate-shake shadow-[8px_8px_0_0_#ffffff]">
+            <p
+              className="mb-6 border-l-[3px] pl-4 py-3 text-sm tracking-wide uppercase"
+              style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace", borderColor: RED, color: RED }}
+            >
               {message || decodeURIComponent(error)}
             </p>
           )}
 
           <form className="w-full" onSubmit={handleSubmit}>
-            <div className="mb-12 relative group">
-              <label htmlFor="loginNumber" className="block text-3xl font-display uppercase font-black text-white mix-blend-difference mb-4 transform -skew-x-12">
-                CLEARANCE CODE
+            <div className="mb-8">
+              <label
+                htmlFor="loginNumber"
+                className="block mb-4 text-xs tracking-[0.3em] uppercase text-white/60"
+                style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+              >
+                Clearance code
               </label>
               <input
                 id="loginNumber"
                 inputMode="numeric"
                 pattern="[0-9]*"
                 autoComplete="off"
-                className="w-full bg-transparent border-b-8 border-white py-6 text-left text-[5rem] font-display font-black text-white placeholder:text-white/20 focus:outline-none focus:bg-white focus:text-black transition-colors leading-none"
+                className="w-full bg-transparent border-0 border-b-2 border-white/25 py-5 text-[3.5rem] font-bold leading-none focus:outline-none placeholder:text-white/15 transition-colors"
+                style={{
+                  fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace",
+                  color: TEXT
+                }}
+                onFocus={(e) => (e.target.style.borderBottomColor = CYAN)}
+                onBlur={(e) => (e.target.style.borderBottomColor = "")}
                 placeholder="000"
                 value={loginNumber}
                 onChange={(e) => setLoginNumber(e.target.value.replace(/\D/g, ""))}
@@ -108,26 +159,53 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="fl-btn-primary w-full flex items-center justify-center transform rotate-1 hover:-rotate-1 text-4xl py-8"
+              className="w-full mt-4 py-5 border text-lg tracking-[0.2em] uppercase transition-all disabled:opacity-50"
+              style={{
+                fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace",
+                borderColor: TEXT,
+                color: TEXT,
+                boxShadow: `6px 6px 0 0 ${TEXT}`
+              }}
+              onMouseEnter={(e) => {
+                if (loading) return;
+                e.currentTarget.style.borderColor = CYAN;
+                e.currentTarget.style.color = CYAN;
+                e.currentTarget.style.boxShadow = `8px 8px 0 0 ${CYAN}`;
+                e.currentTarget.style.transform = "translate(-2px, -2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = TEXT;
+                e.currentTarget.style.color = TEXT;
+                e.currentTarget.style.boxShadow = `6px 6px 0 0 ${TEXT}`;
+                e.currentTarget.style.transform = "translate(0, 0)";
+              }}
             >
-              {loading ? <span className="animate-jitter inline-block">{"///"}</span> : <>EXECUTE {"//"} LOGIN</>}
+              {loading ? "///" : <>Execute // Login</>}
             </button>
           </form>
 
-          <div className="mt-16 pt-8 text-sm font-display uppercase tracking-widest text-white/50 w-full relative">
-            <div className="absolute top-0 left-[-2rem] right-[-2rem] border-t-4 border-dashed border-white/50"></div>
-            <p className="mb-4">
-              <span className="text-white font-black text-lg bg-white/20 px-2">&gt; PARTICIPANTS ({DEMO_PARTICIPANT_COUNT})</span>
-              <br /><br />
+          <div
+            className="mt-12 pt-8 border-t border-dashed border-white/20 text-sm leading-relaxed text-white/60"
+            style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+          >
+            <span
+              className="inline-block border px-2 py-1 text-xs tracking-[0.2em] uppercase mb-2"
+              style={{ borderColor: RED, color: RED }}
+            >
+              Participants ({DEMO_PARTICIPANT_COUNT})
+            </span>
+            <p className="mt-2 mb-6">
               {participantNums[0]}–{participantNums[participantNums.length - 1]} {"//"} {DEMO_TEAM_COUNT}{" "}
-              TEAMS, {MEMBERS_PER_TEAM} MEMBERS (e.g. {roster[0]?.logins.join(", ")} = TEAM 1).
+              teams, {MEMBERS_PER_TEAM} members (e.g. {roster[0]?.logins.join(", ")} = Team 1).
             </p>
 
-            <p>
-              <span className="text-white font-black text-lg bg-white/20 px-2">&gt; ROOT_ACCESS</span>
-              <br /><br />
-              {STAFF_LOGIN_NUMBERS.organizer}
-            </p>
+            <span
+              className="inline-block border px-2 py-1 text-xs tracking-[0.2em] uppercase mb-2"
+              style={{ borderColor: RED, color: RED }}
+            >
+              Root access
+            </span>
+            <p className="mt-2">{STAFF_LOGIN_NUMBERS.organizer}</p>
           </div>
         </div>
       </section>
