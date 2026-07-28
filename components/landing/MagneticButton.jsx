@@ -31,7 +31,7 @@ export default function MagneticButton({ children, className, onClick }) {
       className={cn("relative z-20 overflow-hidden group", className)}
     >
       <div className="absolute inset-0 bg-white transform translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
-      <span className="relative z-10 mix-blend-difference group-hover:text-black transition-colors duration-300 block">
+      <span className="relative z-10 text-white group-hover:text-black transition-colors duration-300 block">
         {children}
       </span>
     </motion.button>

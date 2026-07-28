@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import HeroMask from "@/components/landing/HeroMask";
 import VelocityMarquee from "@/components/landing/VelocityMarquee";
-import HorizontalScroll from "@/components/landing/HorizontalScroll";
+import Pipeline from "@/components/landing/Pipeline";
 import TesseractSvg from "@/components/landing/TesseractSvg";
 import InfiniteZoom from "@/components/landing/InfiniteZoom";
 import MagneticButton from "@/components/landing/MagneticButton";
@@ -19,7 +19,8 @@ const FEATURES = [
     badgeBg: "bg-[#ff0000] text-black",
     borderColor: "border-[#ff0000]",
     numColor: "text-[#ff0000]",
-    accentBorder: "border-l-[#ff0000]"
+    accentBorder: "border-l-[#ff0000]",
+    status: "ACTIVE"
   },
   {
     title: "THE BLIND SWAP",
@@ -31,7 +32,8 @@ const FEATURES = [
     badgeBg: "bg-[#00f0ff] text-black",
     borderColor: "border-[#00f0ff]",
     numColor: "text-[#00f0ff]",
-    accentBorder: "border-l-[#00f0ff]"
+    accentBorder: "border-l-[#00f0ff]",
+    status: "ACTIVE"
   },
   {
     title: "PHASE 2: REDEMPTION",
@@ -43,7 +45,8 @@ const FEATURES = [
     badgeBg: "bg-[#ff0000] text-black",
     borderColor: "border-[#ff0000]",
     numColor: "text-[#ff0000]",
-    accentBorder: "border-l-[#ff0000]"
+    accentBorder: "border-l-[#ff0000]",
+    status: "ACTIVE"
   },
   {
     title: "THE JUDGEMENT",
@@ -55,7 +58,8 @@ const FEATURES = [
     badgeBg: "bg-[#00f0ff] text-black",
     borderColor: "border-[#00f0ff]",
     numColor: "text-[#00f0ff]",
-    accentBorder: "border-l-[#00f0ff]"
+    accentBorder: "border-l-[#00f0ff]",
+    status: "ACTIVE"
   }
 ];
 
@@ -79,65 +83,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 3: HORIZONTAL PIPELINE */}
-      <HorizontalScroll>
-        <div className="w-[100vw] h-full flex flex-col justify-center px-12 md:px-32 shrink-0">
-          <h2 className="fl-display text-[15vw] tracking-tighter z-10 animate-shake relative">
-            <span className="text-[#ff0000]">THE </span>
-            <br />
-            PIPELINE
-          </h2>
-
-          <p className="text-base md:text-lg font-display font-black uppercase max-w-4xl mt-12 border-l-[16px] border-[#00f0ff] pl-8 text-white bg-transparent/60 backdrop-blur-md p-6 border-y border-r border-[#00f0ff]/30">
-            Two phases. <span className="text-[#ff0000]">Complete architectural handover.</span> <span className="text-[#00f0ff]">No mercy.</span>
-          </p>
-        </div>
-
-        {FEATURES.map((feature, i) => (
-          <div key={i} className={`w-[95vw] md:w-[75vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? 'skew-x-3' : '-skew-x-3'} transition-transform duration-300 hover:scale-[1.02]`}>
-            <div className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-transparent/90 backdrop-blur-md overflow-hidden`}>
-              {/* Tag / Badge Header */}
-              <div className="flex justify-between items-center z-10">
-                <span className={`${feature.badgeBg} font-mono font-black text-xs md:text-sm px-4 py-1.5 uppercase tracking-widest border border-black shadow-[4px_4px_0_0_#ffffff]`}>
-                  {feature.tag}
-                </span>
-                <span className="font-mono text-xs text-white/60 tracking-widest">
-                  [ STEP 0{i + 1} / 04 ]
-                </span>
-              </div>
-
-              {/* Giant Watermark Number */}
-              <div
-                className={`text-[12rem] md:text-[14rem] font-display font-black ${feature.numColor} opacity-25 absolute top-[-4rem] right-[-1rem] pointer-events-none select-none transform -rotate-12`}
-              >
-                0{i + 1}
-              </div>
-
-              <div className="mt-8 z-10">
-                <h3 className="fl-display text-[4rem] md:text-[6.5rem] text-white leading-[0.85] mb-8 group-hover:translate-x-2 transition-transform">
-                  {feature.title}
-                </h3>
-                <p className={`text-sm md:text-base font-mono uppercase tracking-wider text-white/90 border-l-8 ${feature.accentBorder} pl-6 bg-white/5 py-4 pr-4 border-y border-r border-white/10`}>
-                  {feature.desc}
-                </p>
-              </div>
-
-              {/* Bottom Cyber Bar */}
-              <div className="flex justify-between items-center z-10 border-t border-white/20 pt-4 mt-4 font-mono text-xs uppercase tracking-widest text-white/50">
-                <span className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full animate-ping" style={{ backgroundColor: feature.color }} />
-                  STATUS: ACTIVE
-                </span>
-                <span style={{ color: feature.color }}>FAULTLINE // SECTOR 0{i + 1}</span>
-              </div>
-
-            </div>
-          </div>
-        ))}
-      </HorizontalScroll>
-      {/* SECTION 3: PARALLAX CRASH */}
-      {/* <section className="relative z-10 mb-16 w-full overflow-hidden">
-        <ParallaxCrash />
-      </section> */}
+      <Pipeline />
 
       {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
       <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 overflow-hidden">
@@ -195,7 +141,7 @@ export default function Home() {
 
                 <div className="flex flex-col border-b-4 border-white/20">
                   <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
-                    <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:scale-110 transition-transform origin-left">08:00</span>
+                    <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:text-black group-hover:scale-110 transition-transform origin-left">08:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">PHASE 1 BEGINS</span>
                   </div>
                   <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
@@ -203,7 +149,7 @@ export default function Home() {
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">THE SWAP (LUNCH)</span>
                   </div>
                   <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
-                    <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:scale-110 transition-transform origin-left">14:00</span>
+                    <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:text-black group-hover:scale-110 transition-transform origin-left">14:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">PHASE 2 BEGINS</span>
                   </div>
                   <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
