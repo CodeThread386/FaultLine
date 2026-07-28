@@ -12,8 +12,8 @@
   --home-bg: #0a0a0a;
   --home-text: #f5f5f0;
   --home-muted: #8a8a84;
-  --home-red: #ff2318;
-  --home-cyan: #00e0ff;
+  --home-red: #ff0000;
+  --home-cyan: #00ffff;
   min-height: 100%;
   background-color: var(--home-bg) !important;
   background-image:

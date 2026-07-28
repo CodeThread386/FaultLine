@@ -103,7 +103,7 @@ export default function DashboardShell({ children, team, user }) {
         }}
       />
 
-      <header className="relative z-20 flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-[#0A0A0A]/90 px-6 backdrop-blur-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-between border-b border-white/10 bg-[#0A0A0A]/90 px-6 backdrop-blur-sm">
         <Link
           href="/dashboard"
           className="font-mono text-[12px] uppercase tracking-[0.35em]"
@@ -123,8 +123,8 @@ export default function DashboardShell({ children, team, user }) {
         </div>
       </header>
 
-      <div className="relative z-10 flex min-h-0 flex-1">
-        <aside className="w-[240px] shrink-0 border-r border-white/10 bg-[#0A0A0A]/80 p-4">
+      <div className="relative z-10 mt-14 flex min-h-0 flex-1">
+        <aside className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[240px] border-r border-white/10 bg-[#0A0A0A]/80 p-4 overflow-y-auto">
           {team ? (
             <div className="relative mb-6 px-4 py-4">
               <BracketFrame />
@@ -202,7 +202,7 @@ export default function DashboardShell({ children, team, user }) {
           </nav>
         </aside>
 
-        <main className="min-w-0 flex-1 overflow-y-auto">
+        <main className="ml-[240px] min-w-0 flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
