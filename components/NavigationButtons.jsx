@@ -18,8 +18,10 @@ export default function NavigationButtons({ user, showHeader }) {
       }`}
     >
       {/* IEEE VIT Logo */}
-      <Link
-        href="/"
+      <a
+        href="https://www.ieeevit.org/"
+        target="_blank"
+        rel="noopener noreferrer"
         className={`${redButtonClass} px-5 py-3 -rotate-1`}
       >
         <Image
@@ -30,7 +32,7 @@ export default function NavigationButtons({ user, showHeader }) {
           className="h-7 md:h-8 w-auto object-contain"
           priority
         />
-      </Link>
+      </a>
 
       <nav className="flex items-center gap-6">
         {/* FaultLine */}
