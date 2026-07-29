@@ -78,17 +78,26 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: TOP VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 mt-40 overflow-hidden">
-        <VelocityMarquee text="ERROR • REBUILD • EXPLOIT • " baseVelocity={3} />
+      <section
+        id="hide-navbar-trigger"
+        className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 mt-40 overflow-hidden"
+      >
+        <VelocityMarquee
+          text="ERROR • REBUILD • EXPLOIT • "
+          baseVelocity={3}
+        />
       </section>
 
-      {/* SECTION 3: HORIZONTAL PIPELINE */}
-      <Pipeline />
+  {/* SECTION 3 */}
+  <Pipeline />
 
-      {/* SECTION 4: BOTTOM VELOCITY MARQUEE */}
-      <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 overflow-hidden">
-        <VelocityMarquee text="CRITICAL FAILURE • SYSTEM BREACH • " baseVelocity={-5} />
-      </section>
+  {/* SECTION 4 */}
+  <section className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 overflow-hidden">
+    <VelocityMarquee
+      text="CRITICAL FAILURE • SYSTEM BREACH • "
+      baseVelocity={-5}
+    />
+  </section>
 
       {/* SECTION 5: GRAVITAS */}
       {/* <section className="relative z-10 w-full">

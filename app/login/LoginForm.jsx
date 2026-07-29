@@ -156,32 +156,13 @@ export default function LoginForm() {
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full mt-4 py-5 border text-lg tracking-[0.2em] uppercase transition-all disabled:opacity-50"
-              style={{
-                fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace",
-                borderColor: TEXT,
-                color: TEXT,
-                boxShadow: `6px 6px 0 0 ${TEXT}`
-              }}
-              onMouseEnter={(e) => {
-                if (loading) return;
-                e.currentTarget.style.borderColor = CYAN;
-                e.currentTarget.style.color = CYAN;
-                e.currentTarget.style.boxShadow = `8px 8px 0 0 ${CYAN}`;
-                e.currentTarget.style.transform = "translate(-2px, -2px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = TEXT;
-                e.currentTarget.style.color = TEXT;
-                e.currentTarget.style.boxShadow = `6px 6px 0 0 ${TEXT}`;
-                e.currentTarget.style.transform = "translate(0, 0)";
-              }}
-            >
-              {loading ? "///" : <>Execute // Login</>}
-            </button>
+           <button
+  type="submit"
+  disabled={loading}
+  className="group w-full mt-4 flex items-center justify-center border-[5px] border-white bg-black py-5 font-mono text-lg font-bold uppercase tracking-[0.2em] text-white shadow-[8px_8px_0_0_white] transition-all duration-200 disabled:opacity-50 hover:bg-[#00E0FF] hover:border-[#00E0FF] hover:text-black hover:shadow-none hover:translate-x-2 hover:translate-y-2"
+>
+  {loading ? "///" : <>Execute // Login</>}
+</button>
           </form>
 
           <div

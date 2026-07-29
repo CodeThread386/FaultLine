@@ -15,7 +15,7 @@ export default function HeaderAuth({ user }) {
     return (
       <Link
         href="/login"
-        className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-white transition hover:text-red-500"
+        className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:text-black"
       >
         Login
       </Link>
@@ -32,6 +32,7 @@ export default function HeaderAuth({ user }) {
       >
         {user.loginNumber != null ? `#${user.loginNumber}` : user.email}
       </span>
+
       {roles.length > 1 ? (
         <div className="flex flex-wrap gap-1">
           {roles.map((role) => (
@@ -51,6 +52,7 @@ export default function HeaderAuth({ user }) {
           </span>
         )
       )}
+
       <LogoutButton />
     </div>
   );
