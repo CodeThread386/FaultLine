@@ -1,6 +1,7 @@
 "use client";
 
 import HorizontalScroll from "./HorizontalScroll";
+import { getPhaseDisplayStatus } from "@/lib/phase-control";
 import { useEffect, useState } from "react";
 
 const DEFAULT_FEATURES = [
@@ -14,7 +15,8 @@ const DEFAULT_FEATURES = [
     borderColor: "border-[#ff0000]",
     numColor: "text-[#ff0000]",
     accentBorder: "border-l-[#ff0000]",
-    status: "ACTIVE",
+    status: "NOT STARTED",
+    phaseName: "phase_1",
   },
   {
     title: "THE BLIND SWAP",
@@ -39,6 +41,7 @@ const DEFAULT_FEATURES = [
     numColor: "text-[#ff0000]",
     accentBorder: "border-l-[#ff0000]",
     status: "UPCOMING",
+    phaseName: "phase_2",
   },
   {
     title: "THE JUDGEMENT",
@@ -60,26 +63,75 @@ export default function Pipeline() {
   useEffect(() => {
     async function fetchStatus() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/phases`);
-        const data = await res.json();
+        const url = "/api/phase";
+        console.log("Fetching:", url);
 
-        setFeatures(prev =>
-          prev.map((item, index) => ({
-            ...item,
-            status: data[index]?.status ?? item.status,
-          }))
+        const res = await fetch(url, {
+          cache: "no-store",
+        });
+
+        console.log("Response status:", res.status);
+
+        const data = await res.json();
+        console.log("API DATA:", data);
+
+        const phases = data.phases ?? [];
+        console.log("PHASES:", phases);
+
+        const phase1 = phases.find(
+          (phase) => phase.name === "phase_1"
+        );
+
+        const phase2 = phases.find(
+          (phase) => phase.name === "phase_2"
+        );
+
+        console.log("PHASE 1:", phase1);
+        console.log("PHASE 2:", phase2);
+
+        console.log(
+          "PHASE 1 DISPLAY:",
+          getPhaseDisplayStatus(phase1)
+        );
+
+        console.log(
+          "PHASE 2 DISPLAY:",
+          getPhaseDisplayStatus(phase2)
+        );
+
+        setFeatures((prev) =>
+          prev.map((item) => {
+            if (item.phaseName === "phase_1") {
+              return {
+                ...item,
+                status: getPhaseDisplayStatus(phase1).label.toUpperCase(),
+              };
+            }
+
+            if (item.phaseName === "phase_2") {
+              return {
+                ...item,
+                status: getPhaseDisplayStatus(phase2).label.toUpperCase(),
+              };
+            }
+
+            return item;
+          })
         );
       } catch (err) {
-        console.log(err);
+        console.error("PHASE FETCH ERROR:", err);
       }
     }
 
     fetchStatus();
+
+    const interval = setInterval(fetchStatus, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <HorizontalScroll>
-
       <div className="w-[100vw] h-full flex flex-col justify-center px-12 md:px-32 shrink-0">
         <h2 className="fl-display text-[15vw] tracking-tighter z-10 animate-shake relative">
           <span className="text-[#ff0000]">THE </span>
@@ -98,17 +150,20 @@ export default function Pipeline() {
         </p>
       </div>
 
-
       {features.map((feature, i) => (
         <div
           key={i}
-          className={`w-[95vw] md:w-[75vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${i % 2 === 0 ? "skew-x-3" : "-skew-x-3"} transition-transform duration-300 hover:scale-[1.02]`}
+          className={`w-[95vw] md:w-[75vw] h-[65vh] shrink-0 flex items-center justify-center relative group transform ${feature.offset} ${
+            i % 2 === 0 ? "skew-x-3" : "-skew-x-3"
+          } transition-transform duration-300 hover:scale-[1.02]`}
         >
-
-          <div className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-transparent/90 backdrop-blur-md overflow-hidden`}>
-
+          <div
+            className={`border-[12px] ${feature.borderColor} p-8 md:p-12 w-full h-full flex flex-col justify-between relative z-10 bg-transparent/90 backdrop-blur-md overflow-hidden`}
+          >
             <div className="flex justify-between items-center z-10">
-              <span className={`${feature.badgeBg} font-mono font-black text-xs md:text-sm px-4 py-1.5 uppercase tracking-widest border border-black shadow-[4px_4px_0_0_#ffffff]`}>
+              <span
+                className={`${feature.badgeBg} font-mono font-black text-xs md:text-sm px-4 py-1.5 uppercase tracking-widest border border-black shadow-[4px_4px_0_0_#ffffff]`}
+              >
                 {feature.tag}
               </span>
 
@@ -117,26 +172,31 @@ export default function Pipeline() {
               </span>
             </div>
 
-
-            <div className={`text-[12rem] md:text-[14rem] font-display font-black ${feature.numColor} opacity-50 absolute top-[-4rem] right-[-1rem] pointer-events-none select-none transform -rotate-12`}>
+            <div
+              className={`text-[12rem] md:text-[14rem] font-display font-black ${feature.numColor} opacity-50 absolute top-[-4rem] right-[-1rem] pointer-events-none select-none transform -rotate-12`}
+            >
               0{i + 1}
             </div>
-
 
             <div className="mt-8 z-10">
               <h3 className="fl-display text-[4rem] md:text-[6.5rem] text-white leading-[0.85] mb-8 group-hover:translate-x-2 transition-transform">
                 {feature.title}
               </h3>
 
-              <p className={`text-sm md:text-base font-mono uppercase tracking-wider text-white/90 border-l-8 ${feature.accentBorder} pl-6 bg-white/5 py-4 pr-4 border-y border-r border-white/10`}>
+              <p
+                className={`text-sm md:text-base font-mono uppercase tracking-wider text-white/90 border-l-8 ${feature.accentBorder} pl-6 bg-white/5 py-4 pr-4 border-y border-r border-white/10`}
+              >
                 {feature.desc}
               </p>
             </div>
 
-
             <div className="flex justify-between items-center z-10 border-t border-white/20 pt-4 mt-4 font-mono text-xs uppercase tracking-widest text-white/50">
               <span className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full animate-ping" style={{ backgroundColor: feature.color }} />
+                <span
+                  className="w-2.5 h-2.5 rounded-full animate-ping"
+                  style={{ backgroundColor: feature.color }}
+                />
+
                 STATUS: {feature.status}
               </span>
 
@@ -144,12 +204,9 @@ export default function Pipeline() {
                 FAULTLINE // SECTOR 0{i + 1}
               </span>
             </div>
-
           </div>
-
         </div>
       ))}
-
     </HorizontalScroll>
   );
 }
