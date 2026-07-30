@@ -8,61 +8,6 @@ import TesseractSvg from "@/components/landing/TesseractSvg";
 import InfiniteZoom from "@/components/landing/InfiniteZoom";
 import MagneticButton from "@/components/landing/MagneticButton";
 
-const FEATURES = [
-  {
-    title: "PHASE 1: BUILD",
-    tag: "CHAOS INITIATION",
-    desc: "Intentionally build a broken, chaotic system. Pitch it to the judges as a revolutionary startup.",
-    offset: "translate-y-[6vh]",
-    color: "#ff0000",
-    shadow: "shadow-[16px_16px_0_0_#ff0000]",
-    badgeBg: "bg-[#ff0000] text-black",
-    borderColor: "border-[#ff0000]",
-    numColor: "text-[#ff0000]",
-    accentBorder: "border-l-[#ff0000]",
-    status: "ACTIVE"
-  },
-  {
-    title: "THE BLIND SWAP",
-    tag: "HANDOVER PROTOCOL",
-    desc: "At lunch, your disaster is taken away. You inherit another team's cursed codebase from your track.",
-    offset: "translate-y-[-5vh]",
-    color: "#00f0ff",
-    shadow: "shadow-[16px_16px_0_0_#00f0ff]",
-    badgeBg: "bg-[#00f0ff] text-black",
-    borderColor: "border-[#00f0ff]",
-    numColor: "text-[#00f0ff]",
-    accentBorder: "border-l-[#00f0ff]",
-    status: "ACTIVE"
-  },
-  {
-    title: "PHASE 2: REDEMPTION",
-    tag: "SYSTEM REBUILD",
-    desc: "Diagnose their mess, debug their traps, and rebuild the system from the ground up cleanly.",
-    offset: "translate-y-[6vh]",
-    color: "#ff0000",
-    shadow: "shadow-[16px_16px_0_0_#ff0000]",
-    badgeBg: "bg-[#ff0000] text-black",
-    borderColor: "border-[#ff0000]",
-    numColor: "text-[#ff0000]",
-    accentBorder: "border-l-[#ff0000]",
-    status: "ACTIVE"
-  },
-  {
-    title: "THE JUDGEMENT",
-    tag: "FINAL VERDICT",
-    desc: "Present your full arc. Phase 1 and Phase 2 are independent competitions—everyone has a shot.",
-    offset: "translate-y-[-6vh]",
-    color: "#00f0ff",
-    shadow: "shadow-[16px_16px_0_0_#00f0ff]",
-    badgeBg: "bg-[#00f0ff] text-black",
-    borderColor: "border-[#00f0ff]",
-    numColor: "text-[#00f0ff]",
-    accentBorder: "border-l-[#00f0ff]",
-    status: "ACTIVE"
-  }
-];
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white relative overflow-x-clip selection:bg-white selection:text-black">
@@ -104,7 +49,7 @@ export default function Home() {
         <InfiniteZoom />
       </section> */}
 
-      {/* The Directive & Tracks block is not part of the requested landing sequence. */}
+      {/* The Directive & Tracks*/}
       <section className="relative z-10 w-full bg-transparent py-32 border-t-[16px] border-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
 
