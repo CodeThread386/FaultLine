@@ -86,26 +86,76 @@ export default function LoginForm() {
 
       <section className="w-full max-w-xl relative z-10 flex flex-col items-center">
 
-        {/* Headline */}
-        <div className="mb-12 w-full text-center">
-          <p
-            className="mb-4 text-xs tracking-[0.3em] uppercase text-white/60"
-            style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
-          >
-            Authentication
-          </p>
-          <h1
-            className="text-[clamp(3.5rem,10vw,6.5rem)] italic uppercase leading-[0.9]"
-            style={{ fontFamily: "'Bodoni Moda', 'Libre Bodoni', Georgia, serif", fontWeight: 700 }}
-          >
-            Log{" "}
-            <span className="relative inline-block isolate">
-              <span aria-hidden className="absolute inset-0 -z-10" style={{ color: RED, transform: "translate(-3px, 2px)" }}>In</span>
-              <span aria-hidden className="absolute inset-0 -z-10" style={{ color: CYAN, transform: "translate(3px, -2px)" }}>In</span>
-              In
-            </span>
-          </h1>
-        </div>
+{/* Headline */}
+<div className="mb-12 w-full text-center">
+  <p
+    className="mb-4 text-xs tracking-[0.3em] uppercase text-white/60"
+    style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+  >
+    Authentication
+  </p>
+
+  <h1
+    className="text-[clamp(3.5rem,10vw,6.5rem)] uppercase leading-[0.9]"
+    style={{
+      fontFamily: "'Clarendon', 'Rockwell', 'Arvo', serif",
+      fontWeight: 700,
+      letterSpacing: "-0.03em",
+    }}
+  >
+    <span className="relative inline-block isolate">
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          color: RED,
+          transform: "translate(-3px, 2px)",
+        }}
+      >
+        LOG
+      </span>
+
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          color: CYAN,
+          transform: "translate(3px, -2px)",
+        }}
+      >
+        LOG
+      </span>
+
+      LOG
+    </span>{" "}
+
+    <span className="relative inline-block isolate">
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          color: RED,
+          transform: "translate(-3px, 2px)",
+        }}
+      >
+        IN
+      </span>
+
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          color: CYAN,
+          transform: "translate(3px, -2px)",
+        }}
+      >
+        IN
+      </span>
+
+      IN
+    </span>
+  </h1>
+</div>
 
         {/* Card */}
         <div className="relative w-full p-10 md:p-14 border border-white/10 bg-transparent">

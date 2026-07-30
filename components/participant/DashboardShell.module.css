@@ -47,11 +47,20 @@
   border-top: 1px solid var(--participant-text);
 }
 
-.shell :global(.fl-bracket-panel)::before { left: -4px; border-left: 1px solid var(--participant-text); }
-.shell :global(.fl-bracket-panel)::after { right: -4px; border-right: 1px solid var(--participant-text); }
+.shell :global(.fl-bracket-panel)::before {
+  left: -4px;
+  border-left: 1px solid var(--participant-text);
+}
+
+.shell :global(.fl-bracket-panel)::after {
+  right: -4px;
+  border-right: 1px solid var(--participant-text);
+}
 
 .shell :global(.fl-input),
 .shell :global(.fl-textarea) {
+  width: 100%;
+  padding: 0.75rem 0;
   border: 0;
   border-bottom: 2px solid var(--participant-text);
   border-radius: 0;
@@ -60,8 +69,21 @@
   font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
 }
 
+.shell :global(.fl-input) {
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.shell :global(.fl-textarea) {
+  font-size: 1rem;
+  line-height: 1.6;
+  min-height: 140px;
+}
+
 .shell :global(.fl-input):focus,
-.shell :global(.fl-textarea):focus { border-color: var(--participant-cyan); }
+.shell :global(.fl-textarea):focus {
+  border-color: var(--participant-cyan);
+}
 
 .shell :global(.fl-btn-primary) {
   border: 1px solid var(--participant-text);
@@ -74,4 +96,6 @@
   letter-spacing: 0.22em;
 }
 
-.shell :global(.fl-btn-primary):hover { box-shadow: 4px 4px 0 var(--participant-cyan); }
+.shell :global(.fl-btn-primary):hover {
+  box-shadow: 4px 4px 0 var(--participant-cyan);
+}
