@@ -7,6 +7,7 @@ import Pipeline from "@/components/landing/Pipeline";
 import TesseractSvg from "@/components/landing/TesseractSvg";
 import InfiniteZoom from "@/components/landing/InfiniteZoom";
 import MagneticButton from "@/components/landing/MagneticButton";
+import GravitasEvents from "@/components/landing/GravitasEvents";
 
 export default function Home() {
   return (
@@ -129,6 +130,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SECTION: GRAVITAS EVENTS */}
+      <GravitasEvents />
+
       {/* SECTION 6: CTA / MAGNETIC BUTTON */}
       <section className="h-[80vh] w-[110vw] ml-[-5vw] flex items-center justify-center relative z-10 bg-transparent border-t-[32px] border-white transform skew-y-3 mt-32 overflow-hidden">
 
@@ -138,12 +142,12 @@ export default function Home() {
         </svg>
 
         <div className="flex flex-col items-center transform -skew-y-3 relative z-20">
-          <h2 className="fl-display text-[10vw] mb-16 tracking-tighter text-center mix-blend-difference text-white">
-            SYSTEM READY
+          <h2 className="fl-display text-[10vw] mb-16 tracking-tighter text-center text-white">
+            SYSTEM <span className="text-[#ff0000]">READY</span>
           </h2>
           <Link href="/login">
             <MagneticButton className="border-[12px] border-white px-24 py-12 fl-display text-6xl tracking-tighter bg-transparent flex items-center gap-8 shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
-              LOGIN <MoveRight size={80} className="animate-pulse" />
+              LOGIN <MoveRight size={80} className="animate-pulse text-[#00f0ff] drop-shadow-[0_0_15px_rgba(0,240,255,0.8)] group-hover:text-gray-600 group-hover:drop-shadow-none transition-colors duration-300" />
             </MagneticButton>
           </Link>
         </div>
