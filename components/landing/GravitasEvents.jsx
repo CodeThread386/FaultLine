@@ -6,22 +6,12 @@ import { Cpu, Code, ShieldAlert, ArrowUpRight } from "lucide-react";
 
 const EVENTS = [
   {
-    id: "micromouse",
-    name: "MICROMOUSE",
-    tag: "ROBOTICS & ALGORITHMS",
-    logo: "/micromouse.png",
-    fallbackIcon: Cpu,
-    color: "#ff0000",
-    description:
-      "Autonomous maze-solving robotics competition. Test your hardware algorithms, speed, mapping capabilities, and precision control under intense time constraints.",
-  },
-  {
     id: "sourcesprint",
     name: "SOURCESPRINT",
     tag: "OPEN SOURCE HACKATHON",
     logo: "/sourcesprint.png",
     fallbackIcon: Code,
-    color: "#00f0ff",
+    color: "#ff0000",
     description:
       "Kick off with a hands-on workshop on open-source, Git, and effective version control. Explore unfamiliar repositories, tackle real-world issues, submit production-ready PRs, collaborate, and climb the leaderboard.",
   },
@@ -31,9 +21,19 @@ const EVENTS = [
     tag: "CHAOS HACKATHON",
     logo: "/faultline.png",
     fallbackIcon: ShieldAlert,
-    color: "#ff0000",
+    color: "#00f0ff",
     description:
       "The ultimate chaos engineering and codebase redemption hackathon. Build intentional architectural disasters in Phase 1, then rebuild inherited cursed systems in Phase 2.",
+  },
+  {
+    id: "micromouse",
+    name: "MICROMOUSE",
+    tag: "ROBOTICS & ALGORITHMS",
+    logo: "/micromouse.png",
+    fallbackIcon: Cpu,
+    color: "#ff0000",
+    description:
+      "Autonomous maze-solving robotics competition. Test your hardware algorithms, speed, mapping capabilities, and precision control under intense time constraints.",
   },
 ];
 
@@ -80,7 +80,7 @@ export default function GravitasEvents() {
           <div>
             <div className="flex items-center gap-3 text-[#ff0000] font-mono text-sm font-bold uppercase tracking-widest mb-3">
               <span className="w-3 h-3 bg-[#ff0000] inline-block animate-pulse"></span>
-              <span>GRAVITAS '26 PROTOCOL</span>
+              <span>GRAVITAS 26 PROTOCOL</span>
             </div>
             <h2 className="fl-display text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase text-white">
               OUR GRAVITAS EVENTS
@@ -183,7 +183,7 @@ export default function GravitasEvents() {
                     <span className="uppercase text-[11px] tracking-widest" style={{ color: event.color }}>
                       {event.tag}
                     </span>
-                    <span className="text-white/40">GRAVITAS '26</span>
+                    <span className="text-white/40">GRAVITAS 26</span>
                   </div>
                 </div>
               </motion.div>
