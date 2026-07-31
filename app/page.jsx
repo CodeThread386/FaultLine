@@ -19,14 +19,14 @@ export default function Home() {
       <div className="absolute inset-0 fl-dot-grid pointer-events-none opacity-20"></div>
 
       {/* SECTION 1: HERO MASK */}
-      <section className="relative z-10 mx-auto max-w-5xl px-4 md:px-8 pt-14">
+      <section className="relative z-10 mx-auto max-w-5xl px-3 sm:px-6 md:px-8 pt-8 sm:pt-14 overflow-hidden">
         <HeroMask />
       </section>
 
       {/* SECTION 2: TOP VELOCITY MARQUEE */}
       <section
         id="hide-navbar-trigger"
-        className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 mt-40 overflow-hidden"
+        className="relative z-10 w-[110vw] ml-[-5vw] py-4 bg-transparent transform -skew-y-3 mt-12 sm:mt-24 md:mt-40 overflow-hidden"
       >
         <VelocityMarquee
           text="ERROR • REBUILD • EXPLOIT • "

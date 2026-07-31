@@ -10,12 +10,12 @@ const ROLE_LABELS = {
   participant: "Participant"
 };
 
-export default function HeaderAuth({ user }) {
+export default function HeaderAuth({ user, isMobile = false }) {
   if (!user) {
     return (
       <Link
         href="/login"
-        className="font-mono text-xs md:text-sm font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:text-black"
+        className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:text-black"
       >
         Login
       </Link>
@@ -25,16 +25,16 @@ export default function HeaderAuth({ user }) {
   const roles = normalizeRoles(user);
 
   return (
-    <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+    <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${isMobile ? "justify-center w-full flex-col sm:flex-row" : "justify-end"}`}>
       <span
-        className="hidden max-w-[180px] truncate font-mono text-[11px] text-fl-muted sm:inline"
+        className={`${isMobile ? "block" : "hidden sm:inline"} max-w-[180px] truncate font-mono text-[11px] text-fl-muted`}
         title={user.email}
       >
         {user.loginNumber != null ? `#${user.loginNumber}` : user.email}
       </span>
 
       {roles.length > 1 ? (
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap items-center justify-center gap-1">
           {roles.map((role) => (
             <Link
               key={role}

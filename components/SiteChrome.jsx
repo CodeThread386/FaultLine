@@ -111,7 +111,7 @@ export default function SiteChrome({ children, user }) {
             }
           }, 1000);
         }}
-        className="fixed left-0 right-0 top-0 z-[100] px-6 py-5 md:px-10"
+        className="fixed left-0 right-0 top-0 z-[100] px-3 py-3 sm:px-6 sm:py-4 md:px-10 md:py-5 pointer-events-none"
       >
         <NavigationButtons
           user={user}
@@ -121,7 +121,7 @@ export default function SiteChrome({ children, user }) {
 
       <main
         className={
-          isLanding ? "w-full" : "mx-auto max-w-lg px-4 pb-12 pt-20 md:px-8"
+          isLanding ? "w-full" : "mx-auto max-w-5xl px-4 pt-24 pb-12 sm:px-6 md:px-8 md:pt-32"
         }
       >
         {children}
