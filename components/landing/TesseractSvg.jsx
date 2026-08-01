@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform, useVelocity, useSpring } from "framer-motion";
 
 export default function TesseractSvg() {
-  const { scrollYProgress, scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
   
   const scrollVelocity = useVelocity(scrollYProgress);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
@@ -17,7 +17,7 @@ export default function TesseractSvg() {
   const skew = useTransform(smoothVelocity, [-1, 1], [-30, 30]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 flex justify-center items-center overflow-hidden perspective-1000">
+    <div className="fixed inset-0 pointer-events-none z-0 flex justify-center items-center overflow-hidden [perspective:1000px]">
       <motion.div
         style={{
           rotateX,
@@ -62,7 +62,7 @@ export default function TesseractSvg() {
             stroke="white" 
             strokeWidth="0.2"
             strokeDasharray="1 10"
-            style={{ scale: useTransform(scale, s => s * 1.5) }}
+            style={{ scale: useTransform(scale, (s) => s * 1.5) }}
           />
         </svg>
       </motion.div>

@@ -47,14 +47,29 @@ const headerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 80 },
+  hidden: (index) => {
+    if (index === 0) {
+      // Left box moves in from outside the left side of the screen
+      return { opacity: 0, x: "-100vw", y: 0 };
+    }
+    if (index === 1) {
+      // Middle box moves down from top of the screen
+      return { opacity: 0, x: 0, y: "-100vh" };
+    }
+    if (index === 2) {
+      // Right box moves in from outside the right side of the screen
+      return { opacity: 0, x: "100vw", y: 0 };
+    }
+    return { opacity: 0, y: 80 };
+  },
   visible: (index) => ({
     opacity: 1,
+    x: 0,
     y: 0,
     transition: {
-      duration: 1.0,
-      delay: index * 0.25,
-      ease: [0.215, 0.61, 0.355, 1],
+      duration: 1.2,
+      delay: index * 0.2,
+      ease: [0.16, 1, 0.3, 1],
     },
   }),
 };
@@ -80,7 +95,7 @@ export default function GravitasEvents() {
           <div>
             <div className="flex items-center gap-3 text-[#ff0000] font-mono text-sm font-bold uppercase tracking-widest mb-3">
               <span className="w-3 h-3 bg-[#ff0000] inline-block animate-pulse"></span>
-              <span>GRAVITAS 26 PROTOCOL</span>
+              <span>GRAVITAS &apos;26 PROTOCOL</span>
             </div>
             <h2 className="fl-display text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase text-white">
               OUR GRAVITAS EVENTS
@@ -92,7 +107,12 @@ export default function GravitasEvents() {
         </motion.div>
 
         {/* 3 Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ amount: 0.2, once: false }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-10"
+        >
           {EVENTS.map((event, index) => {
             const FallbackIcon = event.fallbackIcon;
             const isImgError = imgErrors[event.id];
@@ -101,12 +121,8 @@ export default function GravitasEvents() {
               <motion.div
                 key={event.id}
                 custom={index}
-                initial="hidden"
-                whileInView="visible"
-                whileHover={{ x: 12, y: 12 }}
-                viewport={{ amount: 0.15, once: false }}
                 variants={cardVariants}
-                transition={{ duration: 0.35, ease: "easeOut" }}
+                whileHover={{ x: 12, y: 12, transition: { duration: 0.2, ease: "easeOut" } }}
                 className="group relative h-96 w-full cursor-pointer border-4 border-white bg-black p-8 shadow-[12px_12px_0_0_#ffffff] hover:shadow-none transition-shadow duration-[350ms] flex flex-col justify-between overflow-hidden"
               >
                 {/* Accent top border highlight */}
@@ -183,13 +199,13 @@ export default function GravitasEvents() {
                     <span className="uppercase text-[11px] tracking-widest" style={{ color: event.color }}>
                       {event.tag}
                     </span>
-                    <span className="text-white/40">GRAVITAS 26</span>
+                    <span className="text-white/40">GRAVITAS &apos;26</span>
                   </div>
                 </div>
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

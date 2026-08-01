@@ -141,12 +141,12 @@ export default function Home() {
           <path d="M0,0 L100,100" stroke="white" strokeWidth="2" strokeDasharray="1,10" className="animate-pulse" />
         </svg>
 
-        <div className="flex flex-col items-center transform -skew-y-3 relative z-20">
-          <h2 className="fl-display text-[10vw] mb-16 tracking-tighter text-center text-white">
+        <div className="flex flex-col items-center transform -skew-y-3 relative z-20 mt-10 sm:mt-0">
+          <h2 className="fl-display text-[14vw] sm:text-[10vw] mb-16 tracking-tighter text-center text-white">
             SYSTEM <span className="text-[#ff0000]">READY</span>
           </h2>
           <Link href="/login">
-            <MagneticButton className="border-[12px] border-white px-24 py-12 fl-display text-6xl tracking-tighter bg-transparent flex items-center gap-8 shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
+            <MagneticButton className="border-[6px] sm:border-[12px] border-white px-10 sm:px-24 py-5 sm:py-12 fl-display text-3xl sm:text-6xl tracking-tighter bg-transparent flex items-center gap-3 sm:gap-8 shadow-[10px_10px_0_0_#ffffff] sm:shadow-[20px_20px_0_0_#ffffff] hover:shadow-none transition-shadow">
               LOGIN <MoveRight size={80} className="animate-pulse text-[#00f0ff] drop-shadow-[0_0_15px_rgba(0,240,255,0.8)] group-hover:text-gray-600 group-hover:drop-shadow-none transition-colors duration-300" />
             </MagneticButton>
           </Link>
