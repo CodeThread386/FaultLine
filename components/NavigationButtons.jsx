@@ -79,9 +79,18 @@ export default function NavigationButtons({ user, showHeader }) {
           </Link>
 
           {/* Login / Auth */}
-          <div className={`${cyanButtonClass} -rotate-1`}>
-            <HeaderAuth user={user} />
-          </div>
+          {!user ? (
+            <Link
+              href="/login"
+              className={`${cyanButtonClass} -rotate-1 font-mono text-xs lg:text-sm font-bold uppercase tracking-widest text-white hover:text-black`}
+            >
+              LOGIN
+            </Link>
+          ) : (
+            <div className={`${cyanButtonClass} -rotate-1`}>
+              <HeaderAuth user={user} />
+            </div>
+          )}
         </nav>
 
         {/* Mobile Action Row (< MD screens) */}
@@ -127,9 +136,20 @@ export default function NavigationButtons({ user, showHeader }) {
             <span className="text-xs">→</span>
           </Link>
 
-          <div className="w-full border-2 border-white bg-black p-3 text-center">
-            <HeaderAuth user={user} isMobile={true} />
-          </div>
+          {!user ? (
+            <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-between w-full border-2 border-white bg-black px-4 py-3 font-mono text-sm font-bold uppercase tracking-widest text-white hover:bg-[#00E0FF] hover:border-[#00E0FF] hover:text-black transition-all"
+            >
+              <span>LOGIN</span>
+              <span className="text-xs">→</span>
+            </Link>
+          ) : (
+            <div className="w-full border-2 border-white bg-black p-3 text-center">
+              <HeaderAuth user={user} isMobile={true} />
+            </div>
+          )}
         </div>
       )}
     </div>

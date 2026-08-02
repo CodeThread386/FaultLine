@@ -23,7 +23,7 @@ export default function HeaderAuth({ user, isMobile = false }) {
     return (
       <Link
         href="/login"
-        className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:text-black"
+        className="flex items-center justify-center w-full h-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-colors duration-200 group-hover:text-black"
       >
         Login
       </Link>
