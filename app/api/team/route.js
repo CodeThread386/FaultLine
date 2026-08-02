@@ -19,3 +19,4 @@ export const POST = withApiRoute(
     }
 
     throw new ApiError("Team assignments are pre-set for participants. Contact the organizers if you need a change.", 403);
+  });
