@@ -1,6 +1,6 @@
 "use client";
 
-import { ROLE_DASHBOARDS } from "@/lib/roles";
+import { getDashboardForRole } from "@/lib/roles";
 
 const LABELS = {
   organizer: "Organizer Panel",
@@ -19,16 +19,19 @@ export default function ChooseRoleClient({ roles, email }) {
         </p>
       </div>
       <div className="grid gap-px border border-fl-border bg-fl-border">
-        {roles.map((role) => (
-          <a
-            key={role}
-            href={ROLE_DASHBOARDS[role]}
-            className="fl-hover-lift block bg-fl-bg2 px-6 py-5 transition hover:bg-fl-bg3"
-          >
-            <p className="font-semibold text-fl-text">{LABELS[role] || role}</p>
-            <p className="mt-1 font-mono text-[11px] text-fl-muted">{ROLE_DASHBOARDS[role]}</p>
-          </a>
-        ))}
+        {roles.map((role) => {
+          const targetHref = getDashboardForRole(role);
+          return (
+            <a
+              key={role}
+              href={targetHref}
+              className="fl-hover-lift block bg-fl-bg2 px-6 py-5 transition hover:bg-fl-bg3"
+            >
+              <p className="font-semibold text-fl-text">{LABELS[role] || role}</p>
+              <p className="mt-1 font-mono text-[11px] text-fl-muted">{targetHref}</p>
+            </a>
+          );
+        })}
       </div>
     </section>
   );

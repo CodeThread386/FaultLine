@@ -1,14 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { normalizeRoles, ROLE_DASHBOARDS } from "@/lib/roles";
 import LogoutButton from "@/components/LogoutButton";
 
-const ROLE_LABELS = {
-  organizer: "Organizer",
-  judge: "Judge",
-  participant: "Participant"
-};
+function getDisplayName(user) {
+  if (typeof user?.name === "string" && user.name.trim()) {
+    return user.name.trim();
+  }
+
+  if (typeof user?.email === "string" && user.email.trim()) {
+    const localPart = user.email.split("@")[0] || user.email;
+    return localPart
+      .replace(/[._-]+/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  return "User";
+}
 
 export default function HeaderAuth({ user, isMobile = false }) {
   if (!user) {
@@ -22,36 +30,14 @@ export default function HeaderAuth({ user, isMobile = false }) {
     );
   }
 
-  const roles = normalizeRoles(user);
-
   return (
     <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${isMobile ? "justify-center w-full flex-col sm:flex-row" : "justify-end"}`}>
       <span
         className={`${isMobile ? "block" : "hidden sm:inline"} max-w-[180px] truncate font-mono text-[11px] text-fl-muted`}
         title={user.email}
       >
-        {user.loginNumber != null ? `#${user.loginNumber}` : user.email}
+        {getDisplayName(user)}
       </span>
-
-      {roles.length > 1 ? (
-        <div className="flex flex-wrap items-center justify-center gap-1">
-          {roles.map((role) => (
-            <Link
-              key={role}
-              href={ROLE_DASHBOARDS[role]}
-              className="rounded-sm border border-fl-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-caption text-fl-text transition hover:border-fl-muted hover:bg-fl-bg3"
-            >
-              {ROLE_LABELS[role] || role}
-            </Link>
-          ))}
-        </div>
-      ) : (
-        roles.length > 0 && (
-          <span className="rounded-sm border border-fl-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-caption text-fl-muted">
-            {roles.join(", ")}
-          </span>
-        )
-      )}
 
       <LogoutButton />
     </div>

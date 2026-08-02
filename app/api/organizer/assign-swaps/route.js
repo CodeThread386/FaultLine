@@ -73,5 +73,5 @@ export const POST = withApiRoute(
 
     return { summary };
   },
-  { role: "organizer", limit: 10 }
+  { role: "admin", limit: 10 }
 );

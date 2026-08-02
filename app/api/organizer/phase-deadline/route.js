@@ -19,5 +19,5 @@ export const POST = withApiRoute(
     if (result.error) throw new ApiError(result.error, result.status);
     return { phase: result.phase };
   },
-  { role: "organizer", limit: 30 }
+  { role: "admin", limit: 20 }
 );

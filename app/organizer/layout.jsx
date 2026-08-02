@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { normalizeRoles } from "@/lib/roles";
+import { isAdminRole, normalizeRoles } from "@/lib/roles";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
@@ -10,7 +10,8 @@ export default async function OrganizerLayout({ children }) {
   if (!session?.user?.id) redirect("/login");
 
   const roles = normalizeRoles(session.user);
-  if (!roles.includes("organizer")) redirect("/post-login");
+  if (!isAdminRole(session.user.role) && !roles.includes("organizer")) redirect("/post-login");
+  if (!isAdminRole(session.user.role)) redirect("/post-login");
 
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden bg-black text-white selection:bg-white selection:text-black relative fl-tech-grid">

@@ -28,7 +28,7 @@ export const GET = withApiRoute(
       unread_count: list.length
     };
   },
-  { role: "organizer", limit: 60 }
+  { role: "admin", limit: 60 }
 );
 
 /** DELETE ?id=<uuid> — one notification. DELETE ?all=1 — clear entire feed. */
@@ -64,5 +64,5 @@ export const DELETE = withApiRoute(
     });
     return { deleted: 1, id };
   },
-  { role: "organizer", limit: 30 }
+  { role: "admin", limit: 30 }
 );

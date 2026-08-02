@@ -26,7 +26,7 @@ export const GET = withApiRoute(
     const list = (judges || []).sort((a, b) => (a.name || "").localeCompare(b.name || ""));
     return { judges: list };
   },
-  { role: "organizer", limit: 60 }
+  { role: "admin", limit: 60 }
 );
 
 export const PATCH = withApiRoute(
@@ -72,5 +72,5 @@ export const PATCH = withApiRoute(
 
     return { judge: updated };
   },
-  { role: "organizer", limit: 30 }
+  { role: "admin", limit: 30 }
 );

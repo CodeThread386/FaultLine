@@ -41,5 +41,5 @@ export const POST = withApiRoute(
 
     return { message: "Swaps unlocked for teams" };
   },
-  { role: "organizer", limit: 20 }
+  { role: "admin", limit: 20 }
 );
