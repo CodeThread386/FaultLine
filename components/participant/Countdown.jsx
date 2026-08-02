@@ -38,7 +38,7 @@ export default function Countdown({
   if (compact) {
     return (
       <span
-        className={`font-mono text-2xl font-bold uppercase tracking-[0.18em] text-[#00E0FF] ${className}`}
+        className={`font-mono text-base sm:text-lg md:text-2xl font-bold uppercase tracking-[0.05em] text-[#00E0FF] max-w-full truncate inline-block ${className}`}
       >
         {remaining}
       </span>
@@ -46,7 +46,7 @@ export default function Countdown({
   }
 
   return (
-    <div className={`relative px-8 py-6 ${className}`}>
+    <div className={`relative px-4 sm:px-8 py-4 sm:py-6 ${className}`}>
       {/* corner brackets */}
       <span className="pointer-events-none absolute -left-1 -top-1 h-4 w-4 border-l border-t border-[#F5F5F0]" />
       <span className="pointer-events-none absolute -right-1 -top-1 h-4 w-4 border-r border-t border-[#F5F5F0]" />
@@ -72,7 +72,7 @@ export default function Countdown({
         ) : null}
 
         <div
-          className="font-mono text-4xl font-bold tracking-[0.12em] text-[#00E0FF]"
+          className="font-mono text-xl sm:text-3xl md:text-4xl font-bold tracking-[0.05em] text-[#00E0FF] max-w-full truncate"
           style={{
             textShadow: "-2px 2px 0 #FF2318"
           }}

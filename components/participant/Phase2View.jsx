@@ -51,7 +51,7 @@ export default function Phase2View({ submission, initialSwap }) {
 
   return (
     <>
-      <div className="border-b border-white/10 px-10 py-8">
+      <div className="border-b border-white/10 px-4 md:px-10 py-6 md:py-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#FF2318]">
@@ -85,7 +85,7 @@ export default function Phase2View({ submission, initialSwap }) {
         </div>
       </div>
 
-      <div className="grid gap-8 px-10 py-5 lg:grid-cols-[1fr_360px]">
+      <div className="grid gap-8 px-4 md:px-10 py-5 grid-cols-1 lg:grid-cols-[1fr_360px]">
         <div>
           {!unlocked ? (
             <section className="mb-10">

@@ -32,7 +32,7 @@ export default function LiveScheduleView() {
 
   return (
     <>
-      <div className="border-b border-fl-border px-10 py-8">
+      <div className="border-b border-fl-border px-4 md:px-10 py-6 md:py-8">
         <div className="mb-3 inline-flex items-center gap-2 rounded-sm border border-fl-border bg-fl-bg3 px-3 py-1 font-mono text-[10px] uppercase tracking-caption text-fl-accent">
           <span className="fl-live-dot" />
           LIVE
@@ -42,8 +42,8 @@ export default function LiveScheduleView() {
         <p className="mt-1 text-sm text-fl-muted">Real-time phase status and activity feed</p>
       </div>
 
-      <div className="grid lg:grid-cols-[1fr_360px]">
-        <div className="border-r border-fl-border px-10 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px]">
+        <div className="border-b lg:border-b-0 lg:border-r border-fl-border px-4 md:px-10 py-6 md:py-8">
           <div className="fl-block-title">Event flow</div>
           <div className="relative border-l border-fl-border pl-6">
             {SCHEDULE.map((item, i) => (
@@ -81,7 +81,7 @@ export default function LiveScheduleView() {
           </div>
         </div>
 
-        <div className="px-6 py-8">
+        <div className="px-4 md:px-6 py-6 md:py-8">
           <div className="fl-block-title">Activity feed</div>
           <div className="space-y-4">
             {activity.length === 0 && (

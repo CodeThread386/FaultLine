@@ -57,10 +57,10 @@ export default async function DashboardHome() {
   if (unreadCount > 0) nextSteps.push({ label: `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}`, href: "/dashboard/notifications", urgent: true });
 
   return (
-    <div className={`${styles.home} min-h-screen w-full overflow-hidden pb-32`}>
+    <div className={`${styles.home} min-h-[calc(100vh-3.5rem)] w-full pb-16`}>
 
       {/* Faint corner reticle — decorative only, static, low opacity */}
-      <svg className="fixed top-20 right-20 w-40 h-40 opacity-[0.06] pointer-events-none" viewBox="0 0 100 100">
+      <svg className="fixed top-20 right-20 w-40 h-40 opacity-[0.06] pointer-events-none hidden md:block" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="1" strokeDasharray="5,10" />
         <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="1" />
         <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="1" />
@@ -68,20 +68,24 @@ export default async function DashboardHome() {
 
       {/* ---------- Hero ---------- */}
       <div className={`${styles.hero} ${styles.homePanel}`}>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
             <p className={styles.eyebrow}>Mission Control</p>
-            <h1 className={`${styles.headline} text-[clamp(3rem,8vw,7rem)] tracking-tighter leading-[0.9]`}>
-              {team.name.split(" ").slice(0, -1).join(" ")}{" "}
-              <span
-                className={styles.glitch}
-                data-text={team.name.split(" ").slice(-1)[0]}
-              >
-                {team.name.split(" ").slice(-1)[0]}
-              </span>
+            <h1 className={`${styles.headline} text-[clamp(1.1rem,5.2vw,4.5rem)] tracking-tighter leading-[0.95] max-w-full`}>
+              {team.name.trim().split(/\s+/).map((word, index, arr) => (
+                <span key={index} className="inline-block whitespace-nowrap">
+                  {index === arr.length - 1 ? (
+                    <span className={styles.glitch} data-text={word}>
+                      {word}
+                    </span>
+                  ) : (
+                    <span>{word}&nbsp;</span>
+                  )}
+                </span>
+              ))}
             </h1>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-3">
+          <div className="flex flex-wrap md:flex-col items-start md:items-end gap-2 md:gap-3">
             <p className={styles.statusTag}>
               {meta.icon} {track?.name}
             </p>
@@ -94,14 +98,14 @@ export default async function DashboardHome() {
 
       {/* ---------- Action Required ---------- */}
       {nextSteps.length > 0 && (
-        <div className={`${styles.actionPanel} ${styles.homePanel} mx-8 md:mx-12 mt-8`}>
+        <div className={`${styles.actionPanel} ${styles.homePanel} mx-4 md:mx-12 mt-6`}>
           <div className={styles.sectionLabel}>Action Required</div>
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-3">
             {nextSteps.map((step) => (
               <li key={step.label}>
                 <Link
                   href={step.href}
-                  className={`${styles.actionLink} group flex items-center justify-between gap-6 px-6 py-5 text-2xl md:text-3xl tracking-tight ${
+                  className={`${styles.actionLink} group flex items-center justify-between gap-4 px-4 py-3 text-lg md:text-2xl tracking-tight ${
                     step.urgent ? styles.actionLinkUrgent : ""
                   }`}
                 >
@@ -115,7 +119,7 @@ export default async function DashboardHome() {
       )}
 
       {/* ---------- Status row: Track / Phase 1 / Phase 2 / Timer ---------- */}
-      <div className="w-full px-8 md:px-12 grid grid-cols-1 gap-x-12 gap-y-8 py-16 md:grid-cols-4 mt-8">
+      <div className="w-full px-4 md:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-6 mt-4">
         <div className={`${styles.card} ${styles.homePanel}`}>
           <div className={styles.cardLabel}>Track</div>
           <div className={styles.cardIcon}>{meta.icon}</div>
@@ -147,30 +151,30 @@ export default async function DashboardHome() {
       </div>
 
       {/* ---------- Briefing / System Log ---------- */}
-      <div className="w-full px-8 md:px-12 grid gap-x-12 gap-y-8 lg:grid-cols-2 mt-8">
+      <div className="w-full px-4 md:px-12 grid gap-6 lg:grid-cols-2 mt-6">
         <div className={`${styles.briefing} ${styles.homePanel}`}>
           <div className={styles.cardLabel}>Briefing</div>
-          <p className="text-2xl md:text-3xl leading-snug uppercase mt-4">
+          <p className="text-lg md:text-2xl leading-snug uppercase mt-3">
             {track?.functional_spec ||
               "Build the worst functional system in your domain. Phase 2 teams only get your repo URL and description."}
           </p>
         </div>
 
         <div className={`${styles.log} ${styles.homePanel}`}>
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div className={styles.cardLabel}>System Log</div>
             <Link href="/dashboard/notifications" className={styles.actionLink}>
               View all
             </Link>
           </div>
           {notifications.length === 0 ? (
-            <p className="text-xl uppercase opacity-40">No events logged.</p>
+            <p className="text-base uppercase opacity-40">No events logged.</p>
           ) : (
-            <ul className="flex flex-col gap-5">
+            <ul className="flex flex-col gap-4">
               {notifications.map((n) => (
-                <li key={n.id} className="flex gap-4 text-lg uppercase items-start">
+                <li key={n.id} className="flex gap-3 text-base uppercase items-start">
                   <span
-                    className={`mt-1.5 h-3 w-3 shrink-0 border ${
+                    className={`mt-1.5 h-2.5 w-2.5 shrink-0 border ${
                       n.read ? "border-white/30 bg-transparent" : "border-[--home-red] bg-[--home-red]"
                     }`}
                   />
@@ -183,9 +187,9 @@ export default async function DashboardHome() {
       </div>
 
       {/* ---------- Event Progress ---------- */}
-      <div className={`${styles.progress} ${styles.homePanel} mx-8 md:mx-12 mt-8`}>
+      <div className={`${styles.progress} ${styles.homePanel} mx-4 md:mx-12 mt-6 overflow-x-auto`}>
         <div className={styles.cardLabel}>Event Progress</div>
-        <div className="relative flex mt-16">
+        <div className="relative flex mt-10 min-w-[480px]">
           <div className="absolute left-0 right-0 top-[14px] h-px bg-white/20" />
           {[
             { label: "Kickoff", done: true },
@@ -219,19 +223,19 @@ export default async function DashboardHome() {
       </div>
 
       {/* ---------- Squad ---------- */}
-      <div className="w-full mt-24 mb-16 px-8 md:px-12">
+      <div className="w-full mt-10 mb-12 px-4 md:px-12">
         <div className={styles.cardLabel}>Squad</div>
-        <div className="grid gap-6 md:grid-cols-2 mt-8">
+        <div className="grid gap-3 sm:grid-cols-2 mt-4">
           {members.map((member) => (
-            <div key={member.id} className={`${styles.squadMember} ${styles.homePanel} flex items-center gap-6`}>
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center border border-white/30 text-xl font-bold uppercase">
+            <div key={member.id} className={`${styles.squadMember} ${styles.homePanel} flex items-center gap-3 md:gap-5 min-w-0`}>
+              <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center border border-white/30 text-sm md:text-lg font-bold uppercase">
                 {initials(member.name, member.email)}
               </div>
-              <div className="overflow-hidden flex-1">
-                <div className="text-xl font-bold uppercase tracking-tight truncate">
+              <div className="overflow-hidden flex-1 min-w-0">
+                <div className="text-sm md:text-base font-bold uppercase tracking-tight truncate">
                   {member.name || member.email}
                 </div>
-                <div className="text-sm uppercase opacity-40 mt-1 truncate">{member.email}</div>
+                <div className="text-[11px] md:text-xs uppercase opacity-40 mt-0.5 truncate">{member.email}</div>
               </div>
               {team.leader_id === member.id && (
                 <span className={styles.roleTag}>Root</span>

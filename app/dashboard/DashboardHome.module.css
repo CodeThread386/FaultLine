@@ -64,9 +64,16 @@
 
 /* ---------- Hero ---------- */
 .hero {
-  margin: 2rem 2.5rem 0;
-  padding: 3rem 2.5rem;
+  margin: 1.25rem 1rem 0;
+  padding: 1.75rem 1.25rem;
   border-bottom: 1px solid rgb(245 245 240 / 12%);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    margin: 2rem 2.5rem 0;
+    padding: 2.5rem 2.5rem;
+  }
 }
 
 .eyebrow, .statusTag, .sectionLabel, .cardLabel {
@@ -75,22 +82,34 @@
   background: transparent;
   color: var(--home-red);
   font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: .32em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .25em;
   line-height: 1.2;
   text-transform: uppercase;
 }
-.eyebrow { margin-bottom: 1rem; padding: .55rem .7rem; }
-.statusTag { margin: 0; padding: .55rem .7rem; }
+.eyebrow { margin-bottom: 0.75rem; padding: .5rem .7rem; }
+.statusTag {
+  margin: 0;
+  padding: .5rem .8rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
 
 /* sectionLabel / cardLabel use a bottom rule instead of a full box —
    give real breathing room between the text baseline and the rule
    so it reads as an underline accent, not a strikethrough */
 .sectionLabel, .cardLabel {
-  margin-bottom: 1.75rem;
-  padding: 0 0 .75rem;
+  margin-bottom: 1.25rem;
+  padding: 0 0 .5rem;
   border-width: 0 0 1px;
+}
+
+.cardLabel {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .25em;
 }
 
 .headline {
@@ -118,7 +137,11 @@
 .glitch::after { color: var(--home-cyan); transform: translate(3px, -2px); }
 
 /* ---------- Action panel ---------- */
-.actionPanel { margin-top: 0; padding: 2.5rem; }
+.actionPanel { margin-top: 0; padding: 1.5rem; }
+
+@media (min-width: 768px) {
+  .actionPanel { padding: 2rem 2.5rem; }
+}
 
 .actionLink {
   display: inline-flex;
@@ -146,8 +169,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 220px;
-  padding: 2rem;
+  min-height: 170px;
+  padding: 1.5rem 1rem;
   text-align: center;
   border: 1px solid rgb(245 245 240 / 14%) !important;
   box-shadow: 6px 6px 0 0 var(--home-text) !important;
@@ -161,12 +184,13 @@
 }
 
 .card .cardValue {
-  font-size: 2.75rem;
-  line-height: 1;
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+  line-height: 1.1;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   transition: color .2s ease;
+  word-break: break-word;
 }
 
 .card:hover .cardValue {
@@ -174,9 +198,9 @@
 }
 
 .card .cardIcon {
-  font-size: 3.5rem;
+  font-size: 2.75rem;
   line-height: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   filter: grayscale(1) contrast(1.4);
   transition: filter .2s ease;
 }
@@ -185,7 +209,15 @@
   filter: none;
 }
 
-.timer { color: var(--home-cyan); font-size: 2.75rem; }
+.timer {
+  color: var(--home-cyan);
+  font-size: clamp(1.1rem, 2.2vw, 2.2rem);
+  letter-spacing: 0.05em !important;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* ---------- Briefing / log / progress ---------- */
 /* Briefing/log share the card's visible border and hover treatment
@@ -193,10 +225,15 @@
    not a short stat, so they get their own rule instead of reusing
    .card's flex-centering. */
 .briefing, .log, .progress {
-  padding: 2rem;
+  padding: 1.5rem;
   border: 1px solid rgb(245 245 240 / 14%) !important;
   box-shadow: 6px 6px 0 0 var(--home-text) !important;
   transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+@media (min-width: 768px) {
+  .briefing, .log, .progress {
+    padding: 2rem;
+  }
 }
 .briefing:hover, .log:hover {
   border-color: var(--home-cyan) !important;
@@ -205,17 +242,22 @@
 }
 
 /* ---------- Squad ---------- */
-.squadMember { padding: 1.5rem 1.75rem; }
+.squadMember { padding: 0.85rem 1rem; }
+
+@media (min-width: 768px) {
+  .squadMember { padding: 1.25rem 1.5rem; }
+}
 
 .roleTag {
   display: inline-block;
-  margin-left: .75rem;
-  padding: .25rem .5rem;
+  margin-left: .5rem;
+  padding: .15rem .4rem;
   border: 1px solid var(--home-red);
   background: transparent;
   color: var(--home-red);
   font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
-  font-size: 10px;
-  letter-spacing: .2em;
+  font-size: 9px;
+  letter-spacing: .15em;
   text-transform: uppercase;
+  flex-shrink: 0;
 }

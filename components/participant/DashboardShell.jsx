@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "@/components/LogoutButton";
@@ -80,6 +81,7 @@ function BracketFrame() {
 export default function DashboardShell({ children, team, user }) {
   const pathname = usePathname();
   const { unreadCount } = useEventSync();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const track = team?.tracks;
   const meta = getTrackMeta(track?.name || "");
@@ -103,109 +105,140 @@ export default function DashboardShell({ children, team, user }) {
         }}
       />
 
-      <header className="fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-between border-b border-white/10 bg-[#0A0A0A]/90 px-6 backdrop-blur-sm">
-        <Link
-          href="/dashboard"
-          className="font-mono text-[12px] uppercase tracking-[0.35em]"
-        >
-          <span className="text-[#FF2318]">FAULT</span>
-          <span className="text-[#F5F5F0]">LINE</span>
-        </Link>
+      <header className="fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-between border-b border-white/10 bg-[#0A0A0A]/90 px-3 sm:px-6 backdrop-blur-sm">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen((prev) => !prev)}
+            className="flex items-center justify-center p-1.5 text-[#F5F5F0] hover:text-[#00E0FF] md:hidden"
+            aria-label="Toggle Navigation"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {mobileNavOpen ? (
+                <path d="M18 6L6 18M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
 
-        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.2em] sm:tracking-[0.35em]"
+          >
+            <span className="text-[#FF2318]">FAULT</span>
+            <span className="text-[#F5F5F0]">LINE</span>
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           <span className="hidden font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8A84] sm:inline">
             {DEMO_MODE
               ? `#${user?.loginNumber ?? "—"}`
               : user?.name || user?.email || "Participant"}
           </span>
 
-          <LogoutButton className="border border-[#F5F5F0] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318] transition hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]" />
+          <LogoutButton className="border border-[#F5F5F0] px-2 py-1 sm:px-3 sm:py-1.5 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.22em] text-[#F5F5F0] shadow-[2px_2px_0_#FF2318] sm:shadow-[4px_4px_0_#FF2318] transition hover:border-[#00E0FF] hover:shadow-[3px_3px_0_#00E0FF]" />
         </div>
       </header>
 
-      <div className="relative z-10 mt-14 flex min-h-0 flex-1">
-        <aside className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[240px] border-r border-white/10 bg-[#0A0A0A]/80 p-4 overflow-y-auto">
-          {team ? (
-            <div className="relative mb-6 px-4 py-4">
-              <BracketFrame />
+      {mobileNavOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-xs md:hidden"
+          onClick={() => setMobileNavOpen(false)}
+        />
+      )}
 
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FF2318]">
-                Assigned Team
-              </div>
+      <aside
+        className={`fixed top-14 left-0 z-50 h-[calc(100vh-3.5rem)] w-[240px] border-r border-white/10 bg-[#0A0A0A] p-4 overflow-y-auto transition-transform duration-200 ${
+          mobileNavOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
+        {team ? (
+          <div className="relative mb-6 px-4 py-4">
+            <BracketFrame />
 
-              <div className="mt-2 whitespace-nowrap font-mono text-[20px] font-black uppercase tracking-tight text-[#F5F5F0]">
-                {team.name}
-              </div>
-
-              <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#8A8A84]">
-                {meta.icon} {track?.name || "Track"}
-              </div>
-            </div>
-          ) : (
-            <div className="relative mb-6 px-4 py-4">
-              <BracketFrame />
-
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FF2318]">
-                Not Registered Yet
-              </div>
-            </div>
-          )}
-
-          <nav className="flex flex-col gap-2">
-            <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#8A8A84]">
-              Navigation
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#FF2318]">
+              Assigned Team
             </div>
 
-            {NAV.map((item) => {
-              const active =
-                item.href === "/dashboard"
-                  ? pathname === "/dashboard"
-                  : pathname.startsWith(item.href);
+            <div className="mt-2 font-mono text-[13px] sm:text-[15px] md:text-[18px] font-black uppercase tracking-tight text-[#F5F5F0] whitespace-nowrap overflow-hidden text-ellipsis">
+              {team.name}
+            </div>
 
-              const showBadge =
-                item.icon === "bell" && unreadCount > 0;
+            <div className="mt-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#F5F5F0]">
+              {meta.icon} {track?.name || "Track"}
+            </div>
+          </div>
+        ) : (
+          <div className="relative mb-6 px-4 py-4">
+            <BracketFrame />
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group flex items-center gap-3 border px-3 py-3 font-mono text-[10px] uppercase tracking-[0.25em] transition ${
-                    active
-                      ? "border-[#FF2318] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318]"
-                      : "border-[#F5F5F0] text-[#8A8A84] hover:border-[#00E0FF] hover:text-[#F5F5F0] hover:shadow-[4px_4px_0_#00E0FF]"
-                  }`}
-                >
-                  <NavIcon type={item.icon} />
-                  {item.label}
+            <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#FF2318]">
+              Not Registered Yet
+            </div>
+          </div>
+        )}
 
-                  {showBadge && (
-                    <span className="ml-auto border border-[#FF2318] px-1.5 py-0.5 font-mono text-[10px] text-[#FF2318]">
-                      {unreadCount}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
+        <nav className="flex flex-col gap-2">
+          <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#8A8A84]">
+            Navigation
+          </div>
 
-            {!DEMO_MODE && !team?.registered && (
+          {NAV.map((item) => {
+            const active =
+              item.href === "/dashboard"
+                ? pathname === "/dashboard"
+                : pathname.startsWith(item.href);
+
+            const showBadge =
+              item.icon === "bell" && unreadCount > 0;
+
+            return (
               <Link
-                href="/dashboard/register"
-                className={`mt-4 border px-3 py-3 font-mono text-[10px] uppercase tracking-[0.25em] transition ${
-                  pathname === "/dashboard/register"
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileNavOpen(false)}
+                className={`group flex items-center gap-3 border px-3 py-3 font-mono text-[10px] uppercase tracking-[0.25em] transition ${
+                  active
                     ? "border-[#FF2318] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318]"
-                    : "border-[#F5F5F0] text-[#F5F5F0] hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
+                    : "border-[#F5F5F0] text-[#8A8A84] hover:border-[#00E0FF] hover:text-[#F5F5F0] hover:shadow-[4px_4px_0_#00E0FF]"
                 }`}
               >
-                Register Team
-              </Link>
-            )}
-          </nav>
-        </aside>
+                <NavIcon type={item.icon} />
+                {item.label}
 
-        <main className="ml-[240px] min-w-0 flex-1 overflow-y-auto">
+                {showBadge && (
+                  <span className="ml-auto border border-[#FF2318] px-1.5 py-0.5 font-mono text-[10px] text-[#FF2318]">
+                    {unreadCount}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+
+          {!DEMO_MODE && !team?.registered && (
+            <Link
+              href="/dashboard/register"
+              onClick={() => setMobileNavOpen(false)}
+              className={`mt-4 border px-3 py-3 font-mono text-[10px] uppercase tracking-[0.25em] transition ${
+                pathname === "/dashboard/register"
+                  ? "border-[#FF2318] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318]"
+                  : "border-[#F5F5F0] text-[#F5F5F0] hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
+              }`}
+            >
+              Register Team
+            </Link>
+          )}
+        </nav>
+      </aside>
+
+      <div className="relative mt-14 flex min-h-0 flex-1">
+        <main className="ml-0 md:ml-[240px] min-w-0 flex-1">
           {children}
         </main>
       </div>
     </div>
   );
 }
+
