@@ -81,7 +81,7 @@ export default function PhaseSubmissionForm({
       </label>
 
       <input
-        className="fl-input"
+        className="fl-input font-mono text-xs sm:text-sm md:text-base break-all"
         type="url"
         name="repo_url"
         placeholder="https://github.com/your-team/repo"
@@ -90,6 +90,20 @@ export default function PhaseSubmissionForm({
         value={repoUrl}
         onChange={(e) => setRepoUrl(e.target.value)}
       />
+
+      {(initialSubmission?.repo_url || repoUrl) && (
+        <div className="mt-2 text-xs font-mono text-[#8A8A84] break-all">
+          <span className="text-[#8A8A84]">Submitted Repo: </span>
+          <a
+            href={initialSubmission?.repo_url || repoUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-[#00E0FF] underline hover:text-white transition-colors"
+          >
+            {initialSubmission?.repo_url || repoUrl}
+          </a>
+        </div>
+      )}
 
       <label className="mb-2 mt-6 block font-mono text-[10px] uppercase tracking-[0.3em] text-[#8A8A84]">
         {phaseName === "phase_2"

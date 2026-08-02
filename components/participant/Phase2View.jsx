@@ -122,14 +122,26 @@ export default function Phase2View({ submission, initialSwap }) {
                   </p>
 
                   {swapData?.repo_url && (
-                    <a
-                      href={swapData.repo_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-6 inline-block border border-[#F5F5F0] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318] transition hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
-                    >
-                      View Repository
-                    </a>
+                    <div className="mt-6 space-y-2">
+                      <a
+                        href={swapData.repo_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-block border border-[#F5F5F0] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318] transition hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
+                      >
+                        View Repository
+                      </a>
+                      <div className="font-mono text-xs text-[#00E0FF] break-all">
+                        <a
+                          href={swapData.repo_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline hover:text-white transition-colors"
+                        >
+                          {swapData.repo_url}
+                        </a>
+                      </div>
+                    </div>
                   )}
                 </div>
 
