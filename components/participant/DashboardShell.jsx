@@ -217,19 +217,6 @@ export default function DashboardShell({ children, team, user }) {
             );
           })}
 
-          {!DEMO_MODE && !team?.registered && (
-            <Link
-              href="/dashboard/register"
-              onClick={() => setMobileNavOpen(false)}
-              className={`mt-4 border px-3 py-3 font-mono text-[10px] uppercase tracking-[0.25em] transition ${
-                pathname === "/dashboard/register"
-                  ? "border-[#FF2318] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318]"
-                  : "border-[#F5F5F0] text-[#F5F5F0] hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
-              }`}
-            >
-              Register Team
-            </Link>
-          )}
         </nav>
       </aside>
 

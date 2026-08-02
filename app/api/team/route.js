@@ -18,6 +18,9 @@ export const POST = withApiRoute(
       throw new ApiError("Teams are pre-assigned for the demo. Use your login number only.", 403);
     }
 
+    throw new ApiError("Team assignments are pre-set for participants. Contact the organizers if you need a change.", 403);
+
+    /*
     let body;
     try {
       body = await parseJsonBody(req);
