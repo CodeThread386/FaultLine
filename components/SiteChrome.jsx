@@ -2,10 +2,7 @@
 import NavigationButtons from "./NavigationButtons";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import HeaderAuth from "@/components/HeaderAuth";
 
 export default function SiteChrome({ children, user }) {
   const pathname = usePathname();
@@ -14,108 +11,93 @@ export default function SiteChrome({ children, user }) {
 
   const isLanding = pathname === "/";
 
-  const [isVisible, setIsVisible] = useState(!isLanding);
+  const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
-  const activityTimeoutRef = useRef(null);
+  const lastScrollY = useRef(0);
   const isHoveredRef = useRef(false);
+  const isMouseNearTopRef = useRef(false);
 
   useEffect(() => {
     isHoveredRef.current = isHovered;
   }, [isHovered]);
 
+  // Reset navbar visibility on page/route change
   useEffect(() => {
-    if (!isLanding) {
-      setIsVisible(true);
-      return;
+    setIsVisible(true);
+    if (typeof window !== "undefined") {
+      lastScrollY.current = window.scrollY;
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      lastScrollY.current = window.scrollY;
     }
 
-    const trigger = document.getElementById("hide-navbar-trigger");
-
-    const isAboveTrigger = () => {
-      if (!trigger) return true;
-
-      const triggerTop =
-        trigger.getBoundingClientRect().top + window.scrollY;
-
-      return window.scrollY < triggerTop;
-    };
-
-    const hideAfterDelay = () => {
-      clearTimeout(activityTimeoutRef.current);
-
-      activityTimeoutRef.current = setTimeout(() => {
-        if (!isHoveredRef.current && isAboveTrigger()) {
-          setIsVisible(false);
-        }
-      }, 1000);
-    };
-
-    const handleMouseMove = () => {
-      if (!isAboveTrigger()) return;
-
-      setIsVisible(true);
-      hideAfterDelay();
-    };
-
     const handleScroll = () => {
-      if (!isAboveTrigger()) {
-        setIsVisible(false);
+      // Do not hide navbar if user is hovering header or mouse is near top of screen
+      if (isHoveredRef.current || isMouseNearTopRef.current) {
+        setIsVisible(true);
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+
+      // Always show navbar near the top of the page
+      if (currentScrollY <= 10) {
+        setIsVisible(true);
+        lastScrollY.current = Math.max(0, currentScrollY);
+        return;
+      }
+
+      const delta = currentScrollY - lastScrollY.current;
+
+      // Threshold of 5px to avoid jitter on micro-scrolls
+      if (Math.abs(delta) > 5) {
+        if (delta > 0) {
+          // Scrolling down: navbar disappears up
+          setIsVisible(false);
+        } else {
+          // Scrolling up: navbar comes back down
+          setIsVisible(true);
+        }
+        lastScrollY.current = currentScrollY;
       }
     };
 
-    // Initial state
-    if (isAboveTrigger()) {
-      setIsVisible(true);
-      hideAfterDelay();
-    } else {
-      setIsVisible(false);
-    }
+    const handleMouseMove = (e) => {
+      // Reveal navbar when cursor is moved near top edge of the screen (top 150px)
+      const isNearTop = e.clientY <= 150;
+      isMouseNearTopRef.current = isNearTop;
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      clearTimeout(activityTimeoutRef.current);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
+      if (isNearTop) {
+        setIsVisible(true);
+      }
     };
-  }, [isLanding]);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   if (isPortal) {
     return <>{children}</>;
   }
 
-  const showHeader = !isLanding || isVisible;
-
   return (
     <div className="fl-page-bg min-h-screen">
       <header
-        onMouseEnter={() => {
-          setIsHovered(true);
-          clearTimeout(activityTimeoutRef.current);
-        }}
-        onMouseLeave={() => {
-          setIsHovered(false);
-
-          if (window.scrollY >= (
-            document.getElementById("hide-navbar-trigger")?.getBoundingClientRect().top +
-            window.scrollY || Infinity
-          )) {
-            return;
-          }
-
-          activityTimeoutRef.current = setTimeout(() => {
-            if (!isHoveredRef.current) {
-              setIsVisible(false);
-            }
-          }, 1000);
-        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         className="fixed left-0 right-0 top-0 z-[100] px-3 py-3 sm:px-6 sm:py-4 md:px-10 md:py-5 pointer-events-none"
       >
         <NavigationButtons
           user={user}
-          showHeader={showHeader}
+          showHeader={isVisible}
         />
       </header>
 
