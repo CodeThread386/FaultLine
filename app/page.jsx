@@ -117,11 +117,12 @@ export default function Home() {
               <div className="mt-24">
                 <h3 className="fl-display text-4xl mb-8 text-white/50 uppercase tracking-widest border-l-4 border-white/50 pl-6">TARGET SECTORS</h3>
                 <div className="flex flex-wrap gap-4 font-mono text-xl font-bold uppercase">
-                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors cursor-crosshair">BANKING</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">E-COMMERCE</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">FOOD DELIVERY</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">DATING APP</span>
-                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors cursor-crosshair">JOB PORTAL</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">BANKING</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">FIN-TECH</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">E-COMMERCE</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">FOOD DELIVERY</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">DATING APP</span>
+                  <span className="border-4 border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">JOB PORTAL</span>
                 </div>
               </div>
 
