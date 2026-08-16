@@ -20,6 +20,7 @@ function Corners() {
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
+    teamName: "",
     registerNumber: "",
     name: "",
     email: "",
@@ -99,7 +100,25 @@ export default function RegisterForm() {
       if (!res.ok || data.error) {
         setErrorMsg(data.error || "Registration failed. Please check details.");
       } else {
-        setSuccessData(data.registration);
+        // The route only returns { success, teamId, message } — build the
+        // display summary from what we already have locally instead of
+        // expecting the server to echo the form data back.
+        setSuccessData({
+          teamId: data.teamId,
+          teamName: formData.teamName,
+          total_team_size: totalMembers,
+          register_number: formData.registerNumber.trim().toUpperCase(),
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          track: formData.track,
+          teammate_count: teammateCount,
+          teammates: teammates.map((tm) => ({
+            name: tm.name,
+            register_number: tm.registerNumber.trim().toUpperCase(),
+            email: tm.email
+          }))
+        });
       }
     } catch (err) {
       console.error(err);
@@ -194,10 +213,10 @@ export default function RegisterForm() {
                 style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-[#00E0FF] mb-1 font-bold">
-                  {"/// REGISTRATION SUCCESSFUL"}
+                  {"/// REGISTRATION SUBMITTED"}
                 </p>
                 <h3 className="text-xl font-bold uppercase tracking-wider text-white mb-1">
-                  TEAM REGISTRATION CONFIRMED
+                  {successData.teamName || "TEAM"} — PENDING APPROVAL
                 </h3>
                 <p className="text-xs uppercase text-[#00E0FF] tracking-widest mb-3">
                   TOTAL TEAM SIZE: {successData.total_team_size} MEMBERS
@@ -240,6 +259,9 @@ export default function RegisterForm() {
                     </div>
                   )}
                 </div>
+                <p className="mt-4 pt-3 border-t border-white/10 text-xs text-white/60">
+                  Your team won't be able to log in until an organizer approves this registration.
+                </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -269,6 +291,27 @@ export default function RegisterForm() {
                   {errorMsg}
                 </p>
               )}
+
+              {/* TEAM NAME */}
+              <div>
+                <label
+                  htmlFor="teamName"
+                  className="block mb-2 text-xs tracking-[0.25em] uppercase text-white/60"
+                  style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+                >
+                  Team Name <span className="text-[#FF2318]">*</span>
+                </label>
+                <input
+                  id="teamName"
+                  name="teamName"
+                  type="text"
+                  required
+                  placeholder="e.g. Team Aurora"
+                  value={formData.teamName}
+                  onChange={handleChange}
+                  className="w-full bg-black/60 border border-white/20 focus:border-[#00E0FF] px-4 py-3.5 text-base font-mono text-[#f5f5f0] placeholder:text-white/25 focus:outline-none transition-colors"
+                />
+              </div>
 
               {/* PRIMARY REGISTRANT / LEADER SECTION */}
               <div className="pb-4 border-b border-white/10">
@@ -492,10 +535,11 @@ export default function RegisterForm() {
                           className="block mb-1.5 text-xs tracking-[0.2em] uppercase text-white/50"
                           style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
                         >
-                          Teammate #{idx + 1} Email ID
+                          Teammate #{idx + 1} Email ID <span className="text-[#FF2318]">*</span>
                         </label>
                         <input
                           type="email"
+                          required
                           placeholder="e.g. teammate@example.com"
                           value={tm.email}
                           onChange={(e) =>
