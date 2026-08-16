@@ -260,7 +260,7 @@ export default function RegisterForm() {
                   )}
                 </div>
                 <p className="mt-4 pt-3 border-t border-white/10 text-xs text-white/60">
-                  Your team won't be able to log in until an organizer approves this registration.
+                  Your team will not be able to log in until an organizer approves this registration.
                 </p>
               </div>
 
