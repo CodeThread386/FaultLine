@@ -52,7 +52,7 @@ export default function HeroMask() {
       {/* HUD CORNERS */}
       <div className="absolute top-6 left-4 sm:top-12 sm:left-8 md:top-24 md:left-24 z-30 w-12 h-12 sm:w-20 sm:h-20 md:w-32 md:h-32 border-t-4 border-l-4 md:border-t-8 md:border-l-8 border-[#ff0000] mix-blend-difference pointer-events-none"></div>
 
-      <div className="absolute bottom-6 right-4 sm:bottom-12 sm:right-8 md:bottom-24 md:right-24 z-30 w-12 h-12 sm:w-20 sm:h-20 md:w-32 md:h-32 border-b-4 border-r-4 md:border-b-8 md:border-r-8 border-[#ff0000] mix-blend-difference pointer-events-none"></div>
+      <div className="absolute bottom-6 right-4 sm:bottom-12 sm:right-8 md:bottom-24 md:right-24 z-30 w-12 h-12 sm:w-20 sm:h-20 md:w-32 md:h-32 border-b-4 border-r-4 md:border-b-8 md:border-r-8 border-[#00f0ff] mix-blend-difference pointer-events-none"></div>
 
       {/* MASK LAYER (Inverted, revealed by mouse/touch) */}
       <motion.div

@@ -11,7 +11,7 @@ const EVENTS = [
     tag: "OPEN SOURCE HACKATHON",
     logo: "/sourcesprint.png",
     fallbackIcon: Code,
-    color: "#ff0000",
+    color: "#00f0ff",
     description:
       "Kick off with a hands-on workshop on open-source, Git, and effective version control. Explore unfamiliar repositories, tackle real-world issues, submit production-ready PRs, collaborate, and climb the leaderboard.",
   },
@@ -21,7 +21,7 @@ const EVENTS = [
     tag: "CHAOS HACKATHON",
     logo: "/faultline.png",
     fallbackIcon: ShieldAlert,
-    color: "#00f0ff",
+    color: "#ff0000",
     description:
       "The ultimate chaos engineering and codebase redemption hackathon. Build intentional architectural disasters in Phase 1, then rebuild inherited cursed systems in Phase 2.",
   },
@@ -31,7 +31,7 @@ const EVENTS = [
     tag: "ROBOTICS & ALGORITHMS",
     logo: "/micromouse.png",
     fallbackIcon: Cpu,
-    color: "#ff0000",
+    color: "#00f0ff",
     description:
       "Autonomous maze-solving robotics competition. Test your hardware algorithms, speed, mapping capabilities, and precision control under intense time constraints.",
   },
@@ -135,15 +135,19 @@ export default function GravitasEvents() {
                 <div className="relative z-10 flex flex-col items-center justify-center text-center h-full transition-all duration-[600ms] group-hover:translate-y-4 group-hover:opacity-0">
                   {/* Event Logo Container */}
                   <div className="w-36 h-36 mb-6 flex items-center justify-center relative">
+                    <div
+                      className="absolute inset-2 rounded-full blur-xl opacity-40 group-hover:opacity-75 transition-opacity duration-500 pointer-events-none"
+                      style={{ backgroundColor: event.color }}
+                    ></div>
                     {!isImgError ? (
                       <img
                         src={event.logo}
                         alt={`${event.name} Logo`}
                         onError={() => handleImgError(event.id)}
-                        className="max-w-full max-h-full object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.9)] transition-transform duration-[600ms] group-hover:scale-110"
+                        className="max-w-full max-h-full object-contain relative z-10 filter drop-shadow-[0_0_14px_rgba(0,240,255,0.45)] group-hover:drop-shadow-[0_0_20px_rgba(0,240,255,0.85)] transition-all duration-[600ms] group-hover:scale-110"
                       />
                     ) : (
-                      <div className="w-24 h-24 rounded-full border-2 border-white/30 flex items-center justify-center bg-white/5">
+                      <div className="w-24 h-24 rounded-full border-2 border-white/30 flex items-center justify-center bg-white/5 relative z-10">
                         <FallbackIcon className="w-12 h-12 text-white" />
                       </div>
                     )}
