@@ -78,16 +78,24 @@ export default function NavigationButtons({ user, showHeader }) {
             LIVE SCHEDULE
           </Link>
 
+          {/* Register Link */}
+          <Link
+            href="/register"
+            className={`${cyanButtonClass} -rotate-1 font-mono text-xs lg:text-sm font-bold uppercase tracking-widest text-white hover:text-black`}
+          >
+            REGISTER
+          </Link>
+
           {/* Login / Auth */}
           {!user ? (
             <Link
               href="/login"
-              className={`${cyanButtonClass} -rotate-1 font-mono text-xs lg:text-sm font-bold uppercase tracking-widest text-white hover:text-black`}
+              className={`${cyanButtonClass} rotate-1 font-mono text-xs lg:text-sm font-bold uppercase tracking-widest text-white hover:text-black`}
             >
               LOGIN
             </Link>
           ) : (
-            <div className={`${cyanButtonClass} -rotate-1`}>
+            <div className={`${cyanButtonClass} rotate-1`}>
               <HeaderAuth user={user} />
             </div>
           )}
@@ -133,6 +141,15 @@ export default function NavigationButtons({ user, showHeader }) {
             className="flex items-center justify-between w-full border-2 border-white bg-black px-4 py-3 font-mono text-sm font-bold uppercase tracking-widest text-white hover:bg-[#00E0FF] hover:border-[#00E0FF] hover:text-black transition-all"
           >
             <span>LIVE SCHEDULE</span>
+            <span className="text-xs">→</span>
+          </Link>
+
+          <Link
+            href="/register"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center justify-between w-full border-2 border-white bg-black px-4 py-3 font-mono text-sm font-bold uppercase tracking-widest text-white hover:bg-[#00E0FF] hover:border-[#00E0FF] hover:text-black transition-all"
+          >
+            <span>REGISTER</span>
             <span className="text-xs">→</span>
           </Link>
 

@@ -232,6 +232,21 @@ export default function LoginForm() {
             </button>
           </div>
 
+          <div className="pt-6 border-t border-white/10 text-center">
+            <p
+              className="text-xs uppercase text-white/60 tracking-wider"
+              style={{ fontFamily: "'IBM Plex Mono', 'JetBrains Mono', monospace" }}
+            >
+              Not registered yet?{" "}
+              <Link
+                href="/register"
+                className="text-[#00E0FF] hover:underline font-bold tracking-widest"
+              >
+                REGISTER HERE
+              </Link>
+            </p>
+          </div>
+
           {
             /*
             Numeric clearance-code login is disabled for now. The old flow is kept
