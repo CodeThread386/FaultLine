@@ -14,103 +14,216 @@ const RULES = [
 ];
 
 const AWARDS = [
-  { name: "⚡ Best Redemption Arc", desc: "Biggest before/after transformation" },
-  { name: "🏗️ Cleanest Rebuild", desc: "Best architecture and code quality" },
-  { name: "🏆 FaultLine Champion", desc: "Best across both phases" }
+  {
+    name: "BEST REDEMPTION ARC",
+    desc: "Biggest before/after transformation"
+  },
+  {
+    name: "CLEANEST REBUILD",
+    desc: "Best architecture and code quality"
+  },
+  {
+    name: "FAULTLINE CHAMPION",
+    desc: "Best across both phases"
+  }
 ];
+
+function BracketPanel({ children, className = "" }) {
+  return (
+    <div className={`relative p-6 ${className}`}>
+      <span className="pointer-events-none absolute -left-1 -top-1 h-4 w-4 border-l border-t border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -right-1 -top-1 h-4 w-4 border-r border-t border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -bottom-1 -left-1 h-4 w-4 border-b border-l border-[#F5F5F0]" />
+      <span className="pointer-events-none absolute -bottom-1 -right-1 h-4 w-4 border-b border-r border-[#F5F5F0]" />
+      {children}
+    </div>
+  );
+}
 
 export default function Phase2View({ submission, initialSwap }) {
   const { getPhase, swap } = useEventSync();
+
   const phase = getPhase("phase_2");
   const open = areSubmissionsOpen(phase);
+
   const swapData = swap ?? initialSwap;
   const unlocked = swapData?.unlocked;
 
   return (
     <>
-      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-fl-border px-10 py-8">
-        <div>
-          <h1 className="fl-display text-[clamp(1.75rem,4vw,2.25rem)]">Phase 2 — The Redemption Round</h1>
-          <p className="mt-1 text-sm text-fl-muted">
-            {formatPhaseScheduleLine(phase, { fallback: "Unlocks after organizer assigns swaps" })}
-          </p>
+      <div className="border-b border-white/10 px-4 md:px-10 py-6 md:py-8">
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#FF2318]">
+              CHAOS PROTOCOL // PHASE 02
+            </div>
+
+            <h1 className="fl-display text-[clamp(2.2rem,5vw,4.5rem)]">
+              PHASE 2 — THE
+              <br />
+              <span
+                className="fl-glitch inline-block"
+                data-text="REDEMPTION ROUND"
+              >
+                REDEMPTION ROUND
+              </span>
+            </h1>
+
+            <p className="mt-4 text-sm text-[#8A8A84]">
+              {formatPhaseScheduleLine(phase, {
+                fallback: "Unlocks after organizer assigns swaps"
+              })}
+            </p>
+          </div>
+
+          {open && phase?.submission_deadline && (
+            <Countdown
+              deadline={phase.submission_deadline}
+              label="Submission Window"
+            />
+          )}
         </div>
-        {open && phase?.submission_deadline && (
-          <Countdown deadline={phase.submission_deadline} label="Closes in" />
-        )}
       </div>
 
-      <div className="grid gap-8 px-10 py-8 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-8 px-4 md:px-10 py-5 grid-cols-1 lg:grid-cols-[1fr_360px]">
         <div>
           {!unlocked ? (
-            <div className="mb-8 fl-glass rounded-sm border border-fl-border p-12 text-center fl-fade-in">
-              <p className="fl-label mb-4">Locked</p>
-              <h2 className="fl-display text-2xl">Codebase swap happens at lunch</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-fl-muted">
-                During lunch, organizers assign each team a codebase from another team in the same track.
-                Come back at 2:00 PM — your Phase 2 assignment will be waiting here.
-              </p>
-            </div>
-          ) : (
-            <div className="mb-8 fl-glass rounded-sm border border-fl-border bg-gradient-to-br from-white/[0.04] to-transparent p-8 text-center fl-fade-in">
-              <p className="fl-label mb-3">Assigned</p>
-              <h2 className="fl-display text-2xl">Your Assigned Codebase</h2>
-              <p className="mt-2 text-sm text-fl-muted">Inherited disaster — your job is to fix it properly.</p>
-              {swapData?.repo_url && (
-                <a
-                  href={swapData.repo_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 rounded-sm border border-fl-border bg-fl-bg3 px-4 py-2.5 font-mono text-xs transition hover:border-fl-accent"
-                >
-                  {swapData.repo_url}
-                </a>
-              )}
-              {swapData?.description && (
-                <div className="mx-auto mt-6 max-w-lg fl-card fl-accent-bar p-5 text-left">
-                  <div className="fl-label mb-2">Brief</div>
-                  <p className="text-sm leading-relaxed text-fl-muted">{swapData.description}</p>
+            <section className="mb-10">
+              <BracketPanel className="text-center">
+                <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#FF2318]">
+                  Locked
                 </div>
-              )}
-            </div>
+
+                <h2 className="mt-4 fl-display text-2xl">
+                  Codebase Swap Happens At Lunch
+                </h2>
+
+                <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-[#8A8A84]">
+                  During lunch, organizers assign each team a codebase from
+                  another team in the same track. Come back at 2:00 PM — your
+                  Phase 2 assignment will be waiting here.
+                </p>
+              </BracketPanel>
+            </section>
+          ) : (
+            <section className="mb-10">
+              <BracketPanel>
+                <div className="text-center">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#FF2318]">
+                    Assigned
+                  </div>
+
+                  <h2 className="mt-3 fl-display text-2xl">
+                    Your Assigned Codebase
+                  </h2>
+
+                  <p className="mt-3 text-sm text-[#8A8A84]">
+                    Inherited disaster — your job is to fix it properly.
+                  </p>
+
+                  {swapData?.repo_url && (
+                    <div className="mt-6 space-y-2">
+                      <a
+                        href={swapData.repo_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-block border border-[#F5F5F0] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#F5F5F0] shadow-[4px_4px_0_#FF2318] transition hover:border-[#00E0FF] hover:shadow-[4px_4px_0_#00E0FF]"
+                      >
+                        View Repository
+                      </a>
+                      <div className="font-mono text-xs text-[#00E0FF] break-all">
+                        <a
+                          href={swapData.repo_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline hover:text-white transition-colors"
+                        >
+                          {swapData.repo_url}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {swapData?.description && (
+                  <div className="mt-8">
+                    <div className="fl-block-title">Brief</div>
+
+                    <BracketPanel>
+                      <p className="text-sm leading-relaxed text-[#8A8A84]">
+                        {swapData.description}
+                      </p>
+                    </BracketPanel>
+                  </div>
+                )}
+              </BracketPanel>
+            </section>
           )}
 
-          <section className="mb-8">
-            <div className="fl-block-title">What to Expect</div>
-            <div className="space-y-3">
-              {RULES.map((rule, i) => (
-                <div key={rule} className="flex gap-3 text-sm leading-relaxed">
-                  <span className="shrink-0 font-mono text-[10px] text-fl-muted">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span>{rule}</span>
-                </div>
-              ))}
-            </div>
+          <section>
+            <div className="fl-block-title">What To Expect</div>
+
+            <BracketPanel>
+              <div className="space-y-5">
+                {RULES.map((rule, i) => (
+                  <div key={rule} className="flex gap-4">
+                    <div className="min-w-[48px] font-mono text-[10px] uppercase tracking-[0.3em] text-[#FF2318]">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+
+                    <div className="text-sm leading-relaxed text-[#F5F5F0]">
+                      {rule}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </BracketPanel>
           </section>
         </div>
 
         <div>
-          <section className="mb-8">
+          <section className="mb-10">
             <div className="fl-block-title">Your Submission</div>
+
             <PhaseSubmissionForm
               phaseName="phase_2"
               phase={phase}
               submission={submission}
               disabled={!unlocked}
-              disabledMessage={!unlocked ? "Swaps unlock after lunch when organizers publish them." : undefined}
+              disabledMessage={
+                !unlocked
+                  ? "Swaps unlock after lunch when organizers publish them."
+                  : undefined
+              }
               submitLabel="Submit Phase 2"
             />
           </section>
 
           <section>
             <div className="fl-block-title">Phase 2 Awards</div>
-            {AWARDS.map((a) => (
-              <div key={a.name} className="mb-2 rounded-md bg-fl-bg3 p-3">
-                <div className="text-sm font-bold">{a.name}</div>
-                <div className="text-[11px] text-fl-muted">{a.desc}</div>
+
+            <BracketPanel>
+              <div className="space-y-4">
+                {AWARDS.map((a, i) => (
+                  <div
+                    key={a.name}
+                    className={`pl-4 border-l ${
+                      i === 0
+                        ? "border-[#FF2318]"
+                        : "border-[#F5F5F0]"
+                    }`}
+                  >
+                    <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#F5F5F0]">
+                      {a.name}
+                    </div>
+
+                    <div className="mt-1 text-xs text-[#8A8A84]">
+                      {a.desc}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </BracketPanel>
           </section>
         </div>
       </div>

@@ -12,6 +12,7 @@ import {
 } from "@/lib/participant-data";
 import { getTrackMeta } from "@/lib/tracks-meta";
 import { redirect } from "next/navigation";
+import styles from "./DashboardHome.module.css";
 
 function initials(name, email) {
   const base = name || email || "?";
@@ -56,53 +57,60 @@ export default async function DashboardHome() {
   if (unreadCount > 0) nextSteps.push({ label: `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}`, href: "/dashboard/notifications", urgent: true });
 
   return (
-    <div className="min-h-screen bg-black w-full overflow-hidden fl-tech-grid pb-32">
-      <div className="fl-scanline"></div>
+    <div className={`${styles.home} min-h-[calc(100vh-3.5rem)] w-full pb-16`}>
 
-      {/* Target Reticles background */}
-      <svg className="fixed top-20 right-20 w-48 h-48 opacity-10 animate-spin-slow pointer-events-none mix-blend-difference" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="1" strokeDasharray="5,10"/>
-        <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="2"/>
-        <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="2"/>
+      {/* Faint corner reticle — decorative only, static, low opacity */}
+      <svg className="fixed top-20 right-20 w-40 h-40 opacity-[0.06] pointer-events-none hidden md:block" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="1" strokeDasharray="5,10" />
+        <line x1="50" y1="0" x2="50" y2="100" stroke="white" strokeWidth="1" />
+        <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeWidth="1" />
       </svg>
 
-      <div className="w-full px-4 py-20 md:px-8 md:py-32 relative overflow-visible bg-black mb-16 border-t-[12px] border-b-[12px] border-white transform -skew-y-2 mt-8 z-10">
-        <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-white mix-blend-difference blur-[200px] pointer-events-none" />
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end transform rotate-2">
+      {/* ---------- Hero ---------- */}
+      <div className={`${styles.hero} ${styles.homePanel}`}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <p className="mb-4 text-white font-display text-2xl uppercase tracking-widest bg-white/20 inline-block px-4">Mission Control</p>
-            <h1 
-              className="fl-display text-[clamp(4rem,10vw,8rem)] tracking-tighter leading-[0.8] text-white mix-blend-difference relative z-10 animate-jitter"
-              style={{ WebkitTextStroke: "2px white" }}
-            >
-              {team.name}
+            <p className={styles.eyebrow}>Mission Control</p>
+            <h1 className={`${styles.headline} text-[clamp(1.1rem,5.2vw,4.5rem)] tracking-tighter leading-[0.95] max-w-full`}>
+              {team.name.trim().split(/\s+/).map((word, index, arr) => (
+                <span key={index} className="inline-block whitespace-nowrap">
+                  {index === arr.length - 1 ? (
+                    <span className={styles.glitch} data-text={word}>
+                      {word}
+                    </span>
+                  ) : (
+                    <span>{word}&nbsp;</span>
+                  )}
+                </span>
+              ))}
             </h1>
           </div>
-          <div className="mt-8 md:mt-0 text-right transform -rotate-3">
-            <p className="text-xl text-white font-display font-black uppercase tracking-widest bg-white text-black px-4 py-2 mb-2 inline-block shadow-[4px_4px_0_0_#ffffff]">
+          <div className="flex flex-wrap md:flex-col items-start md:items-end gap-2 md:gap-3">
+            <p className={styles.statusTag}>
               {meta.icon} {track?.name}
             </p>
-            <br/>
-            <p className="text-sm font-display font-black tracking-widest uppercase text-white/50 inline-block border-2 border-white p-2 animate-pulse">
+            <p className={styles.statusTag}>
               {phase1Active ? "PHASE 1 ACTIVE" : phase2Active ? "PHASE 2 ACTIVE" : "STAND BY"}
             </p>
           </div>
         </div>
       </div>
 
+      {/* ---------- Action Required ---------- */}
       {nextSteps.length > 0 && (
-        <div className="w-full mt-16 fl-card p-12 md:p-24 relative z-20 transform -rotate-1 hover:rotate-0 border-y-[16px] border-white bg-black">
-          <div className="mb-12 font-display uppercase font-black text-white text-5xl bg-white text-black inline-block px-6 py-2 shadow-[12px_12px_0_0_#ffffff]">Action Required</div>
-          <ul className="space-y-8 flex flex-col items-start">
+        <div className={`${styles.actionPanel} ${styles.homePanel} mx-4 md:mx-12 mt-6`}>
+          <div className={styles.sectionLabel}>Action Required</div>
+          <ul className="flex flex-col gap-3">
             {nextSteps.map((step) => (
-              <li key={step.label} className="w-full md:w-3/4">
+              <li key={step.label}>
                 <Link
                   href={step.href}
-                  className={`group w-full flex items-center justify-between text-4xl md:text-6xl font-display uppercase tracking-tighter transition-all p-6 border-4 border-transparent hover:border-white ${step.urgent ? "text-black bg-white hover:bg-black hover:text-white" : "text-transparent hover:bg-white hover:text-black"}`}
-                  style={!step.urgent ? { WebkitTextStroke: "2px white" } : {}}
+                  className={`${styles.actionLink} group flex items-center justify-between gap-4 px-4 py-3 text-lg md:text-2xl tracking-tight ${
+                    step.urgent ? styles.actionLinkUrgent : ""
+                  }`}
                 >
                   <span>{step.label}</span>
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity animate-jitter">&gt;&gt;&gt;</span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity">&gt;&gt;&gt;</span>
                 </Link>
               </li>
             ))}
@@ -110,59 +118,67 @@ export default async function DashboardHome() {
         </div>
       )}
 
-      <div className="w-full px-4 md:px-12 grid grid-cols-1 gap-12 py-16 md:grid-cols-4 mt-24 relative z-10">
-        <div className="fl-card p-12 transform rotate-3 hover:scale-105 duration-200 border-8 border-white">
-          <div className="font-display font-black uppercase text-white/50 mb-8 bg-white/20 inline-block px-4 py-1 text-xl">Track</div>
-          <div className="text-[6rem] mb-6 leading-none">{meta.icon}</div>
-          <div className="text-4xl font-display font-black tracking-tight uppercase leading-none">{track?.name}</div>
+      {/* ---------- Status row: Track / Phase 1 / Phase 2 / Timer ---------- */}
+      <div className="w-full px-4 md:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-6 mt-4">
+        <div className={`${styles.card} ${styles.homePanel}`}>
+          <div className={styles.cardLabel}>Track</div>
+          <div className={styles.cardIcon}>{meta.icon}</div>
+          <div className={styles.cardValue}>{track?.name}</div>
         </div>
-        <div className="fl-card p-12 transform -rotate-3 hover:scale-105 duration-200 translate-y-12 border-8 border-white">
-          <div className="font-display font-black uppercase text-white/50 mb-8 bg-white/20 inline-block px-4 py-1 text-xl">Phase 1</div>
-          <div className={`text-6xl font-display tracking-tighter uppercase ${p1Sub?.repo_url ? "text-white" : "text-transparent"}`} style={!p1Sub?.repo_url ? { WebkitTextStroke: "3px white" } : {}}>
+
+        <div className={`${styles.card} ${styles.homePanel}`}>
+          <div className={styles.cardLabel}>Phase 1</div>
+          <div className={styles.cardValue}>
             {p1Sub?.repo_url ? "DONE" : "PENDING"}
           </div>
         </div>
-        <div className="fl-card p-12 transform rotate-2 hover:scale-105 duration-200 border-8 border-white">
-          <div className="font-display font-black uppercase text-white/50 mb-8 bg-white/20 inline-block px-4 py-1 text-xl">Phase 2</div>
-          <div className={`text-6xl font-display tracking-tighter uppercase ${p2Sub?.repo_url ? "text-white" : phase2Active ? "text-white animate-jitter inline-block" : "text-transparent"}`} style={(!p2Sub?.repo_url && !phase2Active) ? { WebkitTextStroke: "3px white" } : {}}>
+
+        <div className={`${styles.card} ${styles.homePanel}`}>
+          <div className={styles.cardLabel}>Phase 2</div>
+          <div className={styles.cardValue}>
             {p2Sub?.repo_url ? "DONE" : phase2Active ? "OPEN" : "LOCKED"}
           </div>
         </div>
-        <div className="fl-card p-12 transform -skew-x-6 hover:scale-105 duration-200 translate-y-16 border-8 border-white bg-white">
-          <div className="font-display font-black uppercase text-black/50 mb-8 bg-black/10 inline-block px-4 py-1 text-xl">Timer</div>
+
+        <div className={`${styles.card} ${styles.homePanel}`}>
+          <div className={styles.cardLabel}>Timer</div>
           {phase1Active && phase1?.submission_deadline ? (
-            <Countdown deadline={phase1.submission_deadline} compact />
+            <Countdown deadline={phase1.submission_deadline} compact className={styles.timer} />
           ) : (
-            <span className="font-display font-black text-6xl tracking-tighter text-transparent mix-blend-difference" style={{ WebkitTextStroke: "3px black" }}>--:--</span>
+            <span className={`${styles.timer} opacity-40`}>--:--</span>
           )}
         </div>
       </div>
 
-      <div className="w-full mt-32 grid gap-16 lg:grid-cols-2 relative z-20">
-        <div className="fl-card p-16 transform -skew-y-1 border-r-[24px] border-y-[12px] border-white -ml-8">
-          <div className="font-display font-black uppercase text-3xl text-white mb-12 bg-white text-black inline-block px-6 py-2 animate-shake shadow-[12px_12px_0_0_#ffffff]">Briefing</div>
-          <p className="text-4xl font-display font-black leading-tight text-white uppercase">
+      {/* ---------- Briefing / System Log ---------- */}
+      <div className="w-full px-4 md:px-12 grid gap-6 lg:grid-cols-2 mt-6">
+        <div className={`${styles.briefing} ${styles.homePanel}`}>
+          <div className={styles.cardLabel}>Briefing</div>
+          <p className="text-lg md:text-2xl leading-snug uppercase mt-3">
             {track?.functional_spec ||
               "Build the worst functional system in your domain. Phase 2 teams only get your repo URL and description."}
           </p>
         </div>
-        <div className="fl-card p-16 transform rotate-1 border-l-[24px] border-y-[12px] border-white -mr-8">
-          <div className="mb-12 flex flex-col items-start border-b-8 border-white pb-8">
-            <div className="font-display font-black uppercase text-4xl text-white">System Log</div>
-            <Link href="/dashboard/notifications" className="mt-6 text-2xl font-display uppercase font-black text-black bg-white hover:bg-transparent hover:text-white border-4 border-transparent hover:border-white transition-colors px-6 py-2 shadow-[6px_6px_0_0_#ffffff]">
-              VIEW ALL
+
+        <div className={`${styles.log} ${styles.homePanel}`}>
+          <div className="flex items-center justify-between mb-6">
+            <div className={styles.cardLabel}>System Log</div>
+            <Link href="/dashboard/notifications" className={styles.actionLink}>
+              View all
             </Link>
           </div>
           {notifications.length === 0 ? (
-            <p className="text-3xl font-display font-black text-white/30 uppercase">No events logged.</p>
+            <p className="text-base uppercase opacity-40">No events logged.</p>
           ) : (
-            <ul className="space-y-8">
+            <ul className="flex flex-col gap-4">
               {notifications.map((n) => (
-                <li key={n.id} className="flex gap-8 text-2xl font-display font-black uppercase items-start">
+                <li key={n.id} className="flex gap-3 text-base uppercase items-start">
                   <span
-                    className={`mt-2 h-6 w-6 shrink-0 border-4 border-white ${n.read ? "bg-transparent" : "bg-white animate-jitter shadow-[6px_6px_0_0_#ffffff]"}`}
+                    className={`mt-1.5 h-2.5 w-2.5 shrink-0 border ${
+                      n.read ? "border-white/30 bg-transparent" : "border-[--home-red] bg-[--home-red]"
+                    }`}
                   />
-                  <span className={n.read ? "text-white/40" : "text-white leading-tight"}>{n.message}</span>
+                  <span className={n.read ? "opacity-40" : ""}>{n.message}</span>
                 </li>
               ))}
             </ul>
@@ -170,10 +186,11 @@ export default async function DashboardHome() {
         </div>
       </div>
 
-      <div className="mx-8 mt-24 md:mx-12 fl-card p-12 relative z-10 border-l-[16px] border-l-white">
-        <div className="font-display font-black uppercase text-3xl text-white mb-16 transform -rotate-1 inline-block">Event Progress</div>
-        <div className="relative flex">
-          <div className="absolute left-0 right-0 top-[20px] h-2 bg-white" />
+      {/* ---------- Event Progress ---------- */}
+      <div className={`${styles.progress} ${styles.homePanel} mx-4 md:mx-12 mt-6 overflow-x-auto`}>
+        <div className={styles.cardLabel}>Event Progress</div>
+        <div className="relative flex mt-10 min-w-[480px]">
+          <div className="absolute left-0 right-0 top-[14px] h-px bg-white/20" />
           {[
             { label: "Kickoff", done: true },
             { label: "Phase 1", current: phase1Active, done: p1Sub?.repo_url },
@@ -181,19 +198,23 @@ export default async function DashboardHome() {
             { label: "Phase 2", current: phase2Active, done: p2Sub?.repo_url },
             { label: "Awards", current: false }
           ].map((step) => (
-             <div key={step.label} className="relative z-10 flex-1 text-center group">
+            <div key={step.label} className="relative z-10 flex-1 text-center">
               <div
-                className={`mx-auto flex h-12 w-12 items-center justify-center font-display font-black text-2xl transition-all duration-200 transform group-hover:scale-125 group-hover:rotate-6 ${
+                className={`mx-auto flex h-8 w-8 items-center justify-center text-sm font-bold border ${
                   step.done
-                    ? "bg-white text-black border-4 border-black"
+                    ? "bg-white text-black border-white"
                     : step.current
-                      ? "bg-black border-4 border-white text-white animate-jitter shadow-[4px_4px_0_0_#ffffff]"
-                      : "bg-black border-4 border-white/30 text-transparent"
+                      ? "border-[--home-red] text-[--home-red]"
+                      : "border-white/25 text-transparent"
                 }`}
               >
-                {step.done ? "X" : step.current ? "!" : ""}
+                {step.done ? "✓" : step.current ? "!" : ""}
               </div>
-              <div className={`mt-8 text-xl font-display font-black uppercase tracking-widest ${step.current ? "text-white bg-white text-black px-2 inline-block shadow-[4px_4px_0_0_#ffffff]" : "text-white/40"}`}>
+              <div
+                className={`mt-4 text-xs uppercase tracking-widest ${
+                  step.current ? "text-[--home-red]" : "opacity-40"
+                }`}
+              >
                 {step.label}
               </div>
             </div>
@@ -201,29 +222,23 @@ export default async function DashboardHome() {
         </div>
       </div>
 
-      <div className="w-full mt-40 mb-32 relative z-10 overflow-hidden py-32 border-y-8 border-white bg-black">
-        <svg className="absolute left-0 top-0 w-full h-[200px] pointer-events-none mix-blend-difference" preserveAspectRatio="none">
-           <path d="M0,50 L100,50 L150,0 L200,50 L1000,50" stroke="white" strokeWidth="4" fill="none" className="animate-jitter opacity-50 w-full"/>
-        </svg>
-
-        <div className="font-display font-black uppercase text-[12rem] md:text-[20rem] text-transparent absolute -top-16 -left-16 mix-blend-difference pointer-events-none transform -rotate-2" style={{ WebkitTextStroke: "4px white", opacity: 0.15, lineHeight: 0.8 }}>SQUAD</div>
-        <div className="w-full px-4 md:px-12 grid gap-12 md:grid-cols-2 mt-24 relative z-10">
-          {members.map((member, i) => (
-            <div
-              key={member.id}
-              className={`flex items-center gap-8 p-8 bg-black border-[12px] border-white hover:-translate-y-4 hover:shadow-[16px_16px_0_0_#ffffff] transition-all transform ${i % 2 === 0 ? "rotate-2" : "-rotate-2 translate-y-12"}`}
-            >
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-white text-black text-5xl font-display font-black uppercase">
+      {/* ---------- Squad ---------- */}
+      <div className="w-full mt-10 mb-12 px-4 md:px-12">
+        <div className={styles.cardLabel}>Squad</div>
+        <div className="grid gap-3 sm:grid-cols-2 mt-4">
+          {members.map((member) => (
+            <div key={member.id} className={`${styles.squadMember} ${styles.homePanel} flex items-center gap-3 md:gap-5 min-w-0`}>
+              <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center border border-white/30 text-sm md:text-lg font-bold uppercase">
                 {initials(member.name, member.email)}
               </div>
-              <div className="overflow-hidden flex-1">
-                <div className="text-4xl font-display font-black uppercase tracking-tight truncate text-white">{member.name || member.email}</div>
-                <div className="font-display font-bold uppercase text-xl text-white/50 mt-2 truncate bg-white/10 inline-block px-3">{member.email}</div>
+              <div className="overflow-hidden flex-1 min-w-0">
+                <div className="text-sm md:text-base font-bold uppercase tracking-tight truncate">
+                  {member.name || member.email}
+                </div>
+                <div className="text-[11px] md:text-xs uppercase opacity-40 mt-0.5 truncate">{member.email}</div>
               </div>
               {team.leader_id === member.id && (
-                <span className="shrink-0 ml-auto border-8 border-white bg-white text-black px-6 py-4 font-display text-2xl uppercase font-black shadow-[8px_8px_0_0_#ffffff] transform rotate-12">
-                  ROOT
-                </span>
+                <span className={styles.roleTag}>Root</span>
               )}
             </div>
           ))}

@@ -13,7 +13,7 @@ export const GET = withApiRoute(
     const settings = await getEventSettings(db);
     return settings;
   },
-  { role: "organizer", limit: 60 }
+  { role: "admin", limit: 60 }
 );
 
 export const POST = withApiRoute(
@@ -54,5 +54,5 @@ export const POST = withApiRoute(
 
     return await getEventSettings(db);
   },
-  { role: "organizer", limit: 30 }
+  { role: "admin", limit: 30 }
 );

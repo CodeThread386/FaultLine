@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Rubik+Mono+One&display=swap');
+
+/*
+  NOTE: this @import is a fallback so the page works even if fonts
+  aren't wired up elsewhere. For production, load these properly via
+  next/font/google in your root layout instead — @import blocks
+  render until the font request resolves, causing a flash of
+  fallback text. Ask me for the next/font version if you want it.
+*/
+
+.home {
+  --home-bg: #0a0a0a;
+  --home-text: #f5f5f0;
+  --home-muted: #8a8a84;
+  --home-red: #ff0000;
+  --home-cyan: #00ffff;
+  min-height: 100%;
+  background-color: var(--home-bg) !important;
+  background-image:
+    radial-gradient(circle, rgb(245 245 240 / 18%) 1px, transparent 1px),
+    repeating-radial-gradient(circle at center, transparent 0, transparent 120px, rgb(245 245 240 / 5.5%) 121px, transparent 122px) !important;
+  background-size: 32px 32px, 100% 100% !important;
+  color: var(--home-text);
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+.home *, .home *::before, .home *::after { border-radius: 0 !important; }
+
+/* Catch-all safety net in case any leftover Tailwind utility classes
+   (rotate-, skew-, translate-y-, shadow-[...]) sneak back in */
+.home [class*="rotate-"],
+.home [class*="skew-"],
+.home [class*="-translate-y-"] {
+  transform: none !important;
+}
+.home [class*="shadow-\["] {
+  box-shadow: none !important;
+}
+
+/* ---------- Reusable 4-corner bracket panel ---------- */
+.homePanel {
+  position: relative;
+}
+
+.homePanel::before, .homePanel::after {
+  position: absolute;
+  top: -4px;
+  width: 14px;
+  height: 14px;
+  content: "";
+  border-top: 1px solid var(--home-text);
+  pointer-events: none;
+}
+.homePanel::before { left: -4px; border-left: 1px solid var(--home-text); }
+.homePanel::after { right: -4px; border-right: 1px solid var(--home-text); }
+
+/* bottom corners, added via box-shadow "L" marks so we don't need
+   more than two pseudo-elements */
+.homePanel {
+  box-shadow:
+    -4px calc(100% + 4px) 0 -13px var(--home-text),
+    4px calc(100% + 4px) 0 -13px var(--home-text) !important;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  margin: 1.25rem 1rem 0;
+  padding: 1.75rem 1.25rem;
+  border-bottom: 1px solid rgb(245 245 240 / 12%);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    margin: 2rem 2.5rem 0;
+    padding: 2.5rem 2.5rem;
+  }
+}
+
+.eyebrow, .statusTag, .sectionLabel, .cardLabel {
+  display: inline-block;
+  border: 1px solid var(--home-red);
+  background: transparent;
+  color: var(--home-red);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .25em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.eyebrow { margin-bottom: 0.75rem; padding: .5rem .7rem; }
+.statusTag {
+  margin: 0;
+  padding: .5rem .8rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+/* sectionLabel / cardLabel use a bottom rule instead of a full box —
+   give real breathing room between the text baseline and the rule
+   so it reads as an underline accent, not a strikethrough */
+.sectionLabel, .cardLabel {
+  margin-bottom: 1.25rem;
+  padding: 0 0 .5rem;
+  border-width: 0 0 1px;
+}
+
+.cardLabel {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .25em;
+}
+
+.headline {
+  color: var(--home-text);
+  font-family: "Rubik Mono One", "Anton", "Archivo Black", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+  color: var(--home-text);
+  isolation: isolate;
+}
+.glitch::before, .glitch::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: attr(data-text);
+  pointer-events: none;
+}
+.glitch::before { color: var(--home-red); transform: translate(-3px, 2px); }
+.glitch::after { color: var(--home-cyan); transform: translate(3px, -2px); }
+
+/* ---------- Action panel ---------- */
+.actionPanel { margin-top: 0; padding: 1.5rem; }
+
+@media (min-width: 768px) {
+  .actionPanel { padding: 2rem 2.5rem; }
+}
+
+.actionLink {
+  display: inline-flex;
+  border: 1px solid rgb(245 245 240 / 18%);
+  background: transparent;
+  color: var(--home-text);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .6rem 1rem;
+  transition: border-color .15s ease, color .15s ease;
+}
+.actionLink:hover { border-color: var(--home-cyan); color: var(--home-cyan); }
+
+.actionLinkUrgent {
+  border-color: var(--home-red);
+  color: var(--home-red);
+}
+.actionLinkUrgent:hover { border-color: var(--home-cyan); color: var(--home-cyan); }
+
+/* ---------- Status cards ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  border: 1px solid rgb(245 245 240 / 14%) !important;
+  box-shadow: 6px 6px 0 0 var(--home-text) !important;
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.card:hover {
+  border-color: var(--home-cyan) !important;
+  box-shadow: 8px 8px 0 0 var(--home-cyan) !important;
+  transform: translate(-2px, -2px);
+}
+
+.card .cardValue {
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  transition: color .2s ease;
+  word-break: break-word;
+}
+
+.card:hover .cardValue {
+  color: var(--home-cyan);
+}
+
+.card .cardIcon {
+  font-size: 2.75rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  filter: grayscale(1) contrast(1.4);
+  transition: filter .2s ease;
+}
+
+.card:hover .cardIcon {
+  filter: none;
+}
+
+.timer {
+  color: var(--home-cyan);
+  font-size: clamp(1.1rem, 2.2vw, 2.2rem);
+  letter-spacing: 0.05em !important;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Briefing / log / progress ---------- */
+/* Briefing/log share the card's visible border and hover treatment
+   but not its centered layout — their content is left-aligned prose,
+   not a short stat, so they get their own rule instead of reusing
+   .card's flex-centering. */
+.briefing, .log, .progress {
+  padding: 1.5rem;
+  border: 1px solid rgb(245 245 240 / 14%) !important;
+  box-shadow: 6px 6px 0 0 var(--home-text) !important;
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+@media (min-width: 768px) {
+  .briefing, .log, .progress {
+    padding: 2rem;
+  }
+}
+.briefing:hover, .log:hover {
+  border-color: var(--home-cyan) !important;
+  box-shadow: 8px 8px 0 0 var(--home-cyan) !important;
+  transform: translate(-2px, -2px);
+}
+
+/* ---------- Squad ---------- */
+.squadMember { padding: 0.85rem 1rem; }
+
+@media (min-width: 768px) {
+  .squadMember { padding: 1.25rem 1.5rem; }
+}
+
+.roleTag {
+  display: inline-block;
+  margin-left: .5rem;
+  padding: .15rem .4rem;
+  border: 1px solid var(--home-red);
+  background: transparent;
+  color: var(--home-red);
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}

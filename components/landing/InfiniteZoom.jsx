@@ -9,26 +9,26 @@ export default function InfiniteZoom() {
     offset: ["start start", "end end"]
   });
 
-  // Scale from 1 to 30 over the first 33% of the scroll
-  const scale = useTransform(scrollYProgress, [0, 0.33], [1, 30]);
-  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.33], [1, 1, 0]);
+  // Animate across the entire scroll
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 30]);
+  const opacity = useTransform(scrollYProgress, [0.85, 1], [1, 0]);
   
   // Flashbang hits exactly when the O completely engulfs the camera at 33%
   // It then stays on screen for the entire remaining 66% of the scroll
-  const flashbangOpacity = useTransform(scrollYProgress, [0.33, 0.35, 1], [0, 1, 1]);
+  //const flashbangOpacity = useTransform(scrollYProgress, [0.33, 0.35, 1], [0, 1, 1]);
 
   return (
-    <div ref={containerRef} className="h-[500vh] relative bg-black">
+    <div ref={containerRef} className="h-[300vh] relative bg-black">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="fl-display tracking-tighter text-white mix-blend-difference flex flex-col items-center justify-center"
           style={{ scale, opacity }}
         >
           <div className="text-[15vw] leading-none text-transparent" style={{ WebkitTextStroke: "2px white" }}>
-            VOID
+            GRAVITAS
           </div>
           <div className="text-[20vw] leading-none transform -mt-16">
-            O
+            &apos;26
           </div>
         </motion.div>
         
@@ -42,7 +42,7 @@ export default function InfiniteZoom() {
         />
 
         {/* Literal Flashbang Grenade */}
-        <motion.div 
+        {/* <motion.div 
           className="absolute inset-0 bg-white pointer-events-none z-[100] flex items-center justify-center overflow-hidden"
           style={{ opacity: flashbangOpacity }}
         >
@@ -54,7 +54,7 @@ export default function InfiniteZoom() {
           >
             SHBAAANNGGG
           </motion.div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );

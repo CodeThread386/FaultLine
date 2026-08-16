@@ -64,5 +64,5 @@ export const GET = withApiRoute(
       }
     };
   },
-  { role: "organizer", limit: 60 }
+  { role: "admin", limit: 60 }
 );

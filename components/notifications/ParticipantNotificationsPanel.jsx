@@ -67,7 +67,7 @@ export default function ParticipantNotificationsPanel({
   };
 
   const header = (
-    <div className={embedded ? "border-b border-fl-border px-4 py-5" : "border-b border-fl-border px-10 py-8"}>
+    <div className={embedded ? "border-b border-fl-border px-4 py-5" : "border-b border-fl-border px-4 md:px-10 py-6 md:py-8"}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className={embedded ? "fl-display text-lg" : "fl-display text-2xl"}>
@@ -102,7 +102,7 @@ export default function ParticipantNotificationsPanel({
   );
 
   const list = (
-    <div className={embedded ? "max-h-[420px] overflow-y-auto px-4 py-4" : "px-10 py-6"}>
+    <div className={embedded ? "max-h-[420px] overflow-y-auto px-4 py-4" : "px-4 md:px-10 py-6"}>
       {error && (
         <p className="mb-4 text-center text-sm text-fl-red">Could not refresh notifications.</p>
       )}

@@ -36,5 +36,5 @@ export const POST = withApiRoute(
 
     return { phase: result.phase, action };
   },
-  { role: "organizer", limit: 30 }
+  { role: "admin", limit: 20 }
 );

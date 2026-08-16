@@ -1,24 +1,42 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function HorizontalScroll({ children }) {
   const targetRef = useRef(null);
+  const contentRef = useRef(null);
+  const [maxScroll, setMaxScroll] = useState(0);
+
+  useEffect(() => {
+    const updateScroll = () => {
+      if (contentRef.current) {
+        const totalWidth = contentRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const offset = totalWidth - viewportWidth;
+        setMaxScroll(offset > 0 ? offset : 0);
+      }
+    };
+
+    updateScroll();
+    window.addEventListener("resize", updateScroll);
+    return () => window.removeEventListener("resize", updateScroll);
+  }, [children]);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
 
   return (
-    <section ref={targetRef} className="relative h-[400vh] bg-black w-full">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden border-t-[12px] border-b-[12px] border-white bg-black">
-        {/* Background SVG Watermark */}
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <text x="50" y="50" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="900" transform="rotate(-15 50 50)" fill="white" className="animate-jitter">CRITICAL_PIPELINE</text>
-        </svg>
-        
-        <motion.div style={{ x }} className="flex gap-24 px-16 relative z-10 items-center">
+    <section ref={targetRef} className="relative h-[400vh] bg-transparent w-full overflow-clip">
+      {/* Sticky horizontal viewport */}
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden border-t-[8px] border-t-white border-b-[8px] border-b-white bg-transparent relative">
+        <motion.div
+          ref={contentRef}
+          style={{ x }}
+          className="flex gap-12 md:gap-24 px-8 md:px-16 relative z-10 items-center shrink-0"
+        >
           {children}
         </motion.div>
       </div>
